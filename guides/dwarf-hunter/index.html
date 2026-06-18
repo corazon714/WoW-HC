@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dwarf Hunter — WoW Classic HC Başlangıç Rehberi</title>
+<style>
+  /* ---------- Tema (Dwarf bronz/demir + Hunter yeşili) ---------- */
+  :root {
+    --bg:        #0f0e0b;
+    --bg-soft:   #1a1814;
+    --bg-card:   #221f19;
+    --bg-elev:   #2c2820;
+    --border:    #3a3528;
+    --text:      #e8e2d2;
+    --text-dim:  #b3a98f;
+    --hunter:    #abd473;   /* Hunter class rengi */
+    --hunter-d:  #6f8a4a;
+    --bronze:    #c8a878;   /* Dwarf bronz */
+    --iron:      #6f4e37;
+    --gold:      #ffd700;
+    --danger:    #ff5b4f;
+    --warn:      #ffae42;
+    --ok:        #8be37d;
+    --info:      #6cb6ff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; font-size: 16px; }
+  a { color: var(--hunter); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { font-family: "Trajan Pro", Georgia, serif; letter-spacing: .02em; color: var(--bronze); margin-top: 1.5em; }
+  h1 { font-size: 1.8rem; margin: 0; color: var(--gold); }
+  h2 { font-size: 1.4rem; border-bottom: 2px solid var(--iron); padding-bottom: .3em; }
+  h3 { font-size: 1.15rem; color: var(--hunter); }
+  h4 { font-size: 1rem; color: var(--bronze); margin-bottom: .3em; }
+  p { margin: .6em 0; }
+  code { background: var(--bg-elev); padding: 2px 6px; border-radius: 3px; font-size: .92em; color: var(--bronze); }
+  pre { background: var(--bg-elev); padding: 12px; border-radius: 4px; overflow-x: auto; border-left: 3px solid var(--hunter); }
+  ul, ol { padding-left: 22px; }
+  li { margin: .3em 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; background: var(--bg-soft); }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-elev); color: var(--bronze); }
+  tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+
+  /* ---------- Layout ---------- */
+  .topbar { background: linear-gradient(135deg, #1a1814 0%, #2c2820 100%); border-bottom: 3px solid var(--bronze); padding: 18px 20px; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 10px rgba(0,0,0,.4); }
+  .topbar-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .crest { width: 52px; height: 52px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--bronze), var(--iron) 70%, #2a1f15); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 0 12px rgba(200,168,120,.5); flex-shrink: 0; }
+  .title-block { flex: 1; min-width: 200px; }
+  .subtitle { color: var(--text-dim); font-size: .9rem; margin-top: 2px; }
+  .progress-pill { background: var(--bg-elev); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: .85rem; color: var(--hunter); }
+  .reset-btn { background: transparent; color: var(--text-dim); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: .8rem; }
+  .reset-btn:hover { color: var(--danger); border-color: var(--danger); }
+
+  /* ---------- Tabs ---------- */
+  .tabs { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4px; padding: 12px 20px 0; background: var(--bg); position: sticky; top: 91px; z-index: 40; }
+  .tab { background: var(--bg-soft); border: 1px solid var(--border); border-bottom: none; color: var(--text-dim); padding: 10px 16px; cursor: pointer; border-radius: 6px 6px 0 0; font-size: .9rem; transition: all .15s; }
+  .tab:hover { color: var(--text); background: var(--bg-card); }
+  .tab.active { background: var(--bg-card); color: var(--bronze); border-color: var(--bronze); border-bottom: 1px solid var(--bg-card); position: relative; top: 1px; font-weight: 600; }
+
+  /* ---------- Content ---------- */
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; background: var(--bg-card); border: 1px solid var(--border); border-top: 2px solid var(--bronze); }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ---------- Callouts ---------- */
+  .callout { padding: 12px 16px; border-radius: 4px; margin: 12px 0; border-left: 4px solid; background: var(--bg-soft); }
+  .callout.hc { border-color: var(--gold); }
+  .callout.hc::before { content: "⚔ HC "; font-weight: 700; color: var(--gold); }
+  .callout.danger { border-color: var(--danger); }
+  .callout.danger::before { content: "🚨 KRİTİK "; font-weight: 700; color: var(--danger); }
+  .callout.warn { border-color: var(--warn); }
+  .callout.warn::before { content: "⚠ UYARI "; font-weight: 700; color: var(--warn); }
+  .callout.tip { border-color: var(--ok); }
+  .callout.tip::before { content: "💡 İPUCU "; font-weight: 700; color: var(--ok); }
+  .callout.info { border-color: var(--info); }
+  .callout.info::before { content: "ℹ NOT "; font-weight: 700; color: var(--info); }
+
+  /* ---------- Checklist ---------- */
+  .level-group { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px; margin: 14px 0; overflow: hidden; }
+  .level-group-head { background: var(--bg-elev); padding: 12px 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+  .level-group-head:hover { background: #353024; }
+  .level-group-head .lg-title { font-weight: 600; color: var(--bronze); }
+  .level-group-head .lg-meta { font-size: .85rem; color: var(--text-dim); }
+  .level-group-body { padding: 8px 16px 16px; display: none; }
+  .level-group.open .level-group-body { display: block; }
+  .level-group.open .lg-toggle::before { content: "▾ "; }
+  .lg-toggle::before { content: "▸ "; color: var(--bronze); }
+
+  .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 1px dashed rgba(255,255,255,.05); }
+  .check-item:last-child { border: none; }
+  .check-item input[type=checkbox] { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--hunter); cursor: pointer; flex-shrink: 0; }
+  .check-item label { cursor: pointer; flex: 1; }
+  .check-item input:checked + label { color: var(--text-dim); text-decoration: line-through; }
+  .check-item .tag { display: inline-block; font-size: .72rem; padding: 1px 6px; border-radius: 3px; margin-right: 6px; background: var(--bg-elev); color: var(--bronze); border: 1px solid var(--border); }
+  .check-item .tag.hc { background: rgba(255,215,0,.1); color: var(--gold); border-color: var(--gold); }
+  .check-item .tag.spell { color: var(--hunter); border-color: var(--hunter-d); }
+  .check-item .tag.gear { color: var(--info); border-color: var(--info); }
+  .check-item .tag.pet { color: var(--warn); border-color: var(--warn); }
+  .check-item .tag.race { color: var(--bronze); border-color: var(--bronze); background: rgba(200,168,120,.1); }
+
+  /* ---------- Race racial card ---------- */
+  .racial-card { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 700px) { .racial-card { grid-template-columns: 1fr 1fr; } }
+  .racial { background: var(--bg-soft); border: 1px solid var(--border); border-left: 3px solid var(--bronze); padding: 12px 14px; border-radius: 4px; }
+  .racial h4 { margin-top: 0; color: var(--gold); }
+  .racial .cd { font-size: .82rem; color: var(--text-dim); font-style: italic; }
+
+  /* ---------- Hotbar / Rotation visual ---------- */
+  .hotbar { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .key { background: var(--bg-elev); border: 1px solid var(--border); padding: 6px 10px; border-radius: 4px; font-family: monospace; font-size: .85rem; }
+  .key.skill { border-color: var(--hunter-d); color: var(--hunter); }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 600px) {
+    .topbar { padding: 12px 14px; }
+    .crest { width: 42px; height: 42px; font-size: 1.4rem; }
+    h1 { font-size: 1.3rem; }
+    main { padding: 16px 14px 60px; }
+    .tabs { padding: 8px 10px 0; top: 76px; }
+    .tab { padding: 8px 10px; font-size: .82rem; }
+    table { font-size: .85rem; }
+    th, td { padding: 6px; }
+  }
+
+  footer { max-width: 1100px; margin: 12px auto 30px; padding: 0 20px; color: var(--text-dim); font-size: .82rem; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="crest" aria-hidden="true">🏔</div>
+    <div class="title-block">
+      <h1>Dwarf Hunter — Hardcore Başlangıç Rehberi</h1>
+      <div class="subtitle">Classic Era 1.15.x / Anniversary HC (Classic Fresh) • Yeni başlayanlar için</div>
+    </div>
+    <span class="progress-pill" id="progress-pill">0 / 0 (0%)</span>
+    <button class="reset-btn" id="reset-btn" title="Tüm ilerlemeyi sıfırla">Sıfırla</button>
+  </div>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button class="tab active" data-tab="overview" role="tab">Genel Bakış</button>
+  <button class="tab" data-tab="build" role="tab">Build</button>
+  <button class="tab" data-tab="progress" role="tab">İlerleme Listesi</button>
+  <button class="tab" data-tab="addons" role="tab">Addon'lar</button>
+  <button class="tab" data-tab="pvp" role="tab">PvP & Tehlike</button>
+  <button class="tab" data-tab="crafting" role="tab">Crafting</button>
+</nav>
+
+<main>
+
+<!-- ============================================================= -->
+<!-- GENEL BAKIŞ                                                    -->
+<!-- ============================================================= -->
+<section class="panel active" id="panel-overview" role="tabpanel">
+
+  <h2>Neden Dwarf Hunter?</h2>
+  <p>WoW'a uzun aradan sonra geri dönen biri için Hardcore'da ölmeden öğrenmek, oyunun bütününü yeniden öğrenmek için en sağlam yol. Bunun için seçim kriterleri:</p>
+  <ul>
+    <li><strong>Forgiving (affedici) rotasyon:</strong> Az tuş, az micro, çok survival tool.</li>
+    <li><strong>Mesafe = güvenlik:</strong> Hunter ranged. Mob sana ulaşana kadar 2-3 atış zaten yiyor.</li>
+    <li><strong>Pet tank:</strong> Senin yerine vuruşları yer. Sen arkadan yönetirsin.</li>
+    <li><strong>Tek-tuş panik butonu:</strong> Dwarf'ın <em>Stoneform</em> aktif racial'ı, bleed/poison/disease anında temizler ve +10% armor verir.</li>
+    <li><strong>Güvenli starter coğrafyası:</strong> Dun Morogh → Loch Modan → Wetlands akışı tehlikesi az, mob yoğunluğu makul, quest hubu net.</li>
+  </ul>
+
+  <div class="callout tip">Wowhead resmi HC Overview'in birinci cümlesi: <em>"Hunter'la ölmek için aktif olarak çabalamak gerekir."</em> Wowhead HC Tier List'te <strong>A Tier</strong>; ölüm oranı tüm class'ların en düşüğü.</div>
+
+  <h2>Race + Class Özetiyle Neden Bu Kombinasyon</h2>
+  <div class="racial-card">
+    <div class="racial">
+      <h4>Stoneform <span class="cd">(aktif, 3 dk CD, 8 sn)</span></h4>
+      <p>Üzerindeki <strong>bleed, poison, disease</strong> debuff'larını anında temizler ve <strong>+10% armor</strong> verir. HC'nin en güçlü "panik" racial'ı.</p>
+      <p><em>Kullanım:</em> Spider'lar (Westfall, Duskwood), Worgen Rake, Naga venom, Plagued Hound (Plaguelands) — bleed/poison stack açıldığı an Stoneform bas.</p>
+    </div>
+    <div class="racial">
+      <h4>Gun Specialization <span class="cd">(pasif)</span></h4>
+      <p>Tüfeklerde <strong>+1% crit</strong>. Endgame BiS ranged silahlar (Striker's Mark, Hurricane, Larvae Spewer) tüfek; Dwarf Hunter ranged BiS race.</p>
+    </div>
+    <div class="racial">
+      <h4>Frost Resistance <span class="cd">(pasif)</span></h4>
+      <p><strong>+10 Frost Resistance.</strong> Winterspring, Frostmane Troll, Frost mob/elemental damage'ı azalır. Mage DTTD'de küçük ama anlamlı avantaj.</p>
+    </div>
+    <div class="racial">
+      <h4>Find Treasure <span class="cd">(pasif toggle)</span></h4>
+      <p>Mini-map'te yakın <strong>treasure chest</strong> ikon olarak görünür. Pasif gold ve quest item kaynağı; her zaman açık tut.</p>
+    </div>
+  </div>
+
+  <h2>Sınıfın 5 Dakikalık Özeti</h2>
+  <ul>
+    <li><strong>Spec:</strong> Beast Mastery (BM). Pet odaklı, hayatta kalma odaklı, hata affeden.</li>
+    <li><strong>Ranged silah:</strong> Tüfek (Dwarf Gun Spec için).</li>
+    <li><strong>Pet:</strong> <em>Boar</em> (Charge stun, lvl 10), sonra <em>Cat</em> (DPS, Stranglethorn), endgame <em>Wind Serpent</em> veya <em>Devilsaur</em>.</li>
+    <li><strong>Damage:</strong> Auto Shot tabanlı + Arcane Shot (instant nuke) + Serpent Sting (DoT) + Hunter's Mark (debuff).</li>
+    <li><strong>Survival:</strong> Feign Death (lvl 30), Disengage, Concussive Shot (kite slow), Freezing/Frost Trap (CC), Aspect of Cheetah.</li>
+    <li><strong>Mana sorunu:</strong> Hemen hiç yok — Auto Shot mana harcamaz, pasif regen yeterli.</li>
+  </ul>
+
+  <h2>İlk Gün Checklist (1-10)</h2>
+  <ol>
+    <li>Karakter oluştur: Dwarf → Hunter. Realm: Classic Fresh HC (Defias Pillager NA / Skull Rock EU / Lava Lash / Soulseeker).</li>
+    <li><strong>Anduin Hold</strong> ve <strong>Coldridge Valley</strong>'deki starter questleri yap.</li>
+    <li><code>/console cameraDistanceMaxZoomFactor 3.9</code> yaz — kamerayı en geri zoom'la (mob'u önceden gör).</li>
+    <li>Interface → Names → <strong>Always Show Nameplates</strong> ON.</li>
+    <li>Addon'ları kur: <em>Hardcore Death Log, Questie, OmniCC, Bagnon, WeakAuras</em> (detay Addon'lar sekmesinde).</li>
+    <li>Lvl 10 olunca <strong>Tame Beast</strong> questini yap → ilk pet seçimi (önerim: <em>Crag Boar</em> Dun Morogh'da, Charge için).</li>
+    <li>Find Treasure'ı toggle et (mini-map'te tut).</li>
+    <li>First Aid + Cooking + Fishing — üçü de hemen pickup.</li>
+    <li>Skinning'i lvl 10'da hemen pickup yap (pasif gold).</li>
+  </ol>
+
+  <div class="callout danger">
+    <strong>Classic Fresh HC'de Cheat Death Mekanikleri DEVRE DIŞI</strong> — Paladin Bubble Hearth, Warlock Soulstone, Shaman Reincarnation hepsi kapalı. Hunter bu mekaniklere zaten ihtiyaç duymaz — class kit'in tamamen kendi survival tool'lardan oluşur (Feign Death, Disengage, Pet, Trap). Bu yüzden Hunter Classic Fresh'in en güvenli class'ı.
+  </div>
+
+  <div class="callout hc">
+    <strong>HC altın kural:</strong> <em>"Yeşil quest yap."</em> Sarı/turuncu quest = hit chance düşer + damage azalır + mob seni ezici. Hep en az 2 level üstün quest tercih et.
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- BUILD                                                          -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-build" role="tabpanel">
+
+  <h2>Beast Mastery Talent Sırası (1-60)</h2>
+  <p>Hedef build: tam <strong>BM</strong>, son 10-15 puan opsiyonel Marksmanship'e taşan. Aşağıdaki sıra; her level-up'ta öncelik:</p>
+
+  <h3>İlk 5 puan (lvl 10-14)</h3>
+  <ul>
+    <li><strong>Improved Aspect of the Hawk 5/5</strong> — Auto Shot proc'larında +%15 ranged haste. Damage'ın temeli.</li>
+  </ul>
+
+  <h3>Lvl 15-25</h3>
+  <ul>
+    <li><strong>Endurance Training 1/5</strong> (pet ve sen +stamina; "1 puan kapı açıcı" Tier 2 için).</li>
+    <li><strong>Improved Revive Pet 2/2</strong> — pet öldüğünde rez %60 daha hızlı + mana harcaması düşer. <em>HC'de hayat kurtarıcı.</em></li>
+    <li><strong>Improved Mend Pet 2/2</strong> — Mend Pet artık disease/poison cleanse şansı verir.</li>
+  </ul>
+
+  <h3>Lvl 25-30</h3>
+  <ul>
+    <li><strong>Unleashed Fury 5/5</strong> — pet damage +%20. Pet'in damage'ı artar = pet'in tehdidi artar = pet aggro tutar = sen güvendesin.</li>
+    <li><strong>Bestial Swiftness 1/1</strong> — pet +%30 hareket hızı (her zaman açık).</li>
+  </ul>
+
+  <h3>Lvl 30-40</h3>
+  <ul>
+    <li><strong>Ferocity 5/5</strong> — pet +%10 crit.</li>
+    <li><strong>Spirit Bond 2/2</strong> — sen ve pet her 10 sn'de toplam HP'nin %2'sini iyileşir, +%10 healing alır. <em>Pasif sustain.</em></li>
+    <li><strong>Frenzy 5/5</strong> — pet crit attığında attack speed +%30 5 sn.</li>
+  </ul>
+
+  <h3>Lvl 40-50</h3>
+  <ul>
+    <li><strong>Bestial Wrath 1/1</strong> — pet 18 sn +%50 damage, fear/stun immune, sınırsız focus. Boss/elite pull'larında bas.</li>
+    <li><strong>Improved Concussive Shot 5/5</strong> (Marksmanship tier 1) — daze proc + slow reliability.</li>
+  </ul>
+
+  <h3>Lvl 50-60 (kalan puanlar)</h3>
+  <ul>
+    <li><strong>Lethal Shots 5/5</strong> (MM) — ranged crit +%5.</li>
+    <li><strong>Aimed Shot 1/1</strong> (MM lvl 30 talent zaten) — opener burst için.</li>
+    <li>Veya BM'de <strong>The Beast Within</strong> — Bestial Wrath sırasında sen de fear/stun immune. Çok güçlü ama 31-puan derinliği.</li>
+  </ul>
+
+  <div class="callout tip">Talent'ları yanlış basarsan stres yapma — kalmış puan görüntüleyici / talent reset trainer'da 1g'dan başlayan ücretle reset yapabilirsin.</div>
+
+  <h2>Stat Öncelikleri</h2>
+  <table>
+    <tr><th>Aşama</th><th>Sıralama</th><th>Neden</th></tr>
+    <tr><td>Leveling (1-40)</td><td>Agility &gt; Stamina &gt; Intellect</td><td>Agi = AP + crit + dodge. Stam = surviving extra hit.</td></tr>
+    <tr><td>Leveling (40-60)</td><td>Agility &gt; Stamina &gt; Hit% &gt; Int</td><td>Hit% miss önler; HC'de "miss → ölüm" senaryosu.</td></tr>
+    <tr><td>Endgame</td><td>Agility &gt; Hit% (cap 9%) &gt; Stamina &gt; Crit%</td><td>Raid pre-BiS standardı.</td></tr>
+  </table>
+
+  <h2>Rotasyon — Standart Solo Pull</h2>
+  <ol>
+    <li><strong>Hunter's Mark</strong> hedefi (öl-debuff, +ranged AP).</li>
+    <li><strong>Pet send</strong> (Attack komutu) — pet koşar, Growl ile aggro alır.</li>
+    <li>Pet mob'a yapışınca <strong>Auto Shot başlat</strong>.</li>
+    <li>Her cooldown'da <strong>Arcane Shot</strong> (instant nuke, mana ucuz).</li>
+    <li>Mob 8+ saniye yaşayacaksa <strong>Serpent Sting</strong> (DoT) bir kez.</li>
+    <li>Mob ölünce: pet'e <em>Mend Pet</em> (HoT), sıradaki mob'a Hunter's Mark.</li>
+  </ol>
+
+  <pre>Hunter's Mark → Pet (Attack) → Auto Shot
+   ↓
+[CD'de] Arcane Shot     [Mob 8s+] Serpent Sting (1 kez)
+   ↓
+Mob öldü → Mend Pet → bir sonraki Hunter's Mark</pre>
+
+  <h2>Rotasyon — Kite (Tek mob, melee'ye geçti)</h2>
+  <p>Pet öldü veya mob pet'i atlayıp sana geldi senaryosu. Klasik <strong>3-shot kite</strong>:</p>
+  <ol>
+    <li><strong>Concussive Shot</strong> — 4 sn slow.</li>
+    <li>5 yard geri çekil (strafe ile, ASLA backpedal değil — daze proc olur).</li>
+    <li><strong>Auto Shot</strong>.</li>
+    <li>Slow bitince <strong>Concussive Shot</strong> tekrar bas.</li>
+    <li>Pet'ini rez et / Mend Pet at, pet aggro alana kadar kite et.</li>
+  </ol>
+
+  <div class="callout warn">
+    <strong>Dead zone:</strong> Mob sana 5 yard'dan yakınsa ranged silah ATEŞ EDEMEZ. Bu zone'a girersen ya sıçra geri (Disengage), ya Wing Clip + geri çekil, ya da melee'ye bas.
+  </div>
+
+  <h2>Trap Combo Pull (zor mob veya 2 mob)</h2>
+  <ol>
+    <li><strong>Freezing Trap</strong> at (önüne).</li>
+    <li>Pet'i ÇOK uzak mob'a gönder, sen sadece yakın mob'a Hunter's Mark + Auto Shot.</li>
+    <li>Yakın mob trap'e basınca 15 sn dondu — diğer mob'u önce öldür.</li>
+    <li>Sonra dondu mob'u rahatça nuke.</li>
+  </ol>
+
+  <h2>Aspect Yönetimi</h2>
+  <table>
+    <tr><th>Aspect</th><th>Lvl</th><th>Ne zaman</th></tr>
+    <tr><td>Aspect of the Hawk</td><td>10</td><td>Combat'ta — ranged AP +%</td></tr>
+    <tr><td>Aspect of the Monkey</td><td>4</td><td>Melee'ye geçtiğinde (dead zone) +8% dodge</td></tr>
+    <tr><td>Aspect of the Cheetah</td><td>16</td><td>Yolda, OUT-of-combat travel +%30 speed. <em>Vurulunca 4 sn daze!</em> Yakın mob varsa kapat.</td></tr>
+    <tr><td>Aspect of the Pack</td><td>20</td><td>Grup yolculuğu — herkese Cheetah</td></tr>
+    <tr><td>Aspect of the Wild</td><td>30</td><td>Nature resistance — vs Druid, elemental zonlarda</td></tr>
+  </table>
+
+  <h2>Pet Seçimi — Yol Haritası</h2>
+  <table>
+    <tr><th>Level</th><th>Pet</th><th>Yer</th><th>Neden</th></tr>
+    <tr><td>10-25</td><td><strong>Crag Boar / Forest Strider</strong></td><td>Dun Morogh / Loch Modan</td><td>Boar = Charge (free rage stun, opener). Çok yüksek armor.</td></tr>
+    <tr><td>25-45</td><td><strong>Cat</strong> (Stranglethorn) veya <strong>Bear</strong> (Hillsbrad)</td><td>STV/Hillsbrad</td><td>Cat = Dash + Claw DPS. Bear = HP tank.</td></tr>
+    <tr><td>45-55</td><td><strong>Wind Serpent</strong> (Hinterlands)</td><td>The Hinterlands</td><td>Lightning Breath = ranged pet DPS (kite ederken pet de uzaktan vurur).</td></tr>
+    <tr><td>55-60</td><td><strong>Devilsaur</strong> (Un'Goro)</td><td>Un'Goro Crater</td><td>Endgame BiS — Bite + Charge + Mortal Strike pseudo. Solo dungeon yapılabilir.</td></tr>
+  </table>
+
+  <div class="callout hc">Pet ÖLMESİN. Pet ölürse Revive Pet <strong>15 dakika CD</strong>. Pet ölmek üzereyse: <em>Mend Pet bas + Feign Death</em> → mob senin aggro'nu da bırakır → pet hayatta kalır.</div>
+
+  <h2>Gear Hedefleri (Ana Yol İşaretleri)</h2>
+  <ul>
+    <li><strong>Lvl 19</strong>: <em>Bow of Searing Arrows</em> alternatif (BoE drop) — ama Dwarf tüfek tercih: <em>Engraved Hunting Rifle</em> (lvl 21 BoE) veya quest reward rifle.</li>
+    <li><strong>Lvl 25-30</strong>: Quest reward ranged silahlar. <em>Riverpaw Mystic Staff</em> melee swap (rağmen Hunter melee zayıf).</li>
+    <li><strong>Lvl 40</strong>: <strong>Mount alın</strong> (Honored rep ile 80g %10 indirim Classic Fresh'te %10/%20 mount discount).</li>
+    <li><strong>Lvl 45-55</strong>: <strong>Devilsaur Set</strong> (Leatherworking craft, Un'Goro mats) — lvl 45-58 leveling BiS Hunter set'i.</li>
+    <li><strong>Lvl 50-58</strong>: <strong>Sul'thraze</strong> (ZF) — melee swap için. <strong>Carrot on a Stick</strong> (ZF, mount speed trinket).</li>
+    <li><strong>Lvl 60</strong>: <strong>Striker's Mark</strong> (LBRS gun), <strong>Hurricane</strong> (UBRS bow), <strong>Hand of Justice</strong> (BRD). <strong>Rhok'delar</strong> epic bow class quest başlat.</li>
+  </ul>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- İLERLEME LİSTESİ                                              -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-progress" role="tabpanel">
+
+  <h2>Level Bazlı İlerleme Listesi</h2>
+  <p>Tüm ilerlemen otomatik olarak tarayıcıda kaydedilir (localStorage key <code>hc_dwarf_hunter_v1</code>). İstediğin zaman sıfırlayabilirsin (sağ üst <em>Sıfırla</em>).</p>
+
+  <div class="level-group open" data-group="g1">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 1-10 — Coldridge Valley & Dun Morogh</span><span class="lg-meta">Starter zone</span></div>
+    <div class="level-group-body" data-checklist>
+      <!-- items injected -->
+    </div>
+  </div>
+
+  <div class="level-group" data-group="g2">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 10-20 — Loch Modan</span><span class="lg-meta">Pet + Concussive + Cheetah</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g3">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 20-30 — Wetlands / Loch Modan</span><span class="lg-meta">Trap + Feign Death</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g4">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 30-40 — Hillsbrad / Arathi / STV</span><span class="lg-meta">Mount yolu, Bestial Wrath</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g5">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 40-50 — Tanaris / Un'Goro / Hinterlands</span><span class="lg-meta">Devilsaur Set + Wind Serpent pet</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g6">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 50-60 — Burning Steppes / WPL / EPL / Silithus</span><span class="lg-meta">Devilsaur pet, pre-BiS</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g7">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 60 — Endgame</span><span class="lg-meta">Rhok'delar, BiS, raid</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="hab">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Her Zaman Aktif Disiplinler</span><span class="lg-meta">Yaşam alışkanlığı</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- ADDONLAR                                                       -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-addons" role="tabpanel">
+
+  <h2>Zorunlu Addon'lar</h2>
+  <p>HC'de oynamaya başlamadan önce kurulması gereken addon'lar:</p>
+  <table>
+    <tr><th>Addon</th><th>Ne yapar</th><th>Neden zorunlu (HC)</th></tr>
+    <tr><td><strong>Hardcore (TrueHorse)</strong></td><td>Death broadcast + rule enforcement</td><td>HC realm zaten Blizzard rule kullanır ama bu addon ölüm chat ve karakter doğrulama</td></tr>
+    <tr><td><strong>Hardcore Death Log</strong></td><td>Realm çapında ölümleri gösterir + heatmap</td><td>Ölüm sebeplerini görerek aynı tuzağa düşme</td></tr>
+    <tr><td><strong>Questie</strong></td><td>Quest tracker + harita üstü yol gösterici</td><td>Quest'leri kaybetme + yeşil quest filtreleme</td></tr>
+    <tr><td><strong>OmniCC</strong></td><td>Buton üzerinde CD sayacı</td><td>Stoneform / Feign Death / Bestial Wrath CD'sini görmek hayat</td></tr>
+    <tr><td><strong>WeakAuras</strong></td><td>Custom alert framework</td><td>HP %30 alarmı, Stoneform CD alarmı, pet HP %30 alarmı</td></tr>
+    <tr><td><strong>Bagnon (veya Baganator)</strong></td><td>Tek pencere bag birleştirici</td><td>Repair / mat yönetimi</td></tr>
+    <tr><td><strong>Leatrix Plus</strong></td><td>Çok fonksiyonlu QoL paketi</td><td>Camera zoom 3.9, auto-repair, auto-quest, fast loot</td></tr>
+  </table>
+
+  <h2>Hunter-Spesifik Addon'lar</h2>
+  <table>
+    <tr><th>Addon</th><th>Ne yapar</th></tr>
+    <tr><td><strong>Quartz</strong></td><td>Cast bar + Auto Shot timing bar — Auto Shot kesintilerini önle</td></tr>
+    <tr><td><strong>HunterTimers</strong></td><td>Serpent Sting / Hunter's Mark / Aspect timer</td></tr>
+    <tr><td><strong>SuperWoW + ShaguScan</strong></td><td>Pet HP ve mob'un yakın addlerini önceden gör</td></tr>
+    <tr><td><strong>Classic Bestiary</strong></td><td>Mob özellikleri (Thrash, dispel, fear, cast) — invisible tehlikeleri tag'ler</td></tr>
+  </table>
+
+  <h2>Iyi Olur Ama Şart Değil</h2>
+  <ul>
+    <li><strong>Atlas + AtlasLoot</strong> — dungeon haritası + drop tabloları.</li>
+    <li><strong>TomTom</strong> — koordinat waypoint.</li>
+    <li><strong>RecountClassic</strong> — DPS meter (grup pratiği için).</li>
+    <li><strong>Threat-1 / TinyThreat</strong> — threat meter dungeon için.</li>
+    <li><strong>NovaWorldBuffs</strong> — endgame world buff tracker.</li>
+  </ul>
+
+  <h2>İlk Gün Macro'ları</h2>
+  <pre>/* Pet attack + Hunter's Mark tek tuş */
+#showtooltip Hunter's Mark
+/cast Hunter's Mark
+/petattack
+
+/* Mend Pet + Feign Death panik */
+#showtooltip Mend Pet
+/cast Mend Pet
+/cast Feign Death
+
+/* Stoneform (anti-poison/bleed) */
+#showtooltip Stoneform
+/cast Stoneform
+/script UIErrorsFrame:Clear()
+
+/* Trap + Feign Death combo (Lvl 30+) */
+/cast Feign Death
+/cast Freezing Trap</pre>
+
+  <h2>Kamera ve UI Açılış Komutları</h2>
+  <pre>/console cameraDistanceMaxZoomFactor 3.9
+/console nameplateShowEnemyMinus 1
+/console nameplateShowEnemyTotems 1
+/console floatingCombatTextCombatDamage 1</pre>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- PVP & TEHLİKE                                                  -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-pvp" role="tabpanel">
+
+  <h2>HC PvP — Önce Bunları Bil</h2>
+  <div class="callout danger">
+    <strong>Classic Fresh HC'de <code>/duel</code> = Duel to the Death.</strong> Normal duel YOK. Bir oyuncuya duel attığında o oyuncu kabul ederse <strong>düello sonunda kaybeden ÖLÜR ve karakteri silinir.</strong> Asla yanlışlıkla kabul etme.
+  </div>
+  <ul>
+    <li>PvP <strong>flag'i opt-in</strong>: Sen aktif etmedikçe Horde seni vuramaz.</li>
+    <li>Original HC'de komut <code>/makgora</code>. Classic Fresh'te <code>/duel</code>.</li>
+    <li>Lvl 19+ minimum.</li>
+    <li>Wargames açık — guild vs guild PvP olabilir, kaybedenler ÖLÜR.</li>
+  </ul>
+
+  <h3>Hunter DTTD Stratejisi</h3>
+  <ol>
+    <li><strong>Free Action Potion</strong> içmeden duel'e gitme (root/snare immunity 30 sn).</li>
+    <li>35 yard mesafede başla — Aimed Shot opener.</li>
+    <li>Pet'i opener saldırı için hedefe gönder (rakibin opener damage'ını pet yer).</li>
+    <li>Concussive Shot + Aspect of Cheetah ile kite et.</li>
+    <li>Caster gelirse Scatter Shot (lvl 30, 4 sn disorient) + Freezing Trap.</li>
+    <li>Düşük HP'de Feign Death → Bandage → tekrar açıl.</li>
+    <li>Stoneform: rakip bleed/poison koyduysa hemen bas.</li>
+  </ol>
+
+  <h2>Wowhead Resmi "Tehlikeli Quest'ler" — Hunter İçin</h2>
+  <div class="callout danger">
+    <strong>Defias Pillager</strong> (Westfall, lvl 14 caster) tüm Classic'in <strong>#1 oyuncu öldüren mob'u</strong>. Alliance "The People's Militia" quest'i bu yüzden #1 HC ölüm quest'i. Hunter olarak: pet'i Defias Pillager'a gönder, LoS arkasına geç, kite et. Asla 2 Pillager'ı aynı anda pull etme.
+  </div>
+
+  <table>
+    <tr><th>Quest</th><th>Konum</th><th>Risk</th><th>Hunter çözümü</th></tr>
+    <tr><td>The People's Militia</td><td>Westfall</td><td>Defias Pillager fireball</td><td>2 level overlevel; pet aggro; LoS abuse</td></tr>
+    <tr><td>Filthy Paws</td><td>Redridge cave</td><td>Tunnel Rat Geomancer + fire shield reflect</td><td>Cave + caster + reflect = en kötü combo. <strong>SKIP veya 2 level overlevel.</strong></td></tr>
+    <tr><td>Cave Mushrooms</td><td>STV naga cave</td><td>Naga knockback alt-floor'a</td><td>Üst kat'ta kal; pet aşağıya gönderme.</td></tr>
+    <tr><td>The Absent-Minded Prospector</td><td>Loch Modan escort</td><td>Trogg wave + Golem fast respawn</td><td>Pet kontrol, kite ederek ilerlet; wipe olursa ölme — kaç + tekrar dene.</td></tr>
+    <tr><td>Colonel Kurzen</td><td>STV cave</td><td>Uzun stun + sert vuruş + cave</td><td>Grup veya skip.</td></tr>
+    <tr><td>Wanted! Otto and Falconcrest</td><td>Arathi</td><td>Lord Falconcrest lvl 40 raid boss eşdeğer</td><td><strong>Asla solo.</strong> Duo/trio.</td></tr>
+  </table>
+
+  <h2>Mob Leash Mekaniği — Hunter İçin Hayat Kurtarıcı</h2>
+  <p>Hunter'ın kite + Feign Death stratejisinin temeli leash mekaniği. Mob seni belirli bir <em>süre</em> kovaladıktan sonra reset olur (mesafe değil, <strong>süre</strong> bazlı):</p>
+  <table>
+    <tr><th>Mob Level</th><th>Leash Süresi</th></tr>
+    <tr><td>1-29</td><td>11 sn</td></tr>
+    <tr><td>30-39</td><td>12 sn</td></tr>
+    <tr><td>40-44</td><td>13 sn</td></tr>
+    <tr><td>45-49</td><td>14 sn</td></tr>
+    <tr><td>50-60</td><td>15 sn</td></tr>
+  </table>
+  <p><strong>İstisna:</strong> Mob spawn noktasının 15-30 yard içindeyse leash kırılmaz (sürekli kovalar).</p>
+
+  <h3>Leash'i UZATAN vs UZATMAYAN aksiyonlar</h3>
+  <table>
+    <tr><th>Leash UZATIR (escape başarısız)</th><th>Leash UZATMAZ (escape geçerli)</th></tr>
+    <tr><td>Successful Auto Shot vuruşu</td><td>Dodge / Miss / Parry</td></tr>
+    <tr><td>Serpent Sting / Hunter's Mark uygulanması</td><td>Serpent Sting DoT tick damage</td></tr>
+    <tr><td>Concussive Shot (damaging spell)</td><td>Spell reflect</td></tr>
+    <tr><td>Resist / Immune</td><td>Pet Thorns / pasif damage</td></tr>
+  </table>
+  <p><strong>Hunter escape protokolü:</strong></p>
+  <ol>
+    <li>Auto Shot'u durdur (<kbd>ESC</kbd> bas).</li>
+    <li>Aspect of Cheetah'ya geç.</li>
+    <li>Disengage (lvl 20).</li>
+    <li>Feign Death (lvl 30).</li>
+    <li>Hâlâ takip ediyorsa Wing Clip + 11-15 sn boyunca pasif kaç (damage vurma).</li>
+  </ol>
+
+  <h2>Daze Mekaniği — Backpedal YASAK</h2>
+  <p>Mob senin <strong>sırtına</strong> vururken daze proc olur. Daze = kalıcı yavaşlatma. Sırtına vurmasını engelle:</p>
+  <ul>
+    <li><strong>S (backpedal) tuşunu kaçışta ASLA kullanma.</strong> Sırt dönük olursun.</li>
+    <li>Strafe (Q/E) ile yan koş — yüzün kısmen mob'a dönük kalır, daze proc olmaz.</li>
+    <li><strong>Strafe-jump:</strong> Z-tuşu + sağ mouse butonu ile karakterini havadayken mob'a doğru döndür; havada vurulursan ön cephe sayılır, daze yok.</li>
+  </ul>
+
+  <h2>Tehlikeli Zone Özeti (Dwarf Hunter Yolu)</h2>
+  <ul>
+    <li><strong>Loch Modan (10-20):</strong> Mo'grosh Stronghold ogre cave, Stonewrought Dam altı troll cave — pet'i aşağı yollama.</li>
+    <li><strong>Wetlands (20-27):</strong> Raptor Ridge multi-add. Dragon Maw cave bypass et.</li>
+    <li><strong>Arathi (25-35):</strong> Boulderfist Ogre çift pull. Witherbark Berserker patrol.</li>
+    <li><strong>STV (30-45):</strong> Bloodsail boats, Big Game Hunter chain (Bhag'thera/Sin'Dall/Princess) — Hunter olarak <em>asla solo elite tiger</em>.</li>
+    <li><strong>Tanaris (40-50):</strong> Hyena patrols, Pawn Captures Queen quest cave (3 dalga wasp).</li>
+    <li><strong>WPL/EPL (51-60):</strong> Stitches benzeri Crusader patrol gece artar. Tyr's Hand multi-pull.</li>
+    <li><strong>Winterspring (53-60):</strong> Frostmaul Giant elite patrol. Dwarf Frost Resistance burada artı.</li>
+  </ul>
+
+  <h2>Wowhead'in Top 10 HC İpucu (Hızlı Liste)</h2>
+  <ol>
+    <li>Yeşil quest yap. Sarı/turuncu = hit chance düşer.</li>
+    <li>Consumable kullan, "saklama" — ölümde kaybedersin.</li>
+    <li>Silah upgrade'ini yolundan çıkarak yap (hızlı fight = az risk).</li>
+    <li>Kamera zoom <code>3.9</code>.</li>
+    <li>Caster mob'lar ölümcül — LoS abuse.</li>
+    <li>Enemy nameplates always on.</li>
+    <li>Spell training parasını akıllı harca (lvl 40 mount için biriktir).</li>
+    <li>Bag al — pouch 5s, 2 vendor trip kâra geçer.</li>
+    <li>Kaçış rotanı her pull'dan önce planla.</li>
+    <li>Cave'ler ölümcül — Hearthstone hazır olsun.</li>
+  </ol>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- CRAFTING                                                       -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-crafting" role="tabpanel">
+
+  <h2>Profession Yolu: Skinning + Leatherworking</h2>
+  <p>Dwarf Hunter için kanonik combo. Skinning HC'de pasif gold + LW için ham deri sağlar. LW endgame'de <strong>Devilsaur Set</strong>'i (lvl 45-58 Hunter leveling BiS) craft eder.</p>
+
+  <h3>Neden Bu Combo?</h3>
+  <ul>
+    <li>Skinning lvl 10 itibariyle pickup edilebilir. Vurduğun her hayvanı yüzersin — leather sat, geçim yap.</li>
+    <li>LW = mail armor (Hunter primary) + leather armor (lvl 40 öncesi).</li>
+    <li>Wolfshead Helm (lvl 40 LW recipe) Druid için, ama Hunter'a satılır (no, kendine craft etmek için Druid lazım — Hunter Devilsaur'a odaklan).</li>
+    <li>Hide of the Wild (Tribal LW spec) — leveling cloak.</li>
+  </ul>
+
+  <h3>Alternatif: Engineering + Mining</h3>
+  <p>Wowhead'in resmi önerisi top 2 combo'dan biri. Hunter'a engineering çok yakışır:</p>
+  <ul>
+    <li><strong>Iron Grenade / M73 Frag Grenade</strong> — split pull (mob'lara aynı anda damage = "cry for help" reset).</li>
+    <li><strong>Mithril Mechanical Dragonling</strong> — combat pet ek damage.</li>
+    <li><strong>Goblin Rocket Boots</strong> — emergency +70% speed 20 sn (5 dk CD).</li>
+    <li><strong>Parachute Cloak</strong> — yüksekten düşüşte ölümü engeller.</li>
+    <li><strong>Goblin Jumper Cables</strong> — pet revive yedek aracı.</li>
+    <li><strong>Flying Tiger Goggles</strong> (Eng goggles lvl 50) — Hunter için BiS head pre-raid.</li>
+    <li><strong>Target Dummy</strong> — combat'tan çık (aggro dump'ı için).</li>
+  </ul>
+
+  <div class="callout tip">
+    <strong>Pratik kombinasyon:</strong> İlk karakterde <em>Skinning + Leatherworking</em> (Devilsaur Set için), ikinci karakter denersen <em>Mining + Engineering</em>. Geri dönerken bu kombo dengeli — survival + gear.
+  </div>
+
+  <h2>Zorunlu Secondary Profession'lar</h2>
+  <ul>
+    <li><strong>First Aid:</strong> Bandage = mana harcamayan heal. Hunter'ın pet ölünce / Feign Death sonrası sustain'i. Linen → Wool → Silk → Mageweave → Runecloth.</li>
+    <li><strong>Cooking:</strong> Well Fed buff = +5 stat. Roasted Boar Meat (stam), Smoked Sagefish (mana), Tender Wolf Meat (lvl 45 +20 spirit/stam).</li>
+    <li><strong>Fishing:</strong> Cooking ile sinerji. Strawberry's Hat + Big Iron Fishing Pole. Mightfish Stormwind quest.</li>
+  </ul>
+
+  <h2>Gold Yönetimi Hedefleri</h2>
+  <table>
+    <tr><th>Level</th><th>Gold Hedefi</th><th>Not</th></tr>
+    <tr><td>10</td><td>1g</td><td>İlk pouch alabilmen için</td></tr>
+    <tr><td>20</td><td>5-8g</td><td>Spell training + cheap upgrades</td></tr>
+    <tr><td>30</td><td>20g</td><td>Bag investment + 16-slot eyeing</td></tr>
+    <tr><td>40</td><td><strong>80-100g</strong></td><td><strong>Mount</strong> (rep discount ile 80g Classic Fresh)</td></tr>
+    <tr><td>50</td><td>150g</td><td>Devilsaur mats + LW skill-up + spell</td></tr>
+    <tr><td>60</td><td>900g+</td><td>Epic mount (1000g, rep ile düşer)</td></tr>
+  </table>
+
+  <h3>Pasif Gold Kaynakları (Dwarf Hunter)</h3>
+  <ul>
+    <li><strong>Skinning</strong> her mob'dan leather sat.</li>
+    <li><strong>Find Treasure</strong> minimap chest'leri her zaman aç.</li>
+    <li><strong>Mid-grey trash</strong> sat — bag yer açar, gümüş döner.</li>
+    <li><strong>Quest gold</strong> — yeşil quest priority, gold ödülü stack.</li>
+    <li><strong>Vendor blue-quality leveling items</strong> — ekstra senin işine yaramayanları sat.</li>
+  </ul>
+
+  <h2>Bag Yatırımı</h2>
+  <ul>
+    <li>Lvl 10: 6-slot Linen Bag (vendor 5s veya tailor friend).</li>
+    <li>Lvl 20-30: 8-slot Wool / 10-slot Mageweave Bag.</li>
+    <li>Lvl 40+: 14-slot Runecloth Bag.</li>
+    <li>Lvl 50+: 16-slot Mooncloth Bag (zor — tailor friend gerek).</li>
+    <li><strong>Hunter ek slot:</strong> Quiver veya Ammo Pouch — Auto Shot %15 attack speed. <em>Always equip.</em> Lvl 30 <em>Heavy Quiver</em> (14-slot ammo), lvl 50 <em>Quickdraw Quiver</em> (18-slot).</li>
+  </ul>
+
+</section>
+
+</main>
+
+<footer>
+  <p>WoW Classic Hardcore — Dwarf Hunter Başlangıç Rehberi v1.0 · Kaynaklar: Wowhead HC Overview, Hunter HC Leveling Guide, Tips &amp; Tricks (Calamityhc), Hardcore Death Log community heatmap. Tüm ilerleme tarayıcında yerel olarak (<code>hc_dwarf_hunter_v1</code>) saklanır.</p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // -----------------------------------------------------------
+  // İlerleme listesi içerikleri (id, etiketler, açıklama)
+  // -----------------------------------------------------------
+  var CHECKLIST = {
+    g1: [
+      { id: 'g1-1',  tags: ['quest'],          text: 'Coldridge Valley starter chain bitir (Anvilmar → Coldridge → Kharanos).' },
+      { id: 'g1-2',  tags: ['spell'],          text: 'Aspect of the Hawk öğren (trainer, lvl 4) — combat sırasında daima açık.' },
+      { id: 'g1-3',  tags: ['spell'],          text: 'Hunter\'s Mark öğren (lvl 6) — her pull\'da ilk şey.' },
+      { id: 'g1-4',  tags: ['spell'],          text: 'Concussive Shot öğren (lvl 8) — escape\'in temeli.' },
+      { id: 'g1-5',  tags: ['race', 'hc'],     text: 'Stoneform racial\'ı action bar\'a koy + Find Treasure aç.' },
+      { id: 'g1-6',  tags: ['pet'],            text: 'Lvl 10: Tame Beast questi (Hunter trainer) — Crag Boar tame et (Dun Morogh).' },
+      { id: 'g1-7',  tags: ['pet'],            text: 'Pet\'e Growl + Charge + Bite + Cower skill\'lerini train et.' },
+      { id: 'g1-8',  tags: ['hc'],             text: 'Kamera zoom: /console cameraDistanceMaxZoomFactor 3.9' },
+      { id: 'g1-9',  tags: ['hc'],             text: 'Enemy nameplates Always On (Interface → Names).' },
+      { id: 'g1-10', tags: ['quest'],          text: 'First Aid + Cooking + Fishing pickup (Kharanos).' },
+      { id: 'g1-11', tags: ['quest'],          text: 'Skinning pickup (Kharanos skinning trainer) — lvl 10 itibariyle pasif gold.' }
+    ],
+    g2: [
+      { id: 'g2-1',  tags: ['quest'],          text: 'Loch Modan ana quest hattı (Thelsamar) — Mo\'grosh cave\'e SOLO girme.' },
+      { id: 'g2-2',  tags: ['spell'],          text: 'Aspect of the Cheetah (lvl 16) — yolda kullan, mob yakınsa kapat.' },
+      { id: 'g2-3',  tags: ['spell'],          text: 'Immolation Trap (lvl 16) — solo trap praktik.' },
+      { id: 'g2-4',  tags: ['spell'],          text: 'Multi-Shot (lvl 18) — sadece spread mob varsa, ASLA tight pack\'te.' },
+      { id: 'g2-5',  tags: ['spell'],          text: 'Disengage (lvl 20) — combat sırasında threat dump + 5y geri sıçra.' },
+      { id: 'g2-6',  tags: ['spell'],          text: 'Freezing Trap (lvl 20) — CC.' },
+      { id: 'g2-7',  tags: ['spell'],          text: 'Aspect of the Pack (lvl 20) — grup için.' },
+      { id: 'g2-8',  tags: ['gear'],           text: 'Engraved Hunting Rifle (Loch Modan vendor lvl 21) — Dwarf Gun Spec için ilk ciddi ranged.' },
+      { id: 'g2-9',  tags: ['gear'],           text: 'Heavy Wool Bandage skill-up (First Aid).' },
+      { id: 'g2-10', tags: ['hc'],             text: 'Talent: Improved Aspect of the Hawk 5/5 tamam (lvl 14).' }
+    ],
+    g3: [
+      { id: 'g3-1',  tags: ['quest'],          text: 'Wetlands quest hub (Menethil Harbor) — sahildeki Murloc cave\'lere SOLO girme.' },
+      { id: 'g3-2',  tags: ['spell'],          text: 'Feign Death (lvl 30) — HC\'nin #1 escape spell\'i. Bar\'a koy.' },
+      { id: 'g3-3',  tags: ['spell'],          text: 'Bestial Wrath (BM talent lvl 30) — boss/elite pull için.' },
+      { id: 'g3-4',  tags: ['spell'],          text: 'Explosive Trap (lvl 30) — emergency AoE.' },
+      { id: 'g3-5',  tags: ['spell'],          text: 'Scatter Shot (lvl 30, MM/Surv) — duel disorient (alırsan).' },
+      { id: 'g3-6',  tags: ['hc'],             text: '"Death From Below" Wetlands quest — Raptor Ridge multi-add, dikkat.' },
+      { id: 'g3-7',  tags: ['gear'],           text: 'Heavy Quiver (lvl 30 BoE) — Auto Shot speed +15%.' },
+      { id: 'g3-8',  tags: ['hc'],             text: 'Mage/Polymorph buddy varsa Deadmines run dene (lvl 17-26) — quick gear + XP.' },
+      { id: 'g3-9',  tags: ['hc', 'race'],     text: 'Stoneform refleksini test et: ilk poison/bleed mob\'da Stoneform bas → temizlendiğini gör.' },
+      { id: 'g3-10', tags: ['quest'],          text: 'First Aid Expert (Triage quest) lvl 35 öncesi haz\u0131rl\u0131k.' }
+    ],
+    g4: [
+      { id: 'g4-1',  tags: ['quest'],          text: 'Hillsbrad veya STV\'ye geç. Hillsbrad: Dalaran Crater\'a YAKLAŞMA.' },
+      { id: 'g4-2',  tags: ['hc'],             text: 'STV: "Big Game Hunter" elite quest\'leri SKIP veya 3+ grup (Bhag\'thera, Tethis, Sin\'Dall, Princess).' },
+      { id: 'g4-3',  tags: ['pet'],            text: 'Cat pet tame (Stranglethorn) — Dash + Claw, leveling DPS upgrade.' },
+      { id: 'g4-4',  tags: ['gear', 'hc'],     text: 'Lvl 40 MOUNT — Honored rep ile 80g (Classic Fresh %10 indirim).' },
+      { id: 'g4-5',  tags: ['gear'],           text: 'Mail armor proficiency (lvl 40) — yeni mail set giy.' },
+      { id: 'g4-6',  tags: ['spell'],          text: 'Aimed Shot (lvl 40, MM talent) — opener burst.' },
+      { id: 'g4-7',  tags: ['spell'],          text: 'Track Hidden / Track Beasts gibi tracker\'lardan kullan (mini-map).' },
+      { id: 'g4-8',  tags: ['hc'],             text: 'Talent kontrol: Unleashed Fury 5/5 + Bestial Wrath 1/1 tamamla.' },
+      { id: 'g4-9',  tags: ['hc'],             text: 'Duskwood\'a uğrarsan: Stitches geldiğinde Darkshire\'a gir, ASLA saldırma.' }
+    ],
+    g5: [
+      { id: 'g5-1',  tags: ['quest'],          text: 'Tanaris veya Hinterlands quest hub.' },
+      { id: 'g5-2',  tags: ['pet'],            text: 'Wind Serpent tame (Hinterlands) — Lightning Breath ranged pet DPS.' },
+      { id: 'g5-3',  tags: ['gear'],           text: 'Devilsaur Set craft için Un\'Goro mats topla (Tough Scorpid + Devilsaur Leather).' },
+      { id: 'g5-4',  tags: ['gear'],           text: 'Sul\'thraze the Lasher (ZF, melee swap için) ya da sadece XP.' },
+      { id: 'g5-5',  tags: ['gear'],           text: 'Carrot on a Stick (ZF mount trinket) — +%3 mount speed.' },
+      { id: 'g5-6',  tags: ['spell'],          text: 'Tranquilizing Shot (lvl 38) — boss enrage dispel.' },
+      { id: 'g5-7',  tags: ['hc'],             text: 'Free Action Potion stoğunu yenile (Alchemy/AH yok — vendor lure veya friend).' },
+      { id: 'g5-8',  tags: ['hc'],             text: 'Tanaris "Pawn Captures Queen" cave quest\'i — 3 dalga wasp, SOLO girme.' },
+      { id: 'g5-9',  tags: ['gear'],           text: 'Quickdraw Quiver (lvl 50 LW craft veya BoE) — 18-slot ammo.' }
+    ],
+    g6: [
+      { id: 'g6-1',  tags: ['quest'],          text: 'Eastern Plaguelands / Western Plaguelands / Burning Steppes quest hub.' },
+      { id: 'g6-2',  tags: ['pet'],            text: 'Devilsaur tame (Un\'Goro, lvl 55-58) — endgame BiS pet.' },
+      { id: 'g6-3',  tags: ['gear'],           text: 'Devilsaur Set giy (eğer LW craft ettiysen, lvl 58\'e kadar BiS leveling set).' },
+      { id: 'g6-4',  tags: ['spell'],          text: 'The Beast Within (BM 31-point) — talent reset değerlendir (eğer alabiliyorsan).' },
+      { id: 'g6-5',  tags: ['hc'],             text: 'Plaguelands\'te Stitches benzeri Crusader patrol\'lara gece dikkat — Feign Death hazır.' },
+      { id: 'g6-6',  tags: ['hc'],             text: 'Winterspring\'e geçiyorsan Dwarf Frost Resistance avantajı; Frostmaul Giant patrol\'a dikkat.' },
+      { id: 'g6-7',  tags: ['hc'],             text: 'BRD (Hand of Justice trinket) — sadece deneyimli party ile.' }
+    ],
+    g7: [
+      { id: 'g7-1',  tags: ['gear'],           text: 'Striker\'s Mark (LBRS gun) veya Hurricane (UBRS bow) — Dwarf için Striker\'s Mark öncelik.' },
+      { id: 'g7-2',  tags: ['quest', 'hc'],    text: 'Rhok\'delar epic bow class quest başlat (lvl 60) — uzun chain ama BiS pre-raid bow.' },
+      { id: 'g7-3',  tags: ['quest'],          text: 'Lok\'delar epic stave class quest (alternatif veya ek).' },
+      { id: 'g7-4',  tags: ['gear'],           text: 'Pre-raid BiS list\'i (Wowhead Hunter pre-raid BiS) toplama.' },
+      { id: 'g7-5',  tags: ['hc'],             text: 'First raid hazırlık: MC attunement → MC consumables (Greater Fire Protection Potion).' },
+      { id: 'g7-6',  tags: ['hc'],             text: 'Naxx raid (Anniversary HC realm) açıldıysa — guild ile koordineli gir.' }
+    ],
+    hab: [
+      { id: 'h-1',  tags: ['hc'],             text: 'Her pull öncesi: Hunter\'s Mark + Pet send + Auto Shot — bu sırayı asla bozma.' },
+      { id: 'h-2',  tags: ['hc'],             text: 'Her pull öncesi etrafa bak: 30 yard içinde 2. mob var mı? Patrol nerede?' },
+      { id: 'h-3',  tags: ['hc'],             text: 'Her pull öncesi: kaçış rotasını belirle (Hearthstone yönü, LoS köşesi).' },
+      { id: 'h-4',  tags: ['race', 'hc'],     text: 'Bleed/Poison/Disease debuff alırsan: Stoneform refleksi (3 dk CD\'ye dikkat).' },
+      { id: 'h-5',  tags: ['hc'],             text: 'Backpedal ASLA — strafe veya 180° dönerek koş.' },
+      { id: 'h-6',  tags: ['hc'],             text: 'Cave\'den önce Hearthstone CD kontrol — açıksa Hearth ready.' },
+      { id: 'h-7',  tags: ['hc'],             text: 'Pet HP %50\'nin altındaysa Mend Pet bas; %30\'da Feign Death + pet recall.' },
+      { id: 'h-8',  tags: ['hc'],             text: 'Repair gold = 3x mevcut repair maliyeti her zaman cebinde.' }
+    ]
+  };
+
+  var STORAGE_KEY = 'hc_dwarf_hunter_v1';
+
+  // -----------------------------------------------------------
+  // localStorage helpers
+  // -----------------------------------------------------------
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return {};
+      return JSON.parse(raw) || {};
+    } catch (e) { return {}; }
+  }
+  function saveState(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  var state = loadState();
+
+  // -----------------------------------------------------------
+  // Inject checklist items
+  // -----------------------------------------------------------
+  function tagLabel(t) {
+    var map = { quest:'Quest', spell:'Spell', gear:'Gear', pet:'Pet', race:'Racial', hc:'HC' };
+    return map[t] || t;
+  }
+  function renderChecklists() {
+    Object.keys(CHECKLIST).forEach(function (gid) {
+      var host = document.querySelector('.level-group[data-group="' + gid + '"] [data-checklist]');
+      if (!host) return;
+      host.innerHTML = '';
+      CHECKLIST[gid].forEach(function (it) {
+        var row = document.createElement('div');
+        row.className = 'check-item';
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = it.id;
+        cb.checked = !!state[it.id];
+        cb.addEventListener('change', function () {
+          state[it.id] = cb.checked;
+          saveState(state);
+          updateProgress();
+        });
+        var lbl = document.createElement('label');
+        lbl.setAttribute('for', it.id);
+        (it.tags || []).forEach(function (t) {
+          var sp = document.createElement('span');
+          sp.className = 'tag ' + t;
+          sp.textContent = tagLabel(t);
+          lbl.appendChild(sp);
+        });
+        var txt = document.createElement('span');
+        txt.innerHTML = ' ' + it.text;
+        lbl.appendChild(txt);
+        row.appendChild(cb);
+        row.appendChild(lbl);
+        host.appendChild(row);
+      });
+    });
+  }
+
+  // -----------------------------------------------------------
+  // Progress pill
+  // -----------------------------------------------------------
+  function updateProgress() {
+    var total = 0, done = 0;
+    Object.keys(CHECKLIST).forEach(function (gid) {
+      CHECKLIST[gid].forEach(function (it) {
+        total++;
+        if (state[it.id]) done++;
+      });
+    });
+    var pct = total ? Math.round((done / total) * 100) : 0;
+    var pill = document.getElementById('progress-pill');
+    if (pill) pill.textContent = done + ' / ' + total + ' (' + pct + '%)';
+  }
+
+  // -----------------------------------------------------------
+  // Tabs
+  // -----------------------------------------------------------
+  document.querySelectorAll('.tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      var id = 'panel-' + btn.getAttribute('data-tab');
+      var panel = document.getElementById(id);
+      if (panel) panel.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // -----------------------------------------------------------
+  // Level-group collapse toggle
+  // -----------------------------------------------------------
+  document.querySelectorAll('.level-group-head').forEach(function (h) {
+    h.addEventListener('click', function () {
+      h.parentElement.classList.toggle('open');
+    });
+  });
+
+  // -----------------------------------------------------------
+  // Reset
+  // -----------------------------------------------------------
+  document.getElementById('reset-btn').addEventListener('click', function () {
+    if (!confirm('Tüm ilerleme silinecek. Emin misin?')) return;
+    state = {};
+    saveState(state);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(function (cb) {
+      cb.checked = false;
+    });
+    updateProgress();
+  });
+
+  // -----------------------------------------------------------
+  // Init
+  // -----------------------------------------------------------
+  renderChecklists();
+  updateProgress();
+})();
+</script>
+
+</body>
+</html>
