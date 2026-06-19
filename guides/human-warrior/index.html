@@ -1,0 +1,1195 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Human Warrior — WoW Classic HC Sword & Board Rehberi</title>
+<style>
+  /* ---------- Tema (Warrior tan/çelik + Stormwind mavisi) ---------- */
+  :root {
+    --bg:        #0c0d10;
+    --bg-soft:   #14161b;
+    --bg-card:   #1b1e25;
+    --bg-elev:   #242832;
+    --border:    #353b47;
+    --text:      #e6e8ee;
+    --text-dim:  #a4adbe;
+    --warrior:   #c79c6e;   /* Warrior class rengi (tan) */
+    --warrior-d: #8a6a45;
+    --steel:     #b9c2d0;   /* çelik / kalkan */
+    --royal:     #5b8dff;   /* Stormwind royal blue */
+    --gold:      #ffd700;
+    --danger:    #ff5b4f;
+    --warn:      #ffae42;
+    --ok:        #8be37d;
+    --info:      #6cb6ff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; font-size: 16px; }
+  a { color: var(--royal); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { font-family: "Trajan Pro", Georgia, serif; letter-spacing: .02em; color: var(--steel); margin-top: 1.5em; }
+  h1 { font-size: 1.8rem; margin: 0; color: var(--gold); }
+  h2 { font-size: 1.4rem; border-bottom: 2px solid var(--warrior-d); padding-bottom: .3em; }
+  h3 { font-size: 1.15rem; color: var(--warrior); }
+  h4 { font-size: 1rem; color: var(--steel); margin-bottom: .3em; }
+  p { margin: .6em 0; }
+  code { background: var(--bg-elev); padding: 2px 6px; border-radius: 3px; font-size: .92em; color: var(--warrior); }
+  pre { background: var(--bg-elev); padding: 12px; border-radius: 4px; overflow-x: auto; border-left: 3px solid var(--royal); }
+  ul, ol { padding-left: 22px; }
+  li { margin: .3em 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; background: var(--bg-soft); }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-elev); color: var(--warrior); }
+  tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+
+  /* ---------- Layout ---------- */
+  .topbar { background: linear-gradient(135deg, #14161b 0%, #242832 100%); border-bottom: 3px solid var(--warrior); padding: 18px 20px; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 10px rgba(0,0,0,.4); }
+  .topbar-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .crest { width: 52px; height: 52px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--steel), var(--warrior-d) 70%, #2a2015); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 0 12px rgba(91,141,255,.45); flex-shrink: 0; }
+  .title-block { flex: 1; min-width: 200px; }
+  .subtitle { color: var(--text-dim); font-size: .9rem; margin-top: 2px; }
+  .char-card { margin-top: 6px; display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 8px; padding: 4px 10px; background: rgba(0,0,0,.35); border: 1px solid var(--warrior-d); border-left: 3px solid var(--gold); border-radius: 3px; font-size: .85rem; }
+  .char-name { color: var(--gold); font-family: "Trajan Pro", Georgia, serif; font-weight: 700; letter-spacing: .03em; }
+  .char-guild { color: var(--royal); font-style: italic; }
+  .char-bio { color: var(--text-dim); }
+  .char-bio::before { content: "• "; color: var(--warrior-d); }
+  .progress-pill { background: var(--bg-elev); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: .85rem; color: var(--steel); }
+  .reset-btn { background: transparent; color: var(--text-dim); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: .8rem; }
+  .reset-btn:hover { color: var(--danger); border-color: var(--danger); }
+
+  /* ---------- Tabs ---------- */
+  .tabs { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4px; padding: 12px 20px 0; background: var(--bg); position: sticky; top: 91px; z-index: 40; }
+  .tab { background: var(--bg-soft); border: 1px solid var(--border); border-bottom: none; color: var(--text-dim); padding: 10px 16px; cursor: pointer; border-radius: 6px 6px 0 0; font-size: .9rem; transition: all .15s; }
+  .tab:hover { color: var(--text); background: var(--bg-card); }
+  .tab.active { background: var(--bg-card); color: var(--warrior); border-color: var(--warrior); border-bottom: 1px solid var(--bg-card); position: relative; top: 1px; font-weight: 600; }
+
+  /* ---------- Content ---------- */
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; background: var(--bg-card); border: 1px solid var(--border); border-top: 2px solid var(--warrior); }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ---------- Callouts ---------- */
+  .callout { padding: 12px 16px; border-radius: 4px; margin: 12px 0; border-left: 4px solid; background: var(--bg-soft); }
+  .callout.hc { border-color: var(--gold); }
+  .callout.hc::before { content: "⚔ HC "; font-weight: 700; color: var(--gold); }
+  .callout.danger { border-color: var(--danger); }
+  .callout.danger::before { content: "🚨 KRİTİK "; font-weight: 700; color: var(--danger); }
+  .callout.warn { border-color: var(--warn); }
+  .callout.warn::before { content: "⚠ UYARI "; font-weight: 700; color: var(--warn); }
+  .callout.tip { border-color: var(--ok); }
+  .callout.tip::before { content: "💡 İPUCU "; font-weight: 700; color: var(--ok); }
+  .callout.info { border-color: var(--info); }
+  .callout.info::before { content: "ℹ NOT "; font-weight: 700; color: var(--info); }
+
+  /* ---------- Checklist ---------- */
+  .level-group { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px; margin: 14px 0; overflow: hidden; }
+  .level-group-head { background: var(--bg-elev); padding: 12px 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+  .level-group-head:hover { background: #2c313d; }
+  .level-group-head .lg-title { font-weight: 600; color: var(--warrior); }
+  .level-group-head .lg-meta { font-size: .85rem; color: var(--text-dim); }
+  .level-group-body { padding: 8px 16px 16px; display: none; }
+  .level-group.open .level-group-body { display: block; }
+  .level-group.open .lg-toggle::before { content: "▾ "; }
+  .lg-toggle::before { content: "▸ "; color: var(--warrior); }
+
+  .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 1px dashed rgba(255,255,255,.05); }
+  .check-item:last-child { border: none; }
+  .check-item input[type=checkbox] { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--royal); cursor: pointer; flex-shrink: 0; }
+  .check-item label { cursor: pointer; flex: 1; }
+  .check-item input:checked + label { color: var(--text-dim); text-decoration: line-through; }
+  .check-item .tag { display: inline-block; font-size: .72rem; padding: 1px 6px; border-radius: 3px; margin-right: 6px; background: var(--bg-elev); color: var(--warrior); border: 1px solid var(--border); }
+  .check-item .tag.hc { background: rgba(255,215,0,.1); color: var(--gold); border-color: var(--gold); }
+  .check-item .tag.spell { color: var(--royal); border-color: var(--royal); }
+  .check-item .tag.gear { color: var(--info); border-color: var(--info); }
+  .check-item .tag.stance { color: var(--warn); border-color: var(--warn); }
+  .check-item .tag.race { color: var(--steel); border-color: var(--steel); background: rgba(185,194,208,.08); }
+
+  /* ---------- Race racial card ---------- */
+  .racial-card { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 700px) { .racial-card { grid-template-columns: 1fr 1fr; } }
+  .racial { background: var(--bg-soft); border: 1px solid var(--border); border-left: 3px solid var(--warrior); padding: 12px 14px; border-radius: 4px; }
+  .racial h4 { margin-top: 0; color: var(--gold); }
+  .racial .cd { font-size: .82rem; color: var(--text-dim); font-style: italic; }
+
+  /* ---------- Hotbar / Rotation visual ---------- */
+  .hotbar { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .key { background: var(--bg-elev); border: 1px solid var(--border); padding: 6px 10px; border-radius: 4px; font-family: monospace; font-size: .85rem; }
+  .key.skill { border-color: var(--royal); color: var(--royal); }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 600px) {
+    .topbar { padding: 12px 14px; }
+    .crest { width: 42px; height: 42px; font-size: 1.4rem; }
+    h1 { font-size: 1.3rem; }
+    main { padding: 16px 14px 60px; }
+    .tabs { padding: 8px 10px 0; top: 76px; }
+    .tab { padding: 8px 10px; font-size: .82rem; }
+    table { font-size: .85rem; }
+    th, td { padding: 6px; }
+  }
+
+  footer { max-width: 1100px; margin: 12px auto 30px; padding: 0 20px; color: var(--text-dim); font-size: .82rem; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="crest" aria-hidden="true">⚔</div>
+    <div class="title-block">
+      <h1>Human Warrior — Hardcore Sword &amp; Board Rehberi</h1>
+      <div class="subtitle">Classic Era 1.15.x / Anniversary HC (Classic Fresh) • 1H Sword + Shield • Ölmeden oynama odaklı</div>
+      <div class="char-card" title="Meat Shield = MMO'da tankın klasik lakabı: 'önde duran et duvarı'. 10 harf, WoW'un 12-harf limitine uygun. Guild: Kalkan Kardeşleri.">
+        <span class="char-name">Meatshield</span>
+        <span class="char-guild">&lt;Kalkan Kardesleri&gt;</span>
+        <span class="char-bio">Human · Warrior · Arms/Prot (Sword &amp; Board)</span>
+      </div>
+    </div>
+    <span class="progress-pill" id="progress-pill">0 / 0 (0%)</span>
+    <button class="reset-btn" id="reset-btn" title="Tüm ilerlemeyi sıfırla">Sıfırla</button>
+  </div>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button class="tab active" data-tab="overview" role="tab">Genel Bakış</button>
+  <button class="tab" data-tab="build" role="tab">Build</button>
+  <button class="tab" data-tab="gearing" role="tab">Gearing</button>
+  <button class="tab" data-tab="progress" role="tab">İlerleme Listesi</button>
+  <button class="tab" data-tab="addons" role="tab">Addon'lar</button>
+  <button class="tab" data-tab="pvp" role="tab">PvP &amp; Tehlike</button>
+  <button class="tab" data-tab="crafting" role="tab">Crafting</button>
+</nav>
+
+<main>
+
+<!-- ============================================================= -->
+<!-- GENEL BAKIŞ                                                    -->
+<!-- ============================================================= -->
+<section class="panel active" id="panel-overview" role="tabpanel">
+
+  <h2>Neden Human Warrior (Sword &amp; Board)?</h2>
+  <p>"1H kılıç + kalkan oynamak istiyorum, ölmek istemiyorum" dersen Classic'te seçenek <strong>iki sınıfla sınırlı</strong>: hem 1H sword hem shield kullanabilen yalnızca <strong>Warrior</strong> ve <strong>Paladin</strong>. Paladin'i ayrı rehberde işledik; bu rehber kılıç-kalkan'ın asıl sahibi <strong>Warrior</strong> üzerine.</p>
+
+  <div class="callout danger">
+    <strong>Dürüst uyarı:</strong> Warrior, Wowhead HC Tier List'te <strong>C Tier</strong> — HC'nin en zor leveling class'ı. <em>Self-heal yok</em> (sadece bandage), kaçış aracı geç gelir (Intercept lvl 30). Bu rehber tüm yapıyı bu zayıflıkları kapatmak üzerine kurar: <strong>Defensive Stance + kalkan + yavaş-güvenli pull + bandage disiplini</strong>. Doğru oynanırsa Warrior "ölmez bir duvar"; yanlış oynanırsa en hızlı ölen sınıf.
+  </div>
+
+  <p>Neden yine de bu kombinasyon "ölmeyen" bir build verir:</p>
+  <ul>
+    <li><strong>En yüksek armor + kalkan:</strong> Plate (lvl 40) + Shield Block = fiziksel hasarın büyük kısmını yer. Caster dışındaki her mob'a karşı en dayanıklı sınıf.</li>
+    <li><strong>Defansif cooldown duvarı:</strong> Shield Wall (-%75 hasar), Last Stand (+%30 max HP), Shield Block, Defensive Stance (-%10 hasar). Üst üste binince devasa survive penceresi.</li>
+    <li><strong>Sword Specialization (Human racial):</strong> Kılıç expertise'i = miss/dodge düşer = her vuruş rage üretir = cooldown'ların hep dolu. Warrior'ın #1 ölüm sebebi olan "rage starvation" Human'da en aza iner.</li>
+    <li><strong>Dungeon'da her zaman aranan:</strong> Tank rolü = grup garantisi. Protection ile dungeon farm'ı neredeyse hiç ölmeden yapılır.</li>
+    <li><strong>PvP'de patlayıcı:</strong> Charge + Intercept çift stun, Mortal Strike (-%50 healing), Berserker Rage (fear break). 1v1 mak'gora'da güçlü.</li>
+  </ul>
+
+  <div class="callout tip">Wowhead'in HC mantrası Warrior için iki katı geçerli: <em>"Asla 2+ mob aggro alma."</em> Community ölüm datasının ~%40'ı multiple-add pull. Tek tek, yavaş, kalkanlı oyna — XP biraz yavaşlar ama karakterin yaşar.</div>
+
+  <h2>Race + Class Sinerjisi — Neden Human</h2>
+  <div class="racial-card">
+    <div class="racial">
+      <h4>Sword Specialization <span class="cd">(pasif)</span></h4>
+      <p>Kılıç (1H ve 2H) <strong>expertise +%1</strong> — hit chance artar, mob dodge'u azalır. Sword &amp; Board build'inin <em>can damarı</em>: vuruşların tutar → rage akar → Shield Block / Revenge / Heroic Strike hep hazır.</p>
+      <p><em>Kullanım:</em> Ana silahı daima <strong>kılıç</strong> seç (Headstriker, Maladath, Quel'Serrar). Bu racial sayesinde Human, sword warrior için en iyi Alliance race.</p>
+    </div>
+    <div class="racial">
+      <h4>Mace Specialization <span class="cd">(pasif)</span></h4>
+      <p>Mace (1H ve 2H) <strong>expertise +%1.</strong> Kılıç bulamadığın bracket'te yedek: tek racial ile iki silah tipinde de avantajlısın. Drop kuyusu kurumaz.</p>
+      <p><em>Kullanım:</em> Erken seviyede iyi kılıç yoksa mace tut (örn. Smite's Mighty Hammer) — yine +skill alırsın.</p>
+    </div>
+    <div class="racial">
+      <h4>Diplomacy <span class="cd">(pasif)</span></h4>
+      <p><strong>+%10 Reputation.</strong> Stormwind/Ironforge Honored daha hızlı → mount <strong>80g yerine 72g</strong>. HC'de fazladan gold = repair + potion + bag bütçesi.</p>
+      <p><em>Kullanım:</em> Westfall/Redridge/Duskwood/Wetlands/Loch Modan questlerini bitir, lvl ~30'da Honored ol, mount'a 8g indirim.</p>
+    </div>
+    <div class="racial">
+      <h4>Perception <span class="cd">(aktif, 3 dk CD, 20 sn)</span></h4>
+      <p>Stealth detection +%20. <strong>HC PvE'de düşük değer</strong> ama PvP'de Rogue/Druid opener'ına karşı counter. Mak'gora kabul edersen action bar'a koy.</p>
+    </div>
+  </div>
+  <p class="subtitle">The Human Spirit (+%5 Spirit) Warrior'da neredeyse etkisiz (out-of-combat regen minimal) — yok say.</p>
+
+  <h2>Sınıfın 5 Dakikalık Özeti</h2>
+  <ul>
+    <li><strong>Leveling Spec:</strong> Arms → lvl 40'ta Mortal Strike. Solo single-target burst + güvenli.</li>
+    <li><strong>Dungeon Spec:</strong> Protection (Shield Slam, Defiance threat) — grup tank.</li>
+    <li><strong>Silah:</strong> 1H kılıç + kalkan (Sword Spec). Hızlı kılıç (2.4-2.7 speed) leveling'de daha çok rage üretir.</li>
+    <li><strong>Stance:</strong> <em>Defensive Stance ana stance</em> (-%10 hasar). Battle sadece Charge için, Berserker sadece Berserker Rage / Intercept için.</li>
+    <li><strong>Damage:</strong> Mortal Strike + Sunder Armor + Heroic Strike + Revenge.</li>
+    <li><strong>Survival:</strong> Shield Block, Shield Wall, Last Stand, Bloodrage, Bandage, Health Potion.</li>
+    <li><strong>Rage sorunu:</strong> Warrior'ın kalbi — boş rage = boş cooldown = ölüm. Sword Spec + hızlı silah + Bloodrage ile çöz.</li>
+  </ul>
+
+  <h2>İlk Gün Checklist (1-10)</h2>
+  <ol>
+    <li>Karakter oluştur: Human → Warrior. Realm: Classic Fresh HC (Defias Pillager NA / Skull Rock EU / Lava Lash / Soulseeker).</li>
+    <li><strong>Northshire Abbey</strong> starter chain → <strong>Elwynn Forest</strong> (Goldshire) quest hub.</li>
+    <li><code>/console cameraDistanceMaxZoomFactor 3.9</code> — kamerayı en geri zoom'la.</li>
+    <li>Interface → Names → <strong>Always Show Nameplates</strong> ON.</li>
+    <li>Addon'ları kur: <em>Hardcore Death Log, Questie, OmniCC, Bagnon, WeakAuras</em> (detay Addon'lar sekmesinde).</li>
+    <li>Lvl 1 <strong>Battle Shout</strong>, lvl 4 <strong>Charge</strong>, lvl 8 <strong>Hamstring</strong>, lvl 10 <strong>Defensive Stance</strong> öğren — her birini bar'a koy.</li>
+    <li>Mining pickup (BS/Engineering için) + First Aid + Cooking + Fishing.</li>
+    <li><strong>İlk kalkanı al</strong> ve daima bag'de bir 1H kılıç + kalkan seti tut.</li>
+  </ol>
+
+  <div class="callout danger">
+    <strong>Classic Fresh HC'de Cheat Death Mekanikleri DEVRE DIŞI</strong> — Paladin Bubble Hearth, Warlock Soulstone, Shaman Reincarnation kapalı. Warrior'ın zaten bu mekanikleri yok; tüm survival kendi kit'inden gelir (Defensive Stance, Shield Wall, Last Stand, Bandage). Bu yüzden disiplin = hayat.
+  </div>
+
+  <div class="callout hc">
+    <strong>HC altın kural:</strong> <em>"Yeşil quest yap + tek mob pull + Defensive Stance."</em> Sarı/turuncu quest = miss artar + rage düşer + mob seni ezer. Warrior'da bu üçlü ölümcül.
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- BUILD                                                          -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-build" role="tabpanel">
+
+  <h2>Talent Sırası (1-60) — Arms Leveling → Mortal Strike</h2>
+  <p>Hedef: solo güvenli leveling için <strong>Arms</strong> derinliği, lvl 40'ta <strong>Mortal Strike</strong>. Kalan puanlar dungeon tank'ı için Protection'a taşar. Sword &amp; Board oynadığın için Two-Handed Spec'i atlayıp survival + tek-el sinerjisine yöneliyoruz.</p>
+
+  <h3>İlk puanlar (lvl 10-19) — Arms tier 1</h3>
+  <ul>
+    <li><strong>Improved Heroic Strike 3/3</strong> — Heroic Strike 3 rage daha ucuz. Ana rage dump'ın, bedavaya yakın.</li>
+    <li><strong>Deflection 5/5</strong> — +%5 parry. Saf survival; gelen hasarı doğrudan azaltır.</li>
+  </ul>
+
+  <h3>Lvl 20-29 — Arms tier 2</h3>
+  <ul>
+    <li><strong>Improved Rend 3/3</strong> — Rend DoT %35 artar (kaçan mob + caster'a baskı).</li>
+    <li><strong>Tactical Mastery 3/3</strong> — stance değişiminde 25 rage korunur. <em>Sword &amp; Board için kritik:</em> Battle (Charge) → Defensive (Shield Block) geçişinde rage'in uçmaz.</li>
+  </ul>
+
+  <h3>Lvl 30-39 — Arms tier 3-4</h3>
+  <ul>
+    <li><strong>Iron Will 2/2</strong> (kalan) — stun/charm direnci, PvP + bazı mob'lar.</li>
+    <li><strong>Anger Management 1/1</strong> — saniyede pasif rage. Rage starvation'a karşı sigorta.</li>
+    <li><strong>Impale 2/2</strong> — crit'ler +%20 hasar. Damage spike.</li>
+  </ul>
+
+  <h3>Lvl 40 — Mortal Strike ⭐</h3>
+  <ul>
+    <li><strong>Mortal Strike 1/1</strong> — ana single-target nuke + hedefe -%50 healing debuff. Hem leveling hem PvP'nin belkemiği.</li>
+  </ul>
+
+  <h3>Lvl 41-60 — Protection'a taşır (tank + survival)</h3>
+  <ul>
+    <li><strong>Shield Specialization 5/5</strong> (Prot) — +%5 block şansı + block'ta rage. Sword &amp; Board'ın temeli.</li>
+    <li><strong>Toughness 5/5</strong> — +%10 armor. Saf damage reduction.</li>
+    <li><strong>Last Stand 1/1</strong> — +%30 max HP 20 sn (3 dk CD). <em>Panik butonu #1.</em></li>
+    <li><strong>Defiance 3/3</strong> — +threat (dungeon tank için). Solo'da Anticipation (+dodge) tercih edilebilir.</li>
+    <li><strong>Shield Slam 1/1</strong> (Prot 31-point alternatif build) — yüksek threat + damage. Eğer dungeon ağırlıklı oynayacaksan Arms yerine bu derinliğe gidebilirsin.</li>
+  </ul>
+
+  <div class="callout info">
+    <strong>İki yol:</strong> (A) <strong>Arms/Prot 31/0/20</strong> — solo leveling odaklı, Mortal Strike var. (B) <strong>Prot 11/0/40 (Shield Slam)</strong> — dungeon farm + en yüksek survival, ama solo yavaş. Yeni başlayan + ölmek istemeyen için <strong>(A) öner</strong>: solo'da MS ile öldürür, gerektiğinde Defensive Stance + kalkanla tanklar.
+  </div>
+
+  <div class="callout tip">Talent reset trainer'da 1g'dan başlar — yanlış basarsan stres yapma, lvl 40'ta MS'ten sonra istersen Prot'a reset.</div>
+
+  <h2>Stat Öncelikleri</h2>
+  <table>
+    <tr><th>Aşama</th><th>Sıralama</th><th>Neden</th></tr>
+    <tr><td>Leveling (1-40)</td><td>Strength &gt; Stamina &gt; Agility</td><td>Str = AP. Stam = HC survival. Agi = crit + dodge + armor.</td></tr>
+    <tr><td>Leveling (40-60)</td><td>Strength &gt; Stamina &gt; Agility &gt; Crit% &gt; Hit%</td><td>HC'de Stamina'yı hafif öne al — ekstra hit'i yemek için.</td></tr>
+    <tr><td>Dungeon Tank</td><td>Stamina &gt; Defense (315 cap) &gt; Strength &gt; Agility</td><td>Defense 315 = lvl 60 boss crit immune. Survival standardı.</td></tr>
+  </table>
+
+  <h2>Stance Yönetimi — En Önemli Bölüm</h2>
+  <table>
+    <tr><th>Stance</th><th>Lvl</th><th>Ne zaman</th></tr>
+    <tr><td><strong>Defensive Stance</strong></td><td>10</td><td><strong>ANA STANCE.</strong> -%10 hasar al, +%10 tehdit, Shield Block/Revenge/Disarm açık. Solo dahil çoğu zaman burada kal.</td></tr>
+    <tr><td>Battle Stance</td><td>1</td><td>Sadece <em>Charge</em> opener'ı için. Charge sonrası hemen Defensive'e geç (Tactical Mastery rage'i korur).</td></tr>
+    <tr><td>Berserker Stance</td><td>30</td><td>Sadece <em>Intercept</em> (kaçış/gap-close) ve <em>Berserker Rage</em> (fear break) için aç-kapa. Uzun süre kalma: +%10 hasar ALIRSIN.</td></tr>
+  </table>
+
+  <div class="callout danger">
+    <strong>Berserker Stance tuzağı:</strong> Bu stance'te dururken +%10 hasar alırsın. HC community ölüm sebeplerinden biri "Berserker'da fight bitirmek". Recklessness'i HC'de <em>asla kullanma</em> (+%100 crit ama tüm crit'leri yersin).
+  </div>
+
+  <h2>Rotasyon — Solo Pull (Sword &amp; Board)</h2>
+  <ol>
+    <li><strong>Bloodrage</strong> (combat öncesi free 10 rage).</li>
+    <li><strong>Charge</strong> (Battle Stance) — stun + rage.</li>
+    <li>Hemen <strong>Defensive Stance</strong>'e geç (Tactical Mastery rage'i tutar).</li>
+    <li><strong>Battle Shout</strong> (AP buff, hep açık tut).</li>
+    <li><strong>Mortal Strike</strong> her CD'de.</li>
+    <li><strong>Sunder Armor</strong> (rage varsa, armor düşür) veya tehlikeliyse <strong>Revenge</strong> (block/dodge/parry sonrası ucuz nuke).</li>
+    <li>Rage taşarsa <strong>Heroic Strike</strong> (next-swing dump).</li>
+    <li>Mob kaçıyorsa <strong>Hamstring</strong>.</li>
+    <li>Fight bitince <strong>combat'tan çık + Bandage</strong>.</li>
+  </ol>
+
+  <pre>Bloodrage → Charge → [Defensive Stance] → Battle Shout
+   ↓
+Mortal Strike (CD) → Sunder/Revenge → Heroic Strike (rage dump)
+   ↓
+Mob öldü → combat exit → Bandage → bir sonraki tek mob</pre>
+
+  <h2>Rotasyon — "Oh Sh*t" Survival Combo</h2>
+  <p>HP düştü, fazla mob var, ya da elite beklenmedik sert vuruyor. Sırayla:</p>
+  <ol>
+    <li><strong>Defensive Stance</strong> (değilsen geç) + <strong>Shield Block</strong>.</li>
+    <li><strong>Last Stand</strong> (+%30 max HP — anında nefes alanı).</li>
+    <li><strong>Shield Wall</strong> (-%75 hasar 10 sn — en büyük defansif CD).</li>
+    <li>HP hâlâ kritikse <strong>Health Potion</strong> + <strong>Intimidating Shout</strong> (dikkat: pack'e fear riski) ile aç → <strong>Bandage</strong>.</li>
+    <li>Kaçış: <strong>Intercept</strong> (Berserker) ile uzak mob'a sıçra ya da Hamstring + koş → mob leash'e takılır.</li>
+  </ol>
+
+  <div class="callout hc">
+    <strong>Equip mid-fight macro</strong> — 2H ile başlayıp tehlikede kalkana geç:<br>
+    <code>/equip [Kalkan adı]</code> + <code>/equip [1H kılıç adı]</code> + <code>/cast Defensive Stance</code>. Ama Sword &amp; Board oynadığın için zaten kalkan takılı; bu macro 2H/kalkan swap deneyenler için.
+  </div>
+
+  <h2>Sunder Armor vs Heroic Strike — Rage Ekonomisi</h2>
+  <ul>
+    <li><strong>Sunder Armor:</strong> 15 rage, armor düşürür (5 stack). Uzun fight / elite'te ilk öncelik.</li>
+    <li><strong>Heroic Strike:</strong> next-swing, sadece rage TAŞARSA bas (overcap önler). Improved HS ile ucuz.</li>
+    <li><strong>Revenge:</strong> sadece block/dodge/parry sonrası açılır — çok ucuz, yüksek hasar. Defensive Stance'te altın.</li>
+    <li><strong>Asla rage'i 100'de tutma</strong> (overcap = kayıp). Taşıyorsa Heroic Strike at.</li>
+  </ul>
+
+  <h2>Dungeon Tank Rotasyonu (Protection)</h2>
+  <ol>
+    <li><strong>Defensive Stance</strong> + ranged pull (<em>Throw</em> / gun / bow).</li>
+    <li><strong>Sunder Armor x5</strong> (threat + armor).</li>
+    <li><strong>Demoralizing Shout</strong> (mob AP düşür — grup survival).</li>
+    <li><strong>Revenge</strong> her CD (threat spike).</li>
+    <li><strong>Shield Slam</strong> (varsa) — en yüksek threat.</li>
+    <li>Add gelirse <strong>Taunt</strong> + <strong>Heroic Strike</strong> ile threat dağıt.</li>
+    <li>Healer aggro alırsa <strong>Taunt</strong> + arana gir.</li>
+  </ol>
+
+  <h2>Gear Hedefleri</h2>
+  <div class="callout info">
+    Her 10 level için slot bazlı tam gear listesi + endgame raid tier set'leri ayrı <strong>Gearing</strong> sekmesinde. Sekmeye geç — 1H kılıç, kalkan, plate set, trinket, BoE/dungeon kaynakları ve Thunderfury'ye kadar her şey orada.
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- GEARING                                                        -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-gearing" role="tabpanel">
+
+  <h2>Gearing Yol Haritası — Her 10 Level</h2>
+  <p>Human Warrior (Sword &amp; Board) için slot bazlı gear hedefleri. Her bracket'te sırasıyla: ana 1H kılıç, kalkan, plate/mail set / kilit slotlar, trinket/ring.</p>
+
+  <div class="callout hc">
+    <strong>Human önceliği:</strong> <em>Sword Specialization</em> +5 weapon skill = kılıçta miss/dodge düşer = rage akar. İlan listesinde kılıç ve mace eşitse <strong>kılıç seç</strong>. Kılıç yoksa Mace Spec yedek devreye girer — yine +skill alırsın.
+  </div>
+
+  <div class="callout warn">
+    <strong>Silah hızı kuralı:</strong> Leveling'de <em>hızlı 1H kılıç (2.4-2.7 speed)</em> tercih et — daha çok swing = daha çok rage = cooldown'lar dolu. Yavaş silah = rage starvation = ölüm. Tank olunca threat için yine hızlı + yüksek DPS 1H ideal.
+  </div>
+
+  <h3>Lvl 10 (1-19) — Elwynn &amp; Westfall</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>1H Sword</td><td><strong>Sharp Claw</strong> / quest reward kılıç → <em>Foreman's Blade</em></td><td>Elwynn / Westfall quest</td></tr>
+    <tr><td>Shield ★</td><td><strong>Battered Buckler</strong> → <em>Targe Shield</em> (vendor/quest)</td><td>Vendor / Westfall quest</td></tr>
+    <tr><td>Chest</td><td>Quest greens (+Str/Sta) — leather/mail mix</td><td>Elwynn / Westfall / Redridge</td></tr>
+    <tr><td>1H alt (mace)</td><td><strong>Smite's Mighty Hammer</strong> hatırlatma — 2H ama Mace Spec; kılıç bulamazsan</td><td>Deadmines (sonra)</td></tr>
+    <tr><td>Trinket</td><td><strong>Insignia of the Alliance</strong> (PvP açılınca, fear-break)</td><td>BG (lvl 10+)</td></tr>
+    <tr><td>Bag</td><td>2-3x <strong>Linen Bag</strong> 6-slot</td><td>Tailor / vendor</td></tr>
+  </table>
+
+  <h3>Lvl 20 (20-29) — Deadmines / SFK / Stockades</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>1H Sword ★</td><td><strong>Cruel Barb</strong> (fast 1H sword, +Str) — Sword Spec ile mükemmel opener</td><td>Deadmines — Mr. Smite drop (lvl 17-26, grup)</td></tr>
+    <tr><td>Shield</td><td><strong>Crescent of Forlorn Spirits</strong> / <em>Stockade Pauldrons</em> set parça</td><td>Stockade / SFK</td></tr>
+    <tr><td>1H alt</td><td><strong>Assassin's Blade</strong> (SFK) — yedek hızlı sword</td><td>Shadowfang Keep</td></tr>
+    <tr><td>Chest</td><td>SFK / Deadmines mail drops (+Str/Sta)</td><td>SFK / Deadmines</td></tr>
+    <tr><td>Trinket</td><td><strong>Insignia of the Alliance</strong> devam</td><td>BG</td></tr>
+    <tr><td>Ring</td><td>Quest +Str/Sta ring</td><td>Redridge / Duskwood quest</td></tr>
+    <tr><td>Bag</td><td>4x <strong>Woolen Bag</strong> 8-slot</td><td>Tailor / AH dışı</td></tr>
+  </table>
+  <div class="callout tip">Deadmines run yapacaksan grup için CC olmalı. Mr. Smite trio'su HC'de en sık ölüm sebeplerinden — voice/discord şart. Tank sen olursun, Defensive Stance + Shield Block ile aç.</div>
+
+  <h3>Lvl 30 (30-39) — SM Armory / Uldaman</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>1H Sword ★★</td><td><strong>Headstriker Sword</strong> (fast 1H, +Str/Agi) — <em>leveling 1H BiS</em>, Sword Spec ile tavan</td><td>SM Armory — Herod drop (lvl 36-40)</td></tr>
+    <tr><td>1H alt</td><td><strong>Ravager</strong> (Uldaman) / <strong>Stoneslayer</strong> — yedek</td><td>Uldaman drop</td></tr>
+    <tr><td>Shield ★</td><td><strong>Aegis of the Scarlet Commander</strong> (yüksek armor + block)</td><td>SM Cathedral — Mograine drop</td></tr>
+    <tr><td>Head</td><td><strong>Mithril Coif</strong> (BS craft, mail) — plate gelene kadar</td><td>Blacksmith</td></tr>
+    <tr><td>Chest</td><td><em> Scarlet / Tribal mail set parçaları</em></td><td>SM / Uldaman</td></tr>
+    <tr><td>Trinket ★</td><td><strong>Royal Seal of Eldre'Thalas</strong> (lvl 38, +Sta/Str)</td><td>Dire Maul attune chain reward</td></tr>
+    <tr><td>Boots</td><td><em>Doublestitched Leather Boots</em> (vendor lvl 36, +Str)</td><td>Stormwind vendor</td></tr>
+  </table>
+
+  <h3>Lvl 40 (40-49) — Plate Unlock + Mount ★</h3>
+  <div class="callout warn">Lvl 40'ta <strong>Plate proficiency</strong> açılır — tüm mail slotlarını plate'e çevir. Plate = +%35-40 armor = Warrior survival sıçraması. Aynı anda mount al (Diplomacy ile 72g).</div>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>Mount ★</td><td><strong>Stormwind Steed</strong> (72g — Honored rep, Diplomacy ile hızlı)</td><td>Stormwind mount vendor</td></tr>
+    <tr><td>1H Sword</td><td><strong>Pysan's Old Greatsword</strong> alt / <strong>Bashguuder</strong> — Headstriker yedeği</td><td>BoE / Maraudon</td></tr>
+    <tr><td>Shield</td><td><strong>Aegis of Stormwind</strong> / <strong>Stronghold Gauntlets</strong> combo</td><td>Stormwind quest / dungeon</td></tr>
+    <tr><td>Plate Set ★</td><td><strong>Bloodmail / Valor parçaları</strong> + Mithril plate (BS craft)</td><td>Strat (sonra) / Blacksmith</td></tr>
+    <tr><td>Chest</td><td><strong>Ornate Mithril Breastplate</strong> (BS craft, lvl 45)</td><td>Blacksmith</td></tr>
+    <tr><td>Trinket</td><td><strong>Smoking Heart of the Mountain</strong> (BS craft, +18 all res +7 Sta)</td><td>Blacksmith friend</td></tr>
+    <tr><td>Trinket 2</td><td><em>Royal Seal of Eldre'Thalas</em> devam</td><td>—</td></tr>
+    <tr><td>Ring</td><td><em>Don Mauricio's Band</em> (DM N)</td><td>Dire Maul North</td></tr>
+  </table>
+
+  <h3>Lvl 50 (50-59) — ZF / Maraudon / BRD</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>1H Sword ★</td><td><strong>Sang'thraze the Deflector</strong> (ZF combine, +disease proc) — Sul'thraze yapmadan önceki 1H yarısı</td><td>ZF + Hinterlands combine quest</td></tr>
+    <tr><td>1H alt</td><td><strong>Brutality Blade</strong> (BRD, +Str/Crit, fast sword) — pre-raid 1H BiS adayı</td><td>BRD — Pyromancer Loregrain drop</td></tr>
+    <tr><td>Shield ★★</td><td><strong>Drillborer Disk</strong> (yüksek armor + block value)</td><td>BRD — Emperor Dagran Thaurissan drop</td></tr>
+    <tr><td>Head</td><td><strong>Helm of the Mountain</strong> / Strat plate helm</td><td>BRD / Strat</td></tr>
+    <tr><td>Chest</td><td><strong>Breastplate of Bloodthirst</strong> (BRD)</td><td>BRD</td></tr>
+    <tr><td>Trinket ★</td><td><strong>Hand of Justice</strong> (BRD, +AP + proc extra attack) + <strong>Force of Will</strong> (BRD quest, +Str/Crit)</td><td>BRD — ikisi de aynı dungeon</td></tr>
+    <tr><td>Ring</td><td><strong>Magni's Will</strong> (BRD) + <strong>Tarnished Elven Ring</strong></td><td>BRD</td></tr>
+    <tr><td>Legs</td><td><strong>Legguards of the Fallen Crusader</strong> (Strat) / BS plate</td><td>Strat Live / Blacksmith</td></tr>
+  </table>
+  <div class="callout hc"><strong>BRD = Warrior hazinesi:</strong> Hand of Justice + Force of Will + Brutality Blade + Drillborer Disk + Magni's Will tek dungeon'da. Güvenli grupla 2-3 run = yarı pre-raid set.</div>
+
+  <h3>Lvl 60 — Pre-Raid BiS Yolu</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>1H Sword ★★</td><td><strong>Quel'Serrar</strong> (1H sword, +Sta/Def + on-block armor/dmg) — <em>tank 1H BiS pre-raid</em></td><td>DM East kitap quest + Onyxia 50% HP'de upgrade</td></tr>
+    <tr><td>1H DPS alt</td><td><strong>Dal'Rend's Sacred Charge</strong> (UBRS) — set partner Tribal Guardian ile +AP/crit</td><td>UBRS — Warchief Rend Blackhand drop</td></tr>
+    <tr><td>Shield ★★</td><td><strong>Aegis of the Blood God</strong> (ZG) / <strong>Drillborer Disk</strong> (BRD) devam</td><td>ZG raid / BRD</td></tr>
+    <tr><td>Head</td><td><strong>Helm of Valor</strong> (Strat) / <strong>Dal'Rend's set</strong> + Lionheart Helm (BS craft ⭐)</td><td>Strat / Blacksmith</td></tr>
+    <tr><td>Neck</td><td><strong>Mark of Fordring</strong> (EPL quest) / <strong>The Lion Horn of Stormwind</strong> (BS)</td><td>EPL chain / Blacksmith</td></tr>
+    <tr><td>Shoulders</td><td><strong>Truestrike Shoulders</strong> (UBRS) / <strong>Black Dragonscale</strong> (LW)</td><td>UBRS / Leatherworker</td></tr>
+    <tr><td>Back</td><td><strong>Cape of the Black Baron</strong> (DM E) / <strong>Hide of the Wild</strong></td><td>DM E / LW craft</td></tr>
+    <tr><td>Chest</td><td><strong>Cadaverous Armor</strong> (Strat) / <strong>Breastplate of Bloodthirst</strong> (BRD)</td><td>Strat / BRD</td></tr>
+    <tr><td>Wrist</td><td><strong>Wristguards of Stability</strong> (Strat) / <strong>Vambraces of the Sadist</strong></td><td>Strat</td></tr>
+    <tr><td>Hands</td><td><strong>Gauntlets of Might</strong> (BS craft, BoP) / <strong>Devilsaur Gauntlets</strong></td><td>Blacksmith / LW</td></tr>
+    <tr><td>Waist</td><td><strong>Omokk's Girth Restrainer</strong> (LBRS) / <strong>Belt of Valor</strong></td><td>LBRS / BS</td></tr>
+    <tr><td>Legs</td><td><strong>Legplates of Valor</strong> (BS craft) / <strong>Bloodmail Legguards</strong> (Strat)</td><td>Blacksmith / Strat</td></tr>
+    <tr><td>Feet</td><td><strong>Battlechaser's Greaves</strong> (BRD) / <strong>Chromatic Boots</strong> (BS)</td><td>BRD / BS</td></tr>
+    <tr><td>Ring</td><td><strong>Don Julio's Band</strong> (R10 PvP) + <strong>Tarnished Elven Ring</strong> (BRD)</td><td>Honor grind / BRD</td></tr>
+    <tr><td>Trinket ★</td><td><strong>Hand of Justice</strong> (BRD) + <strong>Blackhand's Breadth</strong> (UBRS quest, +%2 crit)</td><td>BRD / UBRS quest</td></tr>
+  </table>
+
+  <div class="callout tip">
+    <strong>Pre-raid full liste:</strong> Wowhead Warrior Pre-Raid BiS sayfası. Sword &amp; Board için <em>Quel'Serrar + Drillborer Disk + Hand of Justice + Lionheart Helm</em> dörtlüsü çekirdek. Lionheart Helm (BS craft) hem DPS hem tank BiS pre-raid head.
+  </div>
+
+  <h2>Endgame Raid Gear — Tier by Tier</h2>
+  <p>Pre-raid BiS dolduktan sonra raid sırası: <strong>Onyxia → Molten Core → Blackwing Lair → AQ20/AQ40 → Naxxramas</strong>. Her raid kendi tier set'ini, anahtar silahlarını ve trinket'lerini düşürür. Aşağıdaki listeler Warrior özelinde — her item'ın hangi boss'tan, nasıl elde edildiği yan sütunda.</p>
+
+  <div class="callout danger">
+    <strong>HC Raid Kuralı:</strong> Raid'de res YOK. Soulstone YOK (Classic Fresh). Tek ölüm = karakter sonu. Warrior'ın self-heal'i olmadığından healer'a tam bağımlısın — pozisyon, cooldown ve mechanic bilgisi hayat. Greater Fire/Frost/Nature Protection Potion + Mighty Rage Potion stack zorunlu.
+  </div>
+
+  <h3>Onyxia's Lair — Endgame Başlangıcı</h3>
+  <p>40-man, tek boss. Drakefire Amulet attune zorunlu (UBRS Drakkisath kafası + Marshal Windsor Stormwind escort chain). Onyxia head turn-in = 2 saat city buff (<em>Rallying Cry of the Dragonslayer</em>: +%10 crit, +140 AP).</p>
+  <table>
+    <tr><th>Item</th><th>Slot / Özellik</th><th>Kaynak</th></tr>
+    <tr><td><strong>Vis'kag the Bloodletter</strong></td><td>1H sword — Sword Spec ile DPS BiS pre-BWL, Deep Wound bleed proc</td><td>Onyxia drop</td></tr>
+    <tr><td><strong>Quel'Serrar</strong></td><td>1H sword tank — kitap quest'i Onyxia'da tamamlanır</td><td>DM East quest + Onyxia 50% HP</td></tr>
+    <tr><td><strong>Eskhandar's Collar</strong></td><td>Neck +Str/Sta</td><td>Onyxia drop</td></tr>
+    <tr><td><strong>Sabatons of the Flamewalker</strong></td><td>Plate boots +Def</td><td>Onyxia drop</td></tr>
+  </table>
+
+  <h3>Molten Core (MC) — T1 Battlegear of Might</h3>
+  <p>Onyxia attune ile birlikte gir. 40-man, 10 boss. Warrior = ana tank + melee DPS omurgası.</p>
+  <table>
+    <tr><th>Slot</th><th>T1 Item</th><th>Boss</th></tr>
+    <tr><td>Helm</td><td><strong>Helm of Might</strong></td><td>Garr</td></tr>
+    <tr><td>Shoulders</td><td><strong>Pauldrons of Might</strong></td><td>Magmadar</td></tr>
+    <tr><td>Chest</td><td><strong>Breastplate of Might</strong></td><td>Majordomo Executus</td></tr>
+    <tr><td>Bracers</td><td><strong>Bracers of Might</strong></td><td>Trash (BoP)</td></tr>
+    <tr><td>Gloves</td><td><strong>Gauntlets of Might</strong></td><td>Lucifron</td></tr>
+    <tr><td>Belt</td><td><strong>Belt of Might</strong></td><td>Trash (BoP)</td></tr>
+    <tr><td>Legs</td><td><strong>Legplates of Might</strong></td><td>Golemagg the Incinerator</td></tr>
+    <tr><td>Boots</td><td><strong>Sabatons of Might</strong></td><td>Sulfuron Harbinger</td></tr>
+  </table>
+  <p><strong>Set Bonus:</strong> 3pc +18 tüm direnç / 5pc Shield Slam/Bloodthirst -%10 mana(rage) / 8pc Bloodrage ek 10 rage.</p>
+  <p><strong>Anahtar non-set MC drops:</strong></p>
+  <ul>
+    <li><strong>Brutality Blade</strong> hatırlatma (BRD pre-raid) — MC'de upgrade beklenir.</li>
+    <li><strong>Quick Strike Ring</strong> (Garr) — +AP ring.</li>
+    <li><strong>Choker of the Fire Lord</strong> (Ragnaros) — neck BiS pre-BWL.</li>
+    <li><strong>Eskhandar's Right Claw</strong> (MC trash, BoE) — hızlı 1H mace, Mace Spec uyumlu.</li>
+    <li><strong>Onslaught Girdle</strong> (BS craft, Sulfuron Ingot gerekir) — belt BiS uzun süre.</li>
+    <li><strong>Bindings of the Windseeker (sağ)</strong> — <em>Baron Geddon drop</em>. Thunderfury parçası! (aşağıda legendary).</li>
+  </ul>
+
+  <h3>Blackwing Lair (BWL) — T2 Battlegear of Wrath</h3>
+  <p>UBRS attune (General Drakkisath kafası). 40-man, 8 boss. Warrior T2 = tank + DPS hibrit zirvesi.</p>
+  <table>
+    <tr><th>Slot</th><th>T2 Item</th><th>Boss</th></tr>
+    <tr><td>Helm</td><td><strong>Helmet of Wrath</strong></td><td>Nefarian</td></tr>
+    <tr><td>Shoulders</td><td><strong>Pauldrons of Wrath</strong></td><td>Chromaggus</td></tr>
+    <tr><td>Chest</td><td><strong>Breastplate of Wrath</strong></td><td>Vaelastrasz the Corrupt</td></tr>
+    <tr><td>Bracers</td><td><strong>Bracelets of Wrath</strong></td><td>Razorgore the Untamed</td></tr>
+    <tr><td>Gloves</td><td><strong>Gauntlets of Wrath</strong></td><td>Broodlord Lashlayer</td></tr>
+    <tr><td>Belt</td><td><strong>Waistband of Wrath</strong></td><td>Trash drake bosses (BoP)</td></tr>
+    <tr><td>Legs</td><td><strong>Legguards of Wrath</strong></td><td>Firemaw / Ebonroc / Flamegor</td></tr>
+    <tr><td>Boots</td><td><strong>Sabatons of Wrath</strong></td><td>Firemaw / Ebonroc / Flamegor</td></tr>
+  </table>
+  <p><strong>Set Bonus:</strong> 3pc +%1 hit / 5pc +Defense (tank survival) / 8pc Mortal Strike/Bloodthirst sonrası +%2 crit 30 sn.</p>
+  <p><strong>Anahtar non-set BWL drops (kritik):</strong></p>
+  <ul>
+    <li><strong>Maladath, Runed Blade of the Black Flight</strong> (Chromaggus) — <em>1H sword, Sword &amp; Board DPS BiS pre-AQ.</em> Sword Spec ile mükemmel.</li>
+    <li><strong>Elementium Reinforced Bulwark</strong> (Nefarian) — <em>shield BiS</em>, +Block + Sta + Def.</li>
+    <li><strong>Drake Fang Talisman</strong> (Firemaw) — trinket +56 AP +%2 hit +Dodge, uzun süre BiS.</li>
+    <li><strong>Boots of the Shadow Flame</strong> (Nefarian) — DPS boots BiS.</li>
+    <li><strong> Shield: Drillborer Disk</strong> hâlâ tank için sağlam yan seçenek.</li>
+    <li><strong>Bindings of the Windseeker (sol)</strong> — <em>Garr/Geddon</em> değil; bu el <em>Garr (MC)</em>... düzeltme: sağ Geddon, sol Garr — ikisi MC'de. Thunderfury için (aşağıda).</li>
+  </ul>
+
+  <h3>AQ20 / AQ40 — T2.5 Conqueror's Battlegear</h3>
+  <p>Scarab Lord chain (server-wide event, AQ Gates açma). AQ40 40-man, AQ20 20-man.</p>
+  <table>
+    <tr><th>Slot</th><th>Item (T2.5)</th><th>Boss</th></tr>
+    <tr><td>Helm</td><td><strong>Conqueror's Crown</strong></td><td>C'Thun</td></tr>
+    <tr><td>Shoulders</td><td><strong>Conqueror's Spaulders</strong></td><td>Ouro</td></tr>
+    <tr><td>Chest</td><td><strong>Conqueror's Breastplate</strong></td><td>Twin Emperors</td></tr>
+    <tr><td>Bracers</td><td><strong>Conqueror's Wristguards</strong></td><td>Princess Huhuran</td></tr>
+    <tr><td>Gloves</td><td><strong>Conqueror's Gauntlets</strong></td><td>Battleguard Sartura</td></tr>
+    <tr><td>Belt</td><td><strong>Conqueror's Waistguard</strong></td><td>Fankriss the Unyielding</td></tr>
+    <tr><td>Legs</td><td><strong>Conqueror's Legguards</strong></td><td>The Prophet Skeram</td></tr>
+    <tr><td>Boots</td><td><strong>Conqueror's Greaves</strong></td><td>Battleguard Sartura</td></tr>
+  </table>
+  <p><strong>Set Bonus:</strong> 3pc +Defense / 5pc Sunder Armor ekstra threat / 8pc parry sonrası +damage.</p>
+  <p><strong>Anahtar non-set AQ drops:</strong></p>
+  <ul>
+    <li><strong> Qiraji 1H sword/mace</strong> (Twin Emperors / trash) — Sword/Mace Spec uyumlu DPS.</li>
+    <li><strong>Earthstrike</strong> (AQ20 Buru) — trinket on-use +%5 damage 20 sn.</li>
+    <li><strong>Ring of the Godslayer</strong> (C'Thun) — +AP/hit ring.</li>
+    <li><strong>Brood of Nozdormu</strong> rep ring — Exalted'da +%1 hit upgrade.</li>
+    <li><strong>Shield: Geode of Acid</strong> / qiraji kalkanlar — yedek tank shield.</li>
+  </ul>
+
+  <h3>Naxxramas — T3 Dreadnaught's Battlegear</h3>
+  <p>Argent Dawn rep (Honored → Exalted) + 60g entry. 40-man, 4 quartet wing + Sapphiron + Kel'Thuzad.</p>
+  <table>
+    <tr><th>Slot</th><th>T3 Item</th><th>Boss / Wing</th></tr>
+    <tr><td>Helm</td><td><strong>Dreadnaught's Helmet</strong></td><td>Kel'Thuzad</td></tr>
+    <tr><td>Shoulders</td><td><strong>Dreadnaught's Pauldrons</strong></td><td>Anub'Rekhan / Faerlina — Spider Wing</td></tr>
+    <tr><td>Chest</td><td><strong>Dreadnaught's Breastplate</strong></td><td>Patchwerk / Thaddius — Construct Wing</td></tr>
+    <tr><td>Bracers</td><td><strong>Dreadnaught's Bracers</strong></td><td>Heigan — Plague Wing</td></tr>
+    <tr><td>Gloves</td><td><strong>Dreadnaught's Gauntlets</strong></td><td>Maexxna — Spider Wing</td></tr>
+    <tr><td>Belt</td><td><strong>Dreadnaught's Waistguard</strong></td><td>Noth — Plague Wing</td></tr>
+    <tr><td>Legs</td><td><strong>Dreadnaught's Legplates</strong></td><td>Thaddius — Construct Wing</td></tr>
+    <tr><td>Boots</td><td><strong>Dreadnaught's Sabatons</strong></td><td>Instructor Razuvious — DK Wing</td></tr>
+  </table>
+  <p><strong>Set Bonus:</strong> 2pc Defensive Stance -%2 ek hasar / 4pc Shield Block +1 charge / 6pc Revenge stun şansı / 8pc Sunder Armor sonrası +%2 dmg azaltıcı.</p>
+  <p><strong>Anahtar non-set Naxx drops:</strong></p>
+  <ul>
+    <li><strong>Might of Menethil</strong> (Patchwerk) — 2H BiS (DPS off-set, 2H denersen).</li>
+    <li><strong>Gressil, Dawn of Ruin</strong> (Gluth/Construct) — 1H sword DPS BiS Naxx tier.</li>
+    <li><strong>The Hungering Cold</strong> alt 1H.</li>
+    <li><strong>Hailstone Band</strong> (Sapphiron) — ring +Frost res (Sapph zaten gerekli).</li>
+    <li><strong>Slayer's Crest</strong> (DM gold tribute lvl 60) — trinket on-use AP.</li>
+    <li><strong>Royal Seal of Eldre'Thalas</strong> stat eşdeğeri Naxx ring/trinket'lerle değişir.</li>
+  </ul>
+
+  <h3>World Boss + Outdoor Epic</h3>
+  <p>Server-wide outdoor 40-man boss'lar. Spawn rastgele, faction-PvP'li (HC: dikkat).</p>
+  <table>
+    <tr><th>Boss</th><th>Konum</th><th>Warrior Drop</th></tr>
+    <tr><td><strong>Lord Kazzak</strong></td><td>Blasted Lands</td><td><em>Eye of the Beast</em> trinket / <em>Fury Visor</em> plate helm</td></tr>
+    <tr><td><strong>Azuregos</strong></td><td>Azshara</td><td><em>Typhoon</em> (2H sword) / <em>Drake Talon Pauldrons</em></td></tr>
+    <tr><td><strong>4 Dragons of Nightmare</strong></td><td>Random portal</td><td><em>Mark of the Chosen</em> trinket / <em>Strength of Mugamba</em> ring</td></tr>
+  </table>
+  <div class="callout warn">
+    <strong>HC World Boss Uyarısı:</strong> Açık dünya, raid PvP flag'i AUTO-ON, Horde gank riski. Tek bir wipe = guild silinmesi. Sadece denenmiş raid grubu, scout'lar ve voice ile gir.
+  </div>
+
+  <h3>Warrior Legendary — Thunderfury, Blessed Blade of the Windseeker ⭐</h3>
+  <div class="callout hc">
+    <strong>Warrior'ın legendary'si tam senin build'ine göre:</strong> Thunderfury bir <em>1H sword</em> — yani <strong>Sword &amp; Board ile mükemmel uyumlu</strong>. +Nature dmg proc, hedefe ve 4 yakın düşmana zincir şimşek + attack speed slow. Tank için threat ve DPS efsanesi. Sword Spec ile +5 skill cirosu da cabası.
+  </div>
+  <p><strong>Thunderfury nasıl yapılır:</strong></p>
+  <ol>
+    <li><strong>Bindings of the Windseeker</strong> x2 — Molten Core'da <em>Garr</em> (sol bağ) ve <em>Baron Geddon</em> (sağ bağ) rare drop (~%4 her biri). En zor kısım: iki ayrı boss'tan iki ayrı bağ.</li>
+    <li>İki bağ tamamlanınca <strong>Vessel of Rebirth</strong> quest açılır — Silithus'ta <em>Prince Thunderaan</em> çağırma chain'i.</li>
+    <li>Elementium ingot + Essence of the Firelord (Ragnaros drop) + Eye of Shadow vb. mat topla.</li>
+    <li>Thunderaan'ı yen → <strong>Thunderfury</strong>. Server'ın ilk legendary'lerinden, prestij + güç.</li>
+  </ol>
+  <p><em>Sulfuras, Hand of Ragnaros</em> (2H mace) — alternatif Warrior legendary ama Sword &amp; Board için Thunderfury asıl hedef.</p>
+
+  <h3>PvP Gear Path (Honor Grind)</h3>
+  <div class="callout warn">
+    <strong>HC PvP uyarısı:</strong> AB/WSG'de fall damage + Horde gank = ölüm riski. PvP rank push'u sadece deneyimli HC oyuncuları için. R6-R10 makul, sonrası tehlikeli.
+  </div>
+  <table>
+    <tr><th>Rank</th><th>Anahtar Item</th><th>Değer</th></tr>
+    <tr><td>R3</td><td><strong>Insignia of the Alliance</strong> trinket</td><td>Fear/stun/snare break — PvE'de de çok işe yarar</td></tr>
+    <tr><td>R10 (Lieutenant Commander)</td><td><strong>Don Julio's Band</strong> ring (+%2 crit)</td><td>DPS ring BiS pre-AQ</td></tr>
+    <tr><td>R12 (Marshal)</td><td>Marshal's plate set parçaları</td><td>Pre-T1 alternatif full plate set</td></tr>
+    <tr><td>R13 (Field Marshal)</td><td><strong>Field Marshal's Claymore</strong> (2H) / 1H varyant</td><td>Pre-raid silah alternatifi</td></tr>
+    <tr><td>R14 (Grand Marshal)</td><td><strong>Grand Marshal's Sunderer</strong> (1H sword!) + <strong>Grand Marshal's Aegis</strong> (shield)</td><td>Sword &amp; Board PvP BiS — ama ~14 hafta honor, HC'de gerçekçi değil</td></tr>
+  </table>
+
+  <h3>Endgame Trinket Hiyerarşisi</h3>
+  <ol>
+    <li><strong>Hand of Justice</strong> (BRD) — extra attack proc, leveling→raid uzun ömürlü.</li>
+    <li><strong>Drake Fang Talisman</strong> (BWL Firemaw) — +AP +hit +Dodge.</li>
+    <li><strong>Earthstrike</strong> (AQ20 Buru) — on-use +%5 dmg.</li>
+    <li><strong>Slayer's Crest</strong> (DM gold tribute) — on-use AP.</li>
+    <li><strong>Kiss of the Spider</strong> (Naxx) — on-use haste (DPS).</li>
+    <li><strong>Styleen's Impeding Scarab</strong> (Azuregos/world) — tank survival trinket.</li>
+    <li><strong>Blackhand's Breadth</strong> (UBRS quest) — +%2 crit pasif.</li>
+  </ol>
+
+  <h3>1H Sword Hiyerarşisi (Sword Spec Güncel)</h3>
+  <ol>
+    <li><strong>Cruel Barb</strong> (Deadmines) — ilk ciddi fast 1H.</li>
+    <li><strong>Headstriker Sword</strong> (SM Armory) — leveling 1H BiS.</li>
+    <li><strong>Brutality Blade</strong> (BRD) — pre-raid DPS 1H.</li>
+    <li><strong>Quel'Serrar</strong> (DM E + Onyxia) — tank 1H BiS pre-raid.</li>
+    <li><strong>Vis'kag the Bloodletter</strong> (Onyxia) — DPS 1H pre-BWL.</li>
+    <li><strong>Maladath, Runed Blade</strong> (BWL Chromaggus) — DPS 1H pre-AQ.</li>
+    <li><strong>Gressil, Dawn of Ruin</strong> (Naxx) — DPS 1H BiS Naxx tier.</li>
+    <li><strong>Thunderfury</strong> (legendary) — endgame BiS 1H, tank + DPS.</li>
+  </ol>
+
+  <h3>Shield Hiyerarşisi</h3>
+  <ol>
+    <li><em>Aegis of the Scarlet Commander</em> (SM Cathedral) — leveling.</li>
+    <li><strong>Drillborer Disk</strong> (BRD Emperor) — pre-raid BiS.</li>
+    <li><strong>Aegis of the Blood God</strong> (ZG) — raid tier shield.</li>
+    <li><strong>Elementium Reinforced Bulwark</strong> (BWL Nefarian) — endgame BiS tank shield.</li>
+  </ol>
+
+  <h2>Genel Slot Önceliği (HC Warrior Hiyerarşisi)</h2>
+  <ol>
+    <li><strong>1H kılıç</strong> — hızlı + yüksek DPS = rage motoru. Her bracket'te upgrade.</li>
+    <li><strong>Kalkan</strong> — block value + armor; survival'ın yarısı.</li>
+    <li><strong>Trinket</strong> — Hand of Justice + survival trinket.</li>
+    <li><strong>Chest/Legs</strong> — en çok armor + Str/Sta.</li>
+    <li><strong>Head</strong> — Lionheart Helm (BS) yoksa quest/dungeon plate.</li>
+    <li>Geri kalan slotlar quest + dungeon drop.</li>
+  </ol>
+
+  <div class="callout hc">
+    <strong>HC kuralı:</strong> Stamina/Armor olan item'i Str/crit olan item'e <em>eşitse her zaman tercih et</em>. Warrior self-heal'siz; 1 ekstra hit'i yemek = hayat. Defense skill 315'e ulaşmak (tank) crit immunity = en büyük survival sıçraması.
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- İLERLEME LİSTESİ                                              -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-progress" role="tabpanel">
+
+  <h2>Level Bazlı İlerleme Listesi</h2>
+  <p>Tüm ilerlemen otomatik olarak tarayıcıda kaydedilir (localStorage key <code>hc_human_warrior_v1</code>). İstediğin zaman sıfırlayabilirsin (sağ üst <em>Sıfırla</em>).</p>
+
+  <div class="level-group open" data-group="g1">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 1-10 — Northshire &amp; Elwynn Forest</span><span class="lg-meta">Starter zone</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g2">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 10-20 — Westfall / Redridge</span><span class="lg-meta">Defensive Stance, kalkan, Deadmines</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g3">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 20-30 — Duskwood / Hillsbrad / SM</span><span class="lg-meta">Stockade, Sunder, Berserker unlock</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g4">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 30-40 — Arathi / STV / SM Armory</span><span class="lg-meta">Headstriker, Mortal Strike, Mount</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g5">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 40-50 — Tanaris / ZF / Maraudon</span><span class="lg-meta">Plate, Sul'thraze, BRD'ye hazırlık</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g6">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 50-60 — Plaguelands / BRD / Strat</span><span class="lg-meta">Hand of Justice, Drillborer, pre-BiS</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g7">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 60 — Endgame</span><span class="lg-meta">Quel'Serrar, Onyxia, MC, raid</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="hab">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Her Zaman Aktif Disiplinler</span><span class="lg-meta">Yaşam alışkanlığı</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- ADDONLAR                                                       -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-addons" role="tabpanel">
+
+  <h2>Zorunlu Addon'lar</h2>
+  <p>HC'de oynamaya başlamadan önce kurulması gereken addon'lar:</p>
+  <table>
+    <tr><th>Addon</th><th>Ne yapar</th><th>Neden zorunlu (HC)</th></tr>
+    <tr><td><strong>Hardcore (TrueHorse)</strong></td><td>Death broadcast + rule enforcement</td><td>HC realm doğrulama + ölüm chat</td></tr>
+    <tr><td><strong>Hardcore Death Log</strong></td><td>Realm çapında ölümleri + heatmap</td><td>Aynı tuzağa düşmeyi önle</td></tr>
+    <tr><td><strong>Questie</strong></td><td>Quest tracker + harita yol gösterici</td><td>Yeşil quest filtreleme</td></tr>
+    <tr><td><strong>OmniCC</strong></td><td>Buton üzerinde CD sayacı</td><td>Shield Block / Last Stand / Shield Wall CD'sini görmek hayat</td></tr>
+    <tr><td><strong>WeakAuras</strong></td><td>Custom alert framework</td><td>HP %30 alarmı, rage tracker, Shield Wall CD, Sunder stack sayacı</td></tr>
+    <tr><td><strong>Bagnon (veya Baganator)</strong></td><td>Tek pencere bag birleştirici</td><td>Repair / mat yönetimi</td></tr>
+    <tr><td><strong>Leatrix Plus</strong></td><td>QoL paketi</td><td>Camera zoom 3.9, auto-repair, fast loot</td></tr>
+  </table>
+
+  <h2>Warrior-Spesifik Addon'lar</h2>
+  <table>
+    <tr><th>Addon</th><th>Ne yapar</th></tr>
+    <tr><td><strong>WarriorStanceBars / Stance Sets</strong></td><td>Her stance için ayrı action bar — Battle/Defensive/Berserker geçişi hatasız</td></tr>
+    <tr><td><strong>ClassicThreatMeter / TinyThreat</strong></td><td>Tank threat takibi — dungeon'da aggro tutmanın temeli</td></tr>
+    <tr><td><strong>SunderArmorCount / DoTimer</strong></td><td>Sunder Armor stack + Rend/Hamstring süresi</td></tr>
+    <tr><td><strong>Classic Bestiary</strong></td><td>Mob özellikleri (caster, fear, enrage, dispel) — tehlikeyi önceden gör</td></tr>
+    <tr><td><strong>WeakAuras: Rage / Overpower / Revenge proc</strong></td><td>Revenge ve Overpower açıldığında parlama — ucuz nuke kaçırma</td></tr>
+  </table>
+
+  <h2>İyi Olur Ama Şart Değil</h2>
+  <ul>
+    <li><strong>Atlas + AtlasLoot</strong> — dungeon haritası + drop tabloları.</li>
+    <li><strong>TomTom</strong> — koordinat waypoint.</li>
+    <li><strong>RecountClassic</strong> — DPS/threat meter.</li>
+    <li><strong>NovaWorldBuffs</strong> — endgame world buff tracker.</li>
+  </ul>
+
+  <h2>İlk Gün Macro'ları</h2>
+  <pre>/* Charge → hemen Defensive Stance (Tactical Mastery rage tutar) */
+/cast Charge
+/cast Defensive Stance
+
+/* Bloodrage + Battle Shout açılış */
+/cast Bloodrage
+/cast Battle Shout
+
+/* PANİK: Shield Wall + Last Stand */
+#showtooltip Shield Wall
+/cast Defensive Stance
+/cast Last Stand
+/cast Shield Wall
+
+/* 2H → Kalkan swap (Sword & Board'a düşene kadar) */
+/equip [Kalkan adı]
+/equip [1H kılıç adı]
+/cast Defensive Stance
+
+/* Mortal Strike + tooltip */
+#showtooltip Mortal Strike
+/cast Mortal Strike
+
+/* Berserker Rage (fear break) — bas, geri Defensive */
+/cast Berserker Stance
+/cast Berserker Rage
+/cast Defensive Stance</pre>
+
+  <h2>Kamera ve UI Açılış Komutları</h2>
+  <pre>/console cameraDistanceMaxZoomFactor 3.9
+/console nameplateShowEnemyMinus 1
+/console nameplateShowEnemyTotems 1
+/console floatingCombatTextCombatDamage 1</pre>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- PVP & TEHLİKE                                                  -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-pvp" role="tabpanel">
+
+  <h2>HC PvP — Önce Bunları Bil</h2>
+  <div class="callout danger">
+    <strong>Classic Fresh HC'de <code>/duel</code> = Duel to the Death.</strong> Normal duel YOK. Bir oyuncuya duel atıp kabul edilirse <strong>kaybeden ÖLÜR ve karakteri silinir.</strong> Asla yanlışlıkla kabul etme. (Original HC'de komut <code>/makgora</code>, Classic Fresh'te <code>/duel</code>.)
+  </div>
+  <ul>
+    <li>PvP <strong>flag'i opt-in</strong>: Sen aktif etmedikçe Horde seni vuramaz.</li>
+    <li>Lvl 19+ minimum mak'gora.</li>
+    <li>Wargames açık — guild vs guild, kaybedenler ÖLÜR.</li>
+  </ul>
+
+  <h3>Warrior Mak'gora Stratejisi (1v1 güçlü)</h3>
+  <ol>
+    <li><strong>Free Action Potion</strong> iç (root/snare/fear immunity 30 sn) — özellikle Warlock/Mage karşısında.</li>
+    <li><strong>Charge</strong> (Battle) — opener stun + rage.</li>
+    <li><strong>Hamstring</strong> — slow, hedef kaçamaz.</li>
+    <li><strong>Mortal Strike</strong> — burst + healer/heal -%50 (vs Paladin/Priest).</li>
+    <li>Caster fear atarsa <strong>Berserker Rage</strong> (fear break) veya <strong>Perception</strong> Rogue stealth'e karşı.</li>
+    <li>Düşük HP'de <strong>Defensive Stance + Shield Block + Last Stand</strong>, gerekirse <strong>Intercept</strong> ile gap-close.</li>
+    <li><strong>Disarm</strong> (humanoid melee'ye karşı) — rakip silahsız 10 sn.</li>
+  </ol>
+  <div class="callout tip">Warrior'ın counter'ları: Hunter kite, Mage Polymorph + kite, Warlock fear + DoT. Bunlara karşı Free Action Potion + Berserker Rage + hızlı gap-close şart. Şüpheliysen mak'gora kabul etme — HC'de ölüm kalıcı.</div>
+
+  <h2>Wowhead Resmi "Tehlikeli Quest'ler" — Warrior İçin</h2>
+  <div class="callout danger">
+    <strong>Defias Pillager</strong> (Westfall, lvl 14 caster) tüm Classic'in <strong>#1 oyuncu öldüren mob'u</strong>. Alliance "The People's Militia" quest'i #1 HC ölüm quest'i. Warrior caster'a zayıf (kite edemezsin, interrupt sınırlı). Çözüm: 2-3 level overlevel, tek tek pull, <strong>asla 2 Pillager birden</strong>, LoS köşesi kullan, Charge ile üstüne kapan (cast iptal).
+  </div>
+  <table>
+    <tr><th>Quest</th><th>Konum</th><th>Risk</th><th>Warrior çözümü</th></tr>
+    <tr><td>The People's Militia</td><td>Westfall</td><td>Defias Pillager fireball</td><td>Overlevel; Charge ile cast kes; tek pull; LoS</td></tr>
+    <tr><td>Hogger</td><td>Elwynn/Westfall sınır</td><td>Elite + adds, lvl 11</td><td>3+ grup VEYA birkaç level sonra solo + full HP/pot</td></tr>
+    <tr><td>Filthy Paws</td><td>Redridge cave</td><td>Geomancer fire shield reflect + cave</td><td>SKIP veya overlevel; reflect'e dikkat (kendine hasar)</td></tr>
+    <tr><td>Stitches (Duskwood)</td><td>Darkshire yolu</td><td>Elite abomination, devasa vuruş</td><td><strong>ASLA saldırma.</strong> Darkshire'a gir, guard'lar halletsin</td></tr>
+    <tr><td>Wanted! Otto and Falconcrest</td><td>Arathi</td><td>Lord Falconcrest raid-boss eşdeğer</td><td><strong>Asla solo.</strong> Duo/trio.</td></tr>
+    <tr><td>ZF Stairs Event</td><td>Zul'Farrak</td><td>20+ mob dalga AoE</td><td>Full grup, mana'lı healer, AoE setup; sen ana tank</td></tr>
+    <tr><td>Princess Theradras</td><td>Maraudon</td><td>AoE knockback uçuruma</td><td>Sırtın duvara dönük tank et — knockback'te düşme</td></tr>
+  </table>
+
+  <h2>Warrior'ın #1 Ölüm Sebepleri (Community Data)</h2>
+  <ol>
+    <li><strong>Multiple-add pull (~%40)</strong> — en büyük katil. Asla 2+ mob.</li>
+    <li><strong>Fear-into-pack</strong> — Warlock/mob fear seni başka mob'lara koşturur. Berserker Rage hazır tut.</li>
+    <li><strong>Berserker Stance'te fight bitirmek</strong> — +%10 hasar alırsın. Defensive'de kal.</li>
+    <li><strong>Rage starvation</strong> — yavaş silah + miss = boş cooldown. Hızlı kılıç + Sword Spec ile çöz.</li>
+    <li><strong>Combat sonrası bandage atmamak</strong> — düşük HP'yle sonraki pull'a girmek.</li>
+  </ol>
+
+  <h2>Mob Leash Mekaniği — Warrior Kaçışı</h2>
+  <p>Self-heal'sin yok, dolayısıyla kaçış = leash. Mob seni belirli bir <em>süre</em> kovaladıktan sonra reset olur (mesafe değil, süre bazlı):</p>
+  <table>
+    <tr><th>Mob Level</th><th>Leash Süresi</th></tr>
+    <tr><td>1-29</td><td>11 sn</td></tr>
+    <tr><td>30-39</td><td>12 sn</td></tr>
+    <tr><td>40-44</td><td>13 sn</td></tr>
+    <tr><td>45-49</td><td>14 sn</td></tr>
+    <tr><td>50-60</td><td>15 sn</td></tr>
+  </table>
+  <p><strong>Warrior escape protokolü:</strong></p>
+  <ol>
+    <li><strong>Hamstring</strong> mob'a (sen değil, MOB yavaşlasın diye değil — sen kaçarken mob'u tut ki gap açılsın; aslında Hamstring mob'u yavaşlatır, sen koşarsın).</li>
+    <li><strong>Intercept</strong> (Berserker, lvl 30) ile UZAĞA bir hedefe sıçra (varsa) veya düz koş.</li>
+    <li>180° dön ve koş — <strong>backpedal ASLA</strong> (daze + yavaş).</li>
+    <li>11-15 sn boyunca mesafe tut → mob leash'e takılıp reset olur.</li>
+    <li><strong>Intimidating Shout</strong> son çare (fear) — ama pack varsa fear seni daha çok mob'a sürükleyebilir, dikkatli.</li>
+  </ol>
+
+  <h2>Daze Mekaniği — Backpedal YASAK</h2>
+  <ul>
+    <li>Mob senin <strong>sırtına</strong> vururken daze proc olur = kalıcı yavaşlama = ölüm.</li>
+    <li><strong>S (backpedal) tuşunu kaçışta ASLA kullanma.</strong></li>
+    <li>Strafe (Q/E) ile yan koş — yüzün kısmen mob'a dönük, daze proc olmaz.</li>
+    <li>Kaçarken 180° dön ve düz koş; mob'a vurman gerekmiyorsa silah çekme.</li>
+  </ul>
+
+  <h2>Tehlikeli Zone Özeti (Human Warrior Yolu)</h2>
+  <ul>
+    <li><strong>Westfall (10-18):</strong> Defias Pillager (caster!), Murloc cave, Hogger. Warrior'ın en zorlu erken bölgesi.</li>
+    <li><strong>Redridge (15-25):</strong> Filthy Paws cave (reflect), Gnoll camps multi-pull.</li>
+    <li><strong>Duskwood (18-30):</strong> Stitches patrol, Worgen night pack, fear-into-pack. Gece dikkat.</li>
+    <li><strong>STV (30-45):</strong> Bloodsail, Big Game Hunter elite chain — solo elite'lerden uzak dur.</li>
+    <li><strong>Tanaris (40-50):</strong> Hyena/Scorpid patrols, ZF stairs event (grup şart).</li>
+    <li><strong>WPL/EPL (51-60):</strong> Tyr's Hand multi-pull, Crusader/Scourge patrol. Tek tek çek.</li>
+  </ul>
+
+  <h2>Wowhead'in Top 10 HC İpucu (Warrior Notlarıyla)</h2>
+  <ol>
+    <li>Yeşil quest yap — Warrior'da miss = rage = ölüm.</li>
+    <li>Consumable kullan (Health Pot, Free Action Pot), "saklama".</li>
+    <li>Silah upgrade'ini öne al — hızlı kılıç = hızlı fight = az risk.</li>
+    <li>Kamera zoom <code>3.9</code>.</li>
+    <li>Caster mob'lar ölümcül — Charge ile cast kes, LoS abuse.</li>
+    <li>Enemy nameplates always on.</li>
+    <li>Mount için gold biriktir (Diplomacy ile 72g).</li>
+    <li>Bag al — envanter dolu = loot/repair sorunları.</li>
+    <li>Her pull öncesi kaçış rotanı + leash yönünü planla.</li>
+    <li>Defensive Stance ana stance — Berserker'da oyalanma.</li>
+  </ol>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- CRAFTING                                                       -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-crafting" role="tabpanel">
+
+  <h2>Profession Yolu: Mining + Blacksmithing</h2>
+  <p>Human Warrior için en güvenli combo. Mining HC'de pasif gold + BS için ore sağlar. Blacksmithing kendine plate armor + güçlü silah craft eder — Warrior'ın self-craft survival'ı.</p>
+
+  <h3>Neden Bu Combo?</h3>
+  <ul>
+    <li><strong>Mithril Coif</strong> (lvl 50 mail helm) + <strong>Ornate Mithril</strong> plate seti — leveling boyunca kendine armor.</li>
+    <li><strong>Lionheart Helm</strong> (BS, +Str +crit) — DPS/tank BiS pre-raid head.</li>
+    <li><strong>Gauntlets of Might / Legplates of Valor / Belt of Valor</strong> (BoP BS plate) — pre-raid set.</li>
+    <li><strong>Truesilver Champion / Dazzling Mithril Rapier</strong> — craft silahlar.</li>
+    <li><strong>Sharpening Stones</strong> (Weaponsmith) — silaha geçici +damage, her fight'ta avantaj.</li>
+    <li>Lvl 40 plate proficiency ile birlikte BS = en güçlü self-armor yolu.</li>
+  </ul>
+
+  <h3>Alternatif: Mining + Engineering (S Tier HC)</h3>
+  <p>Wowhead'in resmi top önerisi. Warrior'ın zayıflıklarını (kaçış, ranged, caster) kapatır:</p>
+  <ul>
+    <li><strong>Goblin Sapper Charge</strong> — AoE burst (PvP + pull reset).</li>
+    <li><strong>Iron/Mithril Grenade</strong> — caster interrupt + stun (Defias Pillager'a karşı altın).</li>
+    <li><strong>Goblin Rocket Boots</strong> — emergency +%70 speed 20 sn (kaçış aracı!).</li>
+    <li><strong>Parachute Cloak</strong> — yüksekten düşüş ölümünü engeller.</li>
+    <li><strong>Goblin Jumper Cables</strong> — ölünce kendini canlandırma şansı (HC'de altın).</li>
+    <li><strong>Target Dummy</strong> — combat'tan çık (aggro dump).</li>
+    <li><strong>Gnomish Net-o-Matic / Death Ray</strong> — utility burst.</li>
+  </ul>
+
+  <div class="callout tip">
+    <strong>Pratik karar:</strong> Ölmeden oynama önceliğin yüksekse <em>Mining + Engineering</em> seç — Rocket Boots (kaçış), Grenade (caster interrupt), Jumper Cables (resurrect şansı) Warrior'ın eksiklerini doğrudan kapatır. Self-armor istiyorsan <em>Mining + Blacksmithing</em>. İkisi de Mining'le başlar, ilerleyince karar ver.
+  </div>
+
+  <h2>Zorunlu Secondary Profession'lar</h2>
+  <ul>
+    <li><strong>First Aid:</strong> Bandage = Warrior'ın TEK self-heal'i (Mage food'a bağımlı değilsin). 300 priority — Linen → Wool → Silk → Mageweave → Runecloth. Tome of First Aid (Master) al.</li>
+    <li><strong>Cooking:</strong> Well Fed buff = +stat. Tender Wolf Meat (lvl 45 +12 Sta/Spirit), Smoked Desert Dumplings (+20 Str — Warrior altın).</li>
+    <li><strong>Fishing:</strong> Cooking ile sinerji + bazı mat'lar.</li>
+  </ul>
+
+  <h2>Gold Yönetimi Hedefleri</h2>
+  <table>
+    <tr><th>Level</th><th>Gold Hedefi</th><th>Not</th></tr>
+    <tr><td>10</td><td>1g</td><td>İlk bag + kalkan + 1H</td></tr>
+    <tr><td>20</td><td>5-8g</td><td>Spell training + silah upgrade</td></tr>
+    <tr><td>30</td><td>20g</td><td>Bag + spell + Honored rep ilerleme</td></tr>
+    <tr><td>40</td><td><strong>72-100g</strong></td><td><strong>Mount</strong> (Diplomacy + Honored = 72g)</td></tr>
+    <tr><td>50</td><td>150g</td><td>BS skill-up mats + spell + sharpening stones</td></tr>
+    <tr><td>60</td><td>900g+</td><td>Epic mount (1000g) + raid consumables</td></tr>
+  </table>
+
+  <h3>Pasif Gold Kaynakları (Human Warrior)</h3>
+  <ul>
+    <li><strong>Mining</strong> — her node + ore sat (BS yapmıyorsan ham sat).</li>
+    <li><strong>Diplomacy</strong> — rep hızlı = mount erken = gold tasarrufu.</li>
+    <li><strong>Mid-grey trash</strong> sat — bag yer açar.</li>
+    <li><strong>Quest gold</strong> — yeşil quest priority.</li>
+    <li><strong>BS craft satışı</strong> — fazla plate/sharpening stone AH dışı arkadaşlara.</li>
+  </ul>
+
+  <h2>Bag Yatırımı</h2>
+  <ul>
+    <li>Lvl 10: 6-slot Linen Bag.</li>
+    <li>Lvl 20-30: 8-slot Wool / 10-slot Mageweave.</li>
+    <li>Lvl 40+: 14-slot Runecloth Bag.</li>
+    <li>Lvl 50+: Mining bag (ore için ayrı slot) + Runecloth.</li>
+    <li><strong>Warrior notu:</strong> Daima ayrı kalkan + yedek 1H/2H için bag yeri ayır — swap setin hep yanında.</li>
+  </ul>
+
+</section>
+
+</main>
+
+<footer>
+  <p>WoW Classic Hardcore — Human Warrior (Sword &amp; Board) Başlangıç Rehberi v1.0 · Kaynaklar: Wowhead Warrior HC Leveling Guide, Wowhead HC Overview &amp; Tier List, Hardcore Death Log community heatmap, Vanilla Warrior Discord. Tüm ilerleme tarayıcında yerel olarak (<code>hc_human_warrior_v1</code>) saklanır.</p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // -----------------------------------------------------------
+  // İlerleme listesi içerikleri (id, etiketler, açıklama)
+  // -----------------------------------------------------------
+  var CHECKLIST = {
+    g1: [
+      { id: 'g1-1',  tags: ['quest'],          text: 'Northshire Abbey starter chain bitir → Goldshire (Elwynn) quest hub.' },
+      { id: 'g1-2',  tags: ['spell'],          text: 'Battle Shout (lvl 1) öğren — AP buff, hep açık tut.' },
+      { id: 'g1-3',  tags: ['spell'],          text: 'Charge (lvl 4) öğren — primary opener, stun + rage.' },
+      { id: 'g1-4',  tags: ['spell'],          text: 'Hamstring (lvl 8) öğren — slow, kaçış kiti.' },
+      { id: 'g1-5',  tags: ['stance', 'hc'],   text: 'Defensive Stance (lvl 10) öğren — ANA STANCE, -%10 hasar.' },
+      { id: 'g1-6',  tags: ['gear', 'race'],   text: 'İlk 1H KILIÇ + KALKAN al (Sword Spec). Daima bir swap set bag\'de.' },
+      { id: 'g1-7',  tags: ['hc'],             text: 'Kamera zoom: /console cameraDistanceMaxZoomFactor 3.9' },
+      { id: 'g1-8',  tags: ['hc'],             text: 'Enemy nameplates Always On (Interface → Names).' },
+      { id: 'g1-9',  tags: ['quest'],          text: 'Mining + First Aid + Cooking + Fishing pickup (Goldshire/Stormwind).' },
+      { id: 'g1-10', tags: ['race'],           text: 'Diplomacy farkında ol: tüm quest gold + rep %10 artıyor, mount için biriktir.' }
+    ],
+    g2: [
+      { id: 'g2-1',  tags: ['quest', 'hc'],    text: 'Westfall: "The People\'s Militia" — Defias Pillager (caster!) tek tek, overlevel, LoS.' },
+      { id: 'g2-2',  tags: ['spell'],          text: 'Sunder Armor öğren — armor düşür + tank threat temeli.' },
+      { id: 'g2-3',  tags: ['spell'],          text: 'Bloodrage öğren — combat öncesi free 10 rage, her CD bas.' },
+      { id: 'g2-4',  tags: ['spell'],          text: 'Shield Block öğren — block şansı + rage; Defensive Stance\'te survival.' },
+      { id: 'g2-5',  tags: ['spell'],          text: 'Revenge öğren — block/dodge/parry sonrası ucuz nuke.' },
+      { id: 'g2-6',  tags: ['gear'],           text: 'Cruel Barb (Deadmines, Mr. Smite) — fast 1H sword, Sword Spec ile mükemmel.' },
+      { id: 'g2-7',  tags: ['hc'],             text: 'Deadmines run (grup + CC) — sen ana tank, Defensive + Shield Block ile aç.' },
+      { id: 'g2-8',  tags: ['gear'],           text: 'Heavy Wool/Linen Bandage skill-up (First Aid) — Warrior\'ın tek self-heal\'i.' },
+      { id: 'g2-9',  tags: ['stance', 'hc'],   text: 'Talent: Improved Heroic Strike 3/3 + Deflection 5/5.' },
+      { id: 'g2-10', tags: ['hc'],             text: 'Hogger\'a solo girme — 3+ grup veya birkaç level sonra full pot ile.' }
+    ],
+    g3: [
+      { id: 'g3-1',  tags: ['quest', 'hc'],    text: 'Duskwood quest hub — Stitches patrol\'a ASLA saldırma, gece Worgen pack dikkat.' },
+      { id: 'g3-2',  tags: ['spell'],          text: 'Intimidating Shout (lvl 22) — son çare fear, pack varsa dikkatli.' },
+      { id: 'g3-3',  tags: ['stance', 'spell'],text: 'Berserker Stance (lvl 30) — sadece Intercept + Berserker Rage için.' },
+      { id: 'g3-4',  tags: ['spell'],          text: 'Berserker Rage (lvl 32) — fear/sap immunity, panik fear-break.' },
+      { id: 'g3-5',  tags: ['hc'],             text: 'Sunder Armor 5-stack hedefe alışkanlığı kur (elite + tank).' },
+      { id: 'g3-6',  tags: ['gear'],           text: 'Stockade Pauldrons + Assassin\'s Blade (SFK) — yedek hızlı 1H.' },
+      { id: 'g3-7',  tags: ['stance'],         text: 'Talent: Tactical Mastery 3/3 — stance swap\'ta rage korunur (kritik!).' },
+      { id: 'g3-8',  tags: ['hc'],             text: 'Defensive Stance ana stance refleksi: pull\'dan sonra hep Defensive\'e dön.' },
+      { id: 'g3-9',  tags: ['race'],           text: 'Honored rep ilerle (Diplomacy) — lvl 30 civarı mount indirimi yaklaşır.' }
+    ],
+    g4: [
+      { id: 'g4-1',  tags: ['gear'],           text: 'Headstriker Sword (SM Armory, Herod) — leveling 1H BiS, Sword Spec tavan.' },
+      { id: 'g4-2',  tags: ['gear'],           text: 'Aegis of the Scarlet Commander (SM Cathedral, Mograine) — kalkan upgrade.' },
+      { id: 'g4-3',  tags: ['spell', 'hc'],    text: 'Mortal Strike (lvl 40 talent) — ana nuke + -%50 healing debuff.' },
+      { id: 'g4-4',  tags: ['gear', 'race'],   text: 'Lvl 40 MOUNT — Diplomacy + Honored ile 72g.' },
+      { id: 'g4-5',  tags: ['gear', 'hc'],     text: 'PLATE proficiency (lvl 40) — tüm mail\'i plate\'e çevir, armor sıçraması.' },
+      { id: 'g4-6',  tags: ['spell'],          text: 'Disarm (lvl 36) — humanoid melee\'yi silahsız bırak (PvP + elite).' },
+      { id: 'g4-7',  tags: ['gear'],           text: 'Royal Seal of Eldre\'Thalas (DM attune chain, lvl 38) — trinket.' },
+      { id: 'g4-8',  tags: ['hc'],             text: 'STV "Big Game Hunter" elite zincirlerini SKIP veya grup.' }
+    ],
+    g5: [
+      { id: 'g5-1',  tags: ['quest'],          text: 'Tanaris / Hinterlands / Feralas quest hub.' },
+      { id: 'g5-2',  tags: ['gear'],           text: 'Sul\'thraze the Lasher (ZF combine) veya Sang\'thraze 1H yarısı.' },
+      { id: 'g5-3',  tags: ['gear'],           text: 'Mithril Coif + Ornate Mithril Breastplate (BS craft) — self plate.' },
+      { id: 'g5-4',  tags: ['gear'],           text: 'Smoking Heart of the Mountain (BS craft) — +18 all res trinket.' },
+      { id: 'g5-5',  tags: ['hc'],             text: 'ZF Stairs Event — full grup + mana\'lı healer, sen ana tank.' },
+      { id: 'g5-6',  tags: ['hc'],             text: 'Maraudon Princess Theradras — sırtın duvara dönük tank (knockback uçurum).' },
+      { id: 'g5-7',  tags: ['gear'],           text: 'Free Action Potion stoğu (caster/fear quest\'leri + mak\'gora için).' },
+      { id: 'g5-8',  tags: ['hc'],             text: 'Sharpening Stone (Weaponsmith) her ciddi fight öncesi silaha sür.' }
+    ],
+    g6: [
+      { id: 'g6-1',  tags: ['gear', 'hc'],     text: 'BRD full clear (güvenli grup) — Hand of Justice + Force of Will + Brutality Blade + Drillborer Disk.' },
+      { id: 'g6-2',  tags: ['gear'],           text: 'Drillborer Disk (BRD Emperor) — pre-raid BiS kalkan.' },
+      { id: 'g6-3',  tags: ['gear'],           text: 'Strat Live/Undead — Cadaverous Armor, Postmaster, plate slotlar.' },
+      { id: 'g6-4',  tags: ['gear'],           text: 'Lionheart Helm (BS craft) — DPS/tank BiS pre-raid head.' },
+      { id: 'g6-5',  tags: ['hc'],             text: 'WPL/EPL Tyr\'s Hand multi-pull dikkat — tek tek çek, Scourge patrol.' },
+      { id: 'g6-6',  tags: ['gear', 'hc'],     text: 'Defense skill 315\'e doğru gear ayarla (tank crit immunity).' }
+    ],
+    g7: [
+      { id: 'g7-1',  tags: ['gear', 'quest'],  text: 'Quel\'Serrar (DM East kitap quest + Onyxia 50% HP) — tank 1H BiS pre-raid.' },
+      { id: 'g7-2',  tags: ['gear'],           text: 'Dal\'Rend\'s set (UBRS Rend) — DPS 1H + head alternatif.' },
+      { id: 'g7-3',  tags: ['quest', 'hc'],    text: 'Drakefire Amulet attune (UBRS Drakkisath + Marshal Windsor) → Onyxia.' },
+      { id: 'g7-4',  tags: ['gear'],           text: 'Pre-raid BiS list (Wowhead Warrior) tamamla — Sword & Board core 4\'lü.' },
+      { id: 'g7-5',  tags: ['hc'],             text: 'MC attunement + consumables (Mighty Rage Pot, Fire Protection Pot).' },
+      { id: 'g7-6',  tags: ['gear', 'hc'],     text: 'Thunderfury hayali: MC Garr + Baron Geddon bindings farmına başla.' },
+      { id: 'g7-7',  tags: ['hc'],             text: 'Naxx raid (Anniversary HC realm) açıldıysa — guild ile koordineli, mechanic ezberle.' }
+    ],
+    hab: [
+      { id: 'h-1',  tags: ['stance', 'hc'],    text: 'ANA STANCE = Defensive. Battle sadece Charge, Berserker sadece Intercept/Rage.' },
+      { id: 'h-2',  tags: ['hc'],              text: 'Asla 2+ mob aggro alma — community ölümlerinin %40\'ı multiple-add.' },
+      { id: 'h-3',  tags: ['hc'],              text: 'Her pull öncesi etrafa bak: 30 yard içinde 2. mob / patrol var mı?' },
+      { id: 'h-4',  tags: ['hc'],              text: 'Her pull öncesi kaçış rotasını + leash yönünü belirle.' },
+      { id: 'h-5',  tags: ['hc'],              text: 'Combat\'tan çıkınca DAİMA Bandage — Warrior\'ın tek self-heal\'i.' },
+      { id: 'h-6',  tags: ['hc'],              text: 'Bloodrage + Battle Shout her fight açılışında.' },
+      { id: 'h-7',  tags: ['hc'],              text: 'HP %40\'ta: Shield Block → Last Stand → Shield Wall sırasıyla.' },
+      { id: 'h-8',  tags: ['hc'],              text: 'Backpedal ASLA — strafe veya 180° dön. Daze = ölüm.' },
+      { id: 'h-9',  tags: ['hc'],              text: 'Hızlı kılıç tut (2.4-2.7 speed) — rage starvation\'a karşı.' },
+      { id: 'h-10', tags: ['hc'],              text: 'Repair gold = 3x mevcut repair maliyeti her zaman cebinde.' }
+    ]
+  };
+
+  var STORAGE_KEY = 'hc_human_warrior_v1';
+
+  // -----------------------------------------------------------
+  // localStorage helpers
+  // -----------------------------------------------------------
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return {};
+      return JSON.parse(raw) || {};
+    } catch (e) { return {}; }
+  }
+  function saveState(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  var state = loadState();
+
+  // -----------------------------------------------------------
+  // Inject checklist items
+  // -----------------------------------------------------------
+  function tagLabel(t) {
+    var map = { quest:'Quest', spell:'Spell', gear:'Gear', stance:'Stance', race:'Racial', hc:'HC' };
+    return map[t] || t;
+  }
+  function renderChecklists() {
+    Object.keys(CHECKLIST).forEach(function (gid) {
+      var host = document.querySelector('.level-group[data-group="' + gid + '"] [data-checklist]');
+      if (!host) return;
+      host.innerHTML = '';
+      CHECKLIST[gid].forEach(function (it) {
+        var row = document.createElement('div');
+        row.className = 'check-item';
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = it.id;
+        cb.checked = !!state[it.id];
+        cb.addEventListener('change', function () {
+          state[it.id] = cb.checked;
+          saveState(state);
+          updateProgress();
+        });
+        var lbl = document.createElement('label');
+        lbl.setAttribute('for', it.id);
+        (it.tags || []).forEach(function (t) {
+          var sp = document.createElement('span');
+          sp.className = 'tag ' + t;
+          sp.textContent = tagLabel(t);
+          lbl.appendChild(sp);
+        });
+        var txt = document.createElement('span');
+        txt.innerHTML = ' ' + it.text;
+        lbl.appendChild(txt);
+        row.appendChild(cb);
+        row.appendChild(lbl);
+        host.appendChild(row);
+      });
+    });
+  }
+
+  // -----------------------------------------------------------
+  // Progress pill
+  // -----------------------------------------------------------
+  function updateProgress() {
+    var total = 0, done = 0;
+    Object.keys(CHECKLIST).forEach(function (gid) {
+      CHECKLIST[gid].forEach(function (it) {
+        total++;
+        if (state[it.id]) done++;
+      });
+    });
+    var pct = total ? Math.round((done / total) * 100) : 0;
+    var pill = document.getElementById('progress-pill');
+    if (pill) pill.textContent = done + ' / ' + total + ' (' + pct + '%)';
+  }
+
+  // -----------------------------------------------------------
+  // Tabs
+  // -----------------------------------------------------------
+  document.querySelectorAll('.tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      var id = 'panel-' + btn.getAttribute('data-tab');
+      var panel = document.getElementById(id);
+      if (panel) panel.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // -----------------------------------------------------------
+  // Level-group collapse toggle
+  // -----------------------------------------------------------
+  document.querySelectorAll('.level-group-head').forEach(function (h) {
+    h.addEventListener('click', function () {
+      h.parentElement.classList.toggle('open');
+    });
+  });
+
+  // -----------------------------------------------------------
+  // Reset
+  // -----------------------------------------------------------
+  document.getElementById('reset-btn').addEventListener('click', function () {
+    if (!confirm('Tüm ilerleme silinecek. Emin misin?')) return;
+    state = {};
+    saveState(state);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(function (cb) {
+      cb.checked = false;
+    });
+    updateProgress();
+  });
+
+  // -----------------------------------------------------------
+  // Init
+  // -----------------------------------------------------------
+  renderChecklists();
+  updateProgress();
+})();
+</script>
+
+</body>
+</html>
