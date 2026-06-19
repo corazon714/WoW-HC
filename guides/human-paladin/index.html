@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Human Paladin — WoW Classic HC Başlangıç Rehberi</title>
+<style>
+  /* ---------- Tema (Paladin altın/gümüş + Holy Light) ---------- */
+  :root {
+    --bg:        #0e0e18;
+    --bg-soft:   #181828;
+    --bg-card:   #1f1f30;
+    --bg-elev:   #2a2a3d;
+    --border:    #3a3a52;
+    --text:      #ebe7d8;
+    --text-dim:  #aaa8b8;
+    --paladin:   #f58cba;   /* class rengi */
+    --gold:      #ffd700;
+    --silver:    #c0c0c0;
+    --holy:      #fffacd;   /* light yellow */
+    --royal:     #6f8fff;   /* Stormwind blue */
+    --danger:    #ff5b4f;
+    --warn:      #ffae42;
+    --ok:        #8be37d;
+    --info:      #6cb6ff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; font-size: 16px; }
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { font-family: "Trajan Pro", Georgia, serif; letter-spacing: .02em; color: var(--silver); margin-top: 1.5em; }
+  h1 { font-size: 1.8rem; margin: 0; color: var(--gold); text-shadow: 0 0 12px rgba(255,215,0,.3); }
+  h2 { font-size: 1.4rem; border-bottom: 2px solid var(--royal); padding-bottom: .3em; }
+  h3 { font-size: 1.15rem; color: var(--gold); }
+  h4 { font-size: 1rem; color: var(--silver); margin-bottom: .3em; }
+  p { margin: .6em 0; }
+  code { background: var(--bg-elev); padding: 2px 6px; border-radius: 3px; font-size: .92em; color: var(--gold); }
+  pre { background: var(--bg-elev); padding: 12px; border-radius: 4px; overflow-x: auto; border-left: 3px solid var(--gold); }
+  ul, ol { padding-left: 22px; }
+  li { margin: .3em 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; background: var(--bg-soft); }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-elev); color: var(--gold); }
+  tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+
+  /* ---------- Layout ---------- */
+  .topbar { background: linear-gradient(135deg, #181828 0%, #2a2a3d 100%); border-bottom: 3px solid var(--gold); padding: 18px 20px; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 10px rgba(0,0,0,.5); }
+  .topbar-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .crest { width: 52px; height: 52px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--holy), var(--gold) 50%, #8a6a1c 100%); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 0 16px rgba(255,215,0,.55); flex-shrink: 0; color: #2a1a00; }
+  .title-block { flex: 1; min-width: 200px; }
+  .subtitle { color: var(--text-dim); font-size: .9rem; margin-top: 2px; }
+  .char-card { margin-top: 6px; display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 8px; padding: 4px 10px; background: rgba(0,0,0,.35); border: 1px solid var(--royal); border-left: 3px solid var(--gold); border-radius: 3px; font-size: .85rem; }
+  .char-name { color: var(--gold); font-family: "Trajan Pro", Georgia, serif; font-weight: 700; letter-spacing: .03em; }
+  .char-guild { color: var(--paladin); font-style: italic; }
+  .char-bio { color: var(--text-dim); }
+  .char-bio::before { content: "• "; color: var(--royal); }
+  .progress-pill { background: var(--bg-elev); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: .85rem; color: var(--gold); }
+  .reset-btn { background: transparent; color: var(--text-dim); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: .8rem; }
+  .reset-btn:hover { color: var(--danger); border-color: var(--danger); }
+
+  /* ---------- Tabs ---------- */
+  .tabs { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4px; padding: 12px 20px 0; background: var(--bg); position: sticky; top: 91px; z-index: 40; }
+  .tab { background: var(--bg-soft); border: 1px solid var(--border); border-bottom: none; color: var(--text-dim); padding: 10px 16px; cursor: pointer; border-radius: 6px 6px 0 0; font-size: .9rem; transition: all .15s; }
+  .tab:hover { color: var(--text); background: var(--bg-card); }
+  .tab.active { background: var(--bg-card); color: var(--gold); border-color: var(--gold); border-bottom: 1px solid var(--bg-card); position: relative; top: 1px; font-weight: 600; }
+
+  /* ---------- Content ---------- */
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; background: var(--bg-card); border: 1px solid var(--border); border-top: 2px solid var(--gold); }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ---------- Callouts ---------- */
+  .callout { padding: 12px 16px; border-radius: 4px; margin: 12px 0; border-left: 4px solid; background: var(--bg-soft); }
+  .callout.hc { border-color: var(--gold); }
+  .callout.hc::before { content: "⚔ HC "; font-weight: 700; color: var(--gold); }
+  .callout.danger { border-color: var(--danger); }
+  .callout.danger::before { content: "🚨 KRİTİK "; font-weight: 700; color: var(--danger); }
+  .callout.warn { border-color: var(--warn); }
+  .callout.warn::before { content: "⚠ UYARI "; font-weight: 700; color: var(--warn); }
+  .callout.tip { border-color: var(--ok); }
+  .callout.tip::before { content: "💡 İPUCU "; font-weight: 700; color: var(--ok); }
+  .callout.info { border-color: var(--info); }
+  .callout.info::before { content: "ℹ NOT "; font-weight: 700; color: var(--info); }
+
+  /* ---------- Checklist ---------- */
+  .level-group { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px; margin: 14px 0; overflow: hidden; }
+  .level-group-head { background: var(--bg-elev); padding: 12px 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+  .level-group-head:hover { background: #353553; }
+  .level-group-head .lg-title { font-weight: 600; color: var(--gold); }
+  .level-group-head .lg-meta { font-size: .85rem; color: var(--text-dim); }
+  .level-group-body { padding: 8px 16px 16px; display: none; }
+  .level-group.open .level-group-body { display: block; }
+  .level-group.open .lg-toggle::before { content: "▾ "; }
+  .lg-toggle::before { content: "▸ "; color: var(--gold); }
+
+  .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 1px dashed rgba(255,255,255,.05); }
+  .check-item:last-child { border: none; }
+  .check-item input[type=checkbox] { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--gold); cursor: pointer; flex-shrink: 0; }
+  .check-item label { cursor: pointer; flex: 1; }
+  .check-item input:checked + label { color: var(--text-dim); text-decoration: line-through; }
+  .check-item .tag { display: inline-block; font-size: .72rem; padding: 1px 6px; border-radius: 3px; margin-right: 6px; background: var(--bg-elev); color: var(--silver); border: 1px solid var(--border); }
+  .check-item .tag.hc { background: rgba(255,215,0,.1); color: var(--gold); border-color: var(--gold); }
+  .check-item .tag.spell { color: var(--holy); border-color: #b8a040; }
+  .check-item .tag.gear { color: var(--info); border-color: var(--info); }
+  .check-item .tag.race { color: var(--royal); border-color: var(--royal); background: rgba(111,143,255,.1); }
+  .check-item .tag.aura { color: var(--paladin); border-color: var(--paladin); }
+
+  /* ---------- Race racial cards ---------- */
+  .racial-card { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 700px) { .racial-card { grid-template-columns: 1fr 1fr; } }
+  .racial { background: var(--bg-soft); border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 12px 14px; border-radius: 4px; }
+  .racial h4 { margin-top: 0; color: var(--gold); }
+  .racial .cd { font-size: .82rem; color: var(--text-dim); font-style: italic; }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 600px) {
+    .topbar { padding: 12px 14px; }
+    .crest { width: 42px; height: 42px; font-size: 1.4rem; }
+    h1 { font-size: 1.3rem; }
+    main { padding: 16px 14px 60px; }
+    .tabs { padding: 8px 10px 0; top: 76px; }
+    .tab { padding: 8px 10px; font-size: .82rem; }
+    table { font-size: .85rem; }
+    th, td { padding: 6px; }
+  }
+
+  footer { max-width: 1100px; margin: 12px auto 30px; padding: 0 20px; color: var(--text-dim); font-size: .82rem; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="crest" aria-hidden="true">🛡</div>
+    <div class="title-block">
+      <h1>Human Paladin — Hardcore Başlangıç Rehberi</h1>
+      <div class="subtitle">Classic Era 1.15.x / Anniversary HC (Classic Fresh) • Yeni başlayanlar için</div>
+      <div class="char-card" title="Bonk = Paladin'in melee + Hammer of Justice + Crusader Strike memeleri. 10 harf, WoW'un 12 harf limitine uygun. Lonca: Hammer of Justice'in Türkçe karşılığı.">
+        <span class="char-name">Bonkmaster</span>
+        <span class="char-guild">&lt;Adalet Çekici&gt;</span>
+        <span class="char-bio">Human · Paladin · Retribution → Holy/Prot</span>
+      </div>
+    </div>
+    <span class="progress-pill" id="progress-pill">0 / 0 (0%)</span>
+    <button class="reset-btn" id="reset-btn" title="Tüm ilerlemeyi sıfırla">Sıfırla</button>
+  </div>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button class="tab active" data-tab="overview" role="tab">Genel Bakış</button>
+  <button class="tab" data-tab="build" role="tab">Build</button>
+  <button class="tab" data-tab="gearing" role="tab">Gearing</button>
+  <button class="tab" data-tab="progress" role="tab">İlerleme Listesi</button>
+  <button class="tab" data-tab="addons" role="tab">Addon'lar</button>
+  <button class="tab" data-tab="pvp" role="tab">PvP & Tehlike</button>
+  <button class="tab" data-tab="crafting" role="tab">Crafting</button>
+</nav>
+
+<main>
+
+<!-- ============================================================= -->
+<!-- GENEL BAKIŞ                                                    -->
+<!-- ============================================================= -->
+<section class="panel active" id="panel-overview" role="tabpanel">
+
+  <h2>Neden Human Paladin?</h2>
+  <p>Melee oynamak isteyip yeniden öğrenmek için en güvenli sınıf. Hunter'ın ranged-dead-zone sorunu yok — Paladin her zaman vurabilir, mana harcamadan auto-attack yapabilir, Seal'larla burst, mana ile Holy Light heal. Wowhead'in <strong>S Tier</strong> sınıfı; HC'de sınıfın resmi tier listesinin en üst kademesinde.</p>
+
+  <ul>
+    <li><strong>Plate armor (lvl 40+):</strong> Class kollarında en yüksek armor.</li>
+    <li><strong>Self-heal:</strong> Holy Light + Flash of Light + <em>Lay on Hands</em> (1 saat CD full HP).</li>
+    <li><strong>Blessing of Protection (BoP):</strong> 10 sn physical immunity (kendine basabilirsin).</li>
+    <li><strong>Divine Shield (Bubble):</strong> 12 sn full immunity — Classic Fresh'te <em>Hearthstone ile kombolanmaz</em>, ama tek başına hâlâ "12 sn safe zone'a koş penceresi".</li>
+    <li><strong>Cleanse:</strong> Poison ve disease anında temizle.</li>
+    <li><strong>Hammer of Justice (HoJ):</strong> 3 sn stun, 1 dk CD — kaçış veya finisher.</li>
+    <li><strong>Forgiving rotation:</strong> Tek tuş Seal → Judgement → swing. Mana yönetimi kolay, "miss → ölüm" senaryosu yok (Human Sword/Mace Spec sayesinde).</li>
+    <li><strong>Ücretsiz mount (lvl 40)</strong> ve <strong>ücretsiz epic mount (lvl 60)</strong> — Charger questi. <strong>80g + 1000g tasarruf.</strong></li>
+  </ul>
+
+  <div class="callout tip">Wowhead resmi Overview: <em>"Paladin'ler Alliance HC raid meta'nın omurgasıdır; Blessings ve healing endgame'de yeri tartışılmaz."</em> Yani sadece leveling değil, lvl 60 sonrası da değerini koruyan tek sınıflardan biri.</div>
+
+  <div class="callout danger">
+    <strong>Classic Fresh HC'de Bubble Hearth KAPALI.</strong> Divine Shield / Divine Protection / Blessing of Protection aktifken Hearthstone cast edilemez. Bu, klasik Paladin signature escape'iydi — Classic Fresh'te artık yok. Yerine: bubble = <em>12 sn safe zone'a yürüme penceresi</em>. Kaçış rotanı önceden planla, bubble'la Hearth basmaya çalışma (10 sn cast tamamlanmaz, immunity biter, ölürsün).
+  </div>
+
+  <h2>Race + Class Özetiyle Neden Bu Kombinasyon</h2>
+  <div class="racial-card">
+    <div class="racial">
+      <h4>Sword Specialization <span class="cd">(pasif)</span></h4>
+      <p><strong>Sword (1H ve 2H) +5 weapon skill.</strong> Damage tutarlı; miss/glancing oranı düşer. Headstriker Sword (SM Armory), Sul'thraze (ZF) gibi sword opsiyonları için Human ideal.</p>
+    </div>
+    <div class="racial">
+      <h4>Mace Specialization <span class="cd">(pasif)</span></h4>
+      <p><strong>Mace (1H ve 2H) +5 weapon skill.</strong> <em>Verigan's Fist</em> (Paladin lvl 20 class quest 2H mace) için Human Paladin tam uyumlu — questi tamamlar tamamlamaz Mace Spec devreye girer.</p>
+    </div>
+    <div class="racial">
+      <h4>Diplomacy <span class="cd">(pasif)</span></h4>
+      <p><strong>+%10 Reputation gain.</strong> Stormwind / Ironforge Honored (mount %10 indirim) ve Revered (mount %20 indirim) çok daha hızlı gelir. Mount maliyeti 80g → 72g — ama Paladin'in zaten ücretsiz mount questi var. Bu yüzden Diplomacy <em>diğer fraksiyon hubları</em> için faydalı (Argent Dawn, Cenarion Circle, Thorium Brotherhood).</p>
+    </div>
+    <div class="racial">
+      <h4>The Human Spirit <span class="cd">(pasif)</span></h4>
+      <p><strong>+%5 Spirit.</strong> Out-of-combat mana regen biraz hızlanır. Holy Paladin için (Spirit-based MP5 değil ama "Five Second Rule" sırasında Spirit-based regen) küçük ama kalıcı avantaj. Ret leveling'de çok azız.</p>
+    </div>
+    <div class="racial">
+      <h4>Perception <span class="cd">(aktif, 3 dk CD, 20 sn)</span></h4>
+      <p>Stealth detection +%20. HC'de PvP yok ama <em>Bloodsail Buccaneer</em> (STV) gibi nadir stealth-pull dungeon mob'lar için ufak edge. Action bar'a koymana gerek yok.</p>
+    </div>
+  </div>
+
+  <h2>Sınıfın 5 Dakikalık Özeti</h2>
+  <ul>
+    <li><strong>Spec:</strong> Retribution leveling (Ret). Endgame Holy (healer) veya Protection (tank).</li>
+    <li><strong>Silah:</strong> 2H mace (Verigan's Fist → Stoneslayer → Sul'thraze) veya 2H sword (Headstriker → Sul'thraze sword variant).</li>
+    <li><strong>Damage:</strong> Seal of the Crusader → Judgement (Judgement of the Crusader debuff: target'ın holy damage'a karşı zayıf olur) → Seal of Command (lvl 20 quest) → swing.</li>
+    <li><strong>Survival:</strong> BoP (kendine, 5 dk CD), Divine Shield (12 sn invuln, 5 dk CD), Hammer of Justice (3 sn stun, 1 dk CD), Lay on Hands (full HP, 1 saat CD), Cleanse (poison/disease).</li>
+    <li><strong>Auras:</strong> Devotion Aura (+armor) leveling. Retribution Aura (Ret) PvP edge. Concentration Aura caster'a karşı.</li>
+    <li><strong>Blessings:</strong> Blessing of Might (+AP, solo) veya Blessing of Wisdom (+mana regen, healer modunda).</li>
+  </ul>
+
+  <h2>İlk Gün Checklist (1-10)</h2>
+  <ol>
+    <li>Karakter oluştur: Human → Paladin. Realm: Classic Fresh HC (Defias Pillager NA / Skull Rock EU / Lava Lash / Soulseeker).</li>
+    <li>Northshire Abbey starter chain (Marshal McBride, Brother Sammuel) tamamla.</li>
+    <li><code>/console cameraDistanceMaxZoomFactor 3.9</code> yaz — kamerayı en geri zoom'la.</li>
+    <li>Interface → Names → <strong>Always Show Nameplates</strong> ON.</li>
+    <li>Addon'ları kur: <em>Hardcore (TrueHorse), Hardcore Death Log, Questie, OmniCC, Decursive, WeakAuras, Bagnon, Leatrix Plus</em>.</li>
+    <li>Lvl 4: <strong>Devotion Aura</strong> öğren — sürekli açık tut.</li>
+    <li>Lvl 6: <strong>Seal of Righteousness</strong> + <strong>Judgement</strong> (lvl 4 Judgement öğrenilince combo başlar).</li>
+    <li>Lvl 8: <strong>Hammer of Justice</strong> — emergency stun bar'a koy.</li>
+    <li>First Aid + Cooking + Fishing — üçü de hemen pickup.</li>
+    <li>Mining'i Stormwind/Goldshire'da pickup (Blacksmithing için ham).</li>
+  </ol>
+
+  <div class="callout hc">
+    <strong>HC altın kural:</strong> <em>"Yeşil quest yap."</em> Sarı/turuncu quest hit chance düşürür + damage azaltır + mob seni vurma şansı artar. Hep en az 2 level üstün quest tercih et.
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- BUILD                                                          -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-build" role="tabpanel">
+
+  <h2>Retribution Talent Sırası (Leveling 10-60)</h2>
+  <p>Hedef build: <strong>0/0/31 Retribution</strong> + kalan puanlar Holy (Improved Lay on Hands, Healing Light). Aşağıdaki sıra her level-up için öncelik:</p>
+
+  <h3>İlk 5 puan (lvl 10-14)</h3>
+  <ul>
+    <li><strong>Improved Seal of Righteousness 5/5</strong> — SoR damage +%15. Leveling damage'ının temeli.</li>
+  </ul>
+
+  <h3>Lvl 15-25</h3>
+  <ul>
+    <li><strong>Improved Blessing of Might 5/5</strong> — kendine BoM +%50 daha güçlü = direkt AP boost.</li>
+    <li><strong>Improved Judgement 2/2</strong> — Judgement CD 10 sn → 8 sn. Rotasyon hızlanır.</li>
+  </ul>
+
+  <h3>Lvl 25-30</h3>
+  <ul>
+    <li><strong>Improved Seal of the Crusader 3/3</strong> — Judgement of the Crusader holy damage taken +20%.</li>
+    <li><strong>Two-Handed Weapon Specialization 3/3</strong> — 2H damage +%6.</li>
+  </ul>
+
+  <h3>Lvl 30-40</h3>
+  <ul>
+    <li><strong>Conviction 5/5</strong> — melee crit +%5.</li>
+    <li><strong>Sanctity Aura 1/1</strong> — partide ve sende holy damage +%10. Solo leveling için bile faydalı (SoR/Judgement holy).</li>
+  </ul>
+
+  <h3>Lvl 40-50</h3>
+  <ul>
+    <li><strong>Repentance 1/1</strong> — 6 sn polymorph benzeri CC <em>humanoid</em> mob'a. Two-mob pull'da yedek CC. <em>HC altın talent.</em></li>
+    <li><strong>Vengeance 5/5</strong> — crit sonrası +%9 holy/physical damage 8 sn.</li>
+  </ul>
+
+  <h3>Lvl 50-60 (Final talents)</h3>
+  <ul>
+    <li><strong>Vindication 3/3</strong> — melee swing'de mob'un str/agi azalır 15 sn (damage azaltır).</li>
+    <li><strong>Crusader Strike 1/1 (31-point)</strong> — instant melee strike, refresh judgement debuff.</li>
+    <li>Kalan 9-10 puan Holy: <strong>Healing Light 3/3</strong>, <strong>Improved Lay on Hands 2/2</strong>.</li>
+  </ul>
+
+  <div class="callout tip">Talent'ları yanlış basarsan stres yapma — trainer'da 1g'dan başlayan ücretle reset yapabilirsin (üst limit 50g'da sabitlenir).</div>
+
+  <h2>Stat Öncelikleri</h2>
+  <table>
+    <tr><th>Aşama</th><th>Sıralama</th><th>Neden</th></tr>
+    <tr><td>Leveling (1-40) Ret</td><td>Strength &gt; Stamina &gt; Intellect</td><td>STR = AP + block value. STA = HP buffer. INT = mana pool for emergency heal.</td></tr>
+    <tr><td>Leveling (40-60) Ret</td><td>Strength &gt; Stamina &gt; Hit% &gt; Crit%</td><td>Hit% Sword/Mace Spec ile birlikte miss/glancing'i ezer.</td></tr>
+    <tr><td>Endgame Holy</td><td>Intellect &gt; +Healing &gt; Spirit &gt; Stamina</td><td>Spirit-based MP5 + Spell Power.</td></tr>
+    <tr><td>Endgame Prot</td><td>Stamina &gt; Defense (315) &gt; Strength &gt; Intellect</td><td>Defense cap = 315 (uncrittable cap by raid bosses).</td></tr>
+  </table>
+
+  <h2>Rotasyon — Standart Solo Pull (Retribution)</h2>
+  <ol>
+    <li><strong>Blessing of Might</strong> kendine (saatlik buff — sabah aktif et, unutma).</li>
+    <li><strong>Devotion Aura</strong> açık (pasif sürekli).</li>
+    <li>Pull öncesi <strong>Seal of the Crusader</strong> bas (swing speed buff).</li>
+    <li>Mob'a yürü, ilk swing'de <strong>Judgement</strong> bas → <em>Judgement of the Crusader</em> debuff'u target'a yapışır (target +20% holy damage takes).</li>
+    <li>Hemen <strong>Seal of Command</strong>'a (lvl 20 quest sonrası) veya <strong>Seal of Righteousness</strong>'a geç.</li>
+    <li>Swing devam — her CD'de <strong>Judgement of Righteousness/Command</strong> (Seal'ı tüketir, target'a holy damage atar).</li>
+    <li>Mob low HP'de <strong>Hammer of Justice</strong> (stun) — son vuruşu garantile.</li>
+    <li>Mob öldü → kendine <strong>Holy Light</strong> rank 1 (mana ucuz) veya Flash of Light. Bandage tercih (mana koru).</li>
+  </ol>
+
+  <pre>[Buff] BoM + Devotion Aura
+   ↓
+[Pull] Seal of Crusader → walk in → Judgement (debuff applied)
+   ↓
+[Damage] Seal of Command → swing → CD → Judgement → re-Seal → swing
+   ↓
+[Finisher] Hammer of Justice (HP %20)
+   ↓
+[Refill] Holy Light R1 / Bandage / drink</pre>
+
+  <h2>Rotasyon — Two-Mob Pull (CC ile)</h2>
+  <ol>
+    <li>Lvl 40+ Repentance varsa: önce <strong>Repentance</strong> humanoid mob #2'ye (6 sn polymorph).</li>
+    <li>Mob #1'i normal rotasyonla öldür.</li>
+    <li>Repentance bitmek üzereyse aktif ol → <strong>Hammer of Justice</strong> mob #2'ye (3 sn ek stun).</li>
+    <li>Mob #2'ye normal rotasyon.</li>
+    <li>Repentance yoksa: pull'u tek mob ayır (LoS köşesi kullan) veya gitme.</li>
+  </ol>
+
+  <h2>Aura ve Blessing Yönetimi</h2>
+  <table>
+    <tr><th>Aura</th><th>Lvl</th><th>Ne zaman</th></tr>
+    <tr><td>Devotion Aura</td><td>4</td><td>Default — armor sürekli</td></tr>
+    <tr><td>Retribution Aura</td><td>16</td><td>Holy damage on melee hit alanı — DTTD, dungeon trash</td></tr>
+    <tr><td>Concentration Aura</td><td>30</td><td>Spell cast interrupt immunity — caster heavy dungeon</td></tr>
+    <tr><td>Shadow Resistance Aura</td><td>20</td><td>Scholomance / Strat Undead / Naxx</td></tr>
+    <tr><td>Frost Resistance Aura</td><td>30</td><td>Winterspring, Mage DTTD</td></tr>
+    <tr><td>Fire Resistance Aura</td><td>40</td><td>MC, BWL, BRD lower</td></tr>
+  </table>
+  <table>
+    <tr><th>Blessing</th><th>Lvl</th><th>Ne zaman</th></tr>
+    <tr><td>Blessing of Might (BoM)</td><td>4</td><td>Solo Ret leveling — kendine, +AP</td></tr>
+    <tr><td>Blessing of Wisdom (BoW)</td><td>14</td><td>Healer mode — kendine, +mana regen</td></tr>
+    <tr><td>Blessing of Kings</td><td>20</td><td>5min +%10 all stats — endgame, hep aktif</td></tr>
+    <tr><td>Blessing of Protection (BoP)</td><td>10</td><td>Physical immunity 10 sn — emergency self-cast</td></tr>
+    <tr><td>Blessing of Freedom</td><td>18</td><td>Root/snare immunity 10 sn — kite escape</td></tr>
+    <tr><td>Blessing of Sacrifice</td><td>30</td><td>Partner'ın damage'ının %30'unu sen al — ölüm riski; HC'de partner için kullan, sen değil</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <strong>Forbearance debuff:</strong> Lay on Hands, Divine Shield, Divine Protection veya Blessing of Protection kullanınca <strong>60 sn Forbearance</strong> uygulanır. Forbearance varken hiçbiri tekrar basılamaz. Yani bubble bitince 1 dk boyunca tekrar bubble yok, BoP yok, LoH yok. <em>Bunu unutursan ölürsün.</em>
+  </div>
+
+  <h2>Pet... Yok, Ama Mount Yol Haritası</h2>
+  <ul>
+    <li><strong>Lvl 40:</strong> Paladin <em>Tier 1 mount quest</em> başlat — Stormwind'de Lord Grayson Shadowbreaker. <strong>Ücretsiz</strong> Warhorse (Charger değil, normal warhorse).</li>
+    <li><strong>Lvl 60:</strong> Paladin <em>Charger quest</em> (Epic mount) — <em>The Test of Righteousness</em> chain. Scarlet Monastery / Stratholme / Scholomance / Dire Maul item topla. <strong>Ücretsiz</strong> Charger (normalde 1000g epic mount).</li>
+    <li>Toplam tasarruf: <strong>80g + 1000g = 1080g</strong> sadece mount'tan. HC'de bu para = repair + consumable + bag.</li>
+  </ul>
+
+  <h2>Gear Hedefleri</h2>
+  <div class="callout info">
+    Her 10 level için slot bazlı tam gear listesi ayrı <strong>Gearing</strong> sekmesinde. Sekmeye geç — 2H silah, shield, plate set, libram, trinket kaynakları orada.
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- GEARING                                                        -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-gearing" role="tabpanel">
+
+  <h2>Gearing Yol Haritası — Her 10 Level</h2>
+  <p>Human Paladin (Retribution leveling → Holy/Prot endgame) için slot bazlı gear hedefleri. Her bracket'te sırasıyla: ana 2H silah, off-spec 1H+shield, zırh seti / kilit slotlar, trinket/ring.</p>
+
+  <div class="callout hc">
+    <strong>Human önceliği:</strong> <em>Sword Specialization</em> ve <em>Mace Specialization</em> +5 weapon skill — aynı anda iki silah tipinde mükemmel. Polearm/axe varyantları olsa bile <strong>her zaman sword veya mace tercih et</strong>. Skill = miss/dodge azalır = HC'de damage tutarlılığı.
+  </div>
+
+  <div class="callout warn">
+    <strong>Yan slot kuralı:</strong> Leveling boyunca 1H mace/sword + shield setini de bag'de tut. <em>Holy Light</em> spam'i veya tough pull için shield + 1H swap hayat kurtarır.
+  </div>
+
+  <h3>Lvl 10 (1-19) — Northshire & Elwynn</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>2H Weapon</td><td><em>Worn Mace</em> → <strong>Spiked Club</strong> (quest) → <em>Foreman's Hammer</em></td><td>Northshire / Elwynn quest</td></tr>
+    <tr><td>1H + Shield</td><td>Herhangi mace/sword + <em>Battered Buckler</em></td><td>Vendor / quest</td></tr>
+    <tr><td>Chest</td><td>Quest greens (+Str/Sta) — cloth/leather (mail lvl 40'a kadar)</td><td>Elwynn / Westfall</td></tr>
+    <tr><td>Libram</td><td>(lvl 50'ye kadar libram slot boş)</td><td>—</td></tr>
+    <tr><td>Trinket</td><td><strong>Insignia of the Alliance</strong> (PvP, açıldığında fear-break)</td><td>BG (lvl 10+ erişim)</td></tr>
+    <tr><td>Bag</td><td>2-3x <strong>Linen Bag</strong> 6-slot</td><td>Tailor / vendor</td></tr>
+  </table>
+
+  <h3>Lvl 20 (20-29) — Verigan's Fist ★</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>2H Weapon ★★</td><td><strong>Verigan's Fist</strong> (2H mace, +Spirit, +on-hit Holy proc) — <em>Mace Spec ile +5 skill = miss çok düşer</em></td><td>Paladin class quest lvl 20 — <em>The Tome of Divinity</em> chain, Deadmines'da Tablet item</td></tr>
+    <tr><td>2H alt</td><td><strong>Smite's Mighty Hammer</strong> (2H mace) — Verigan beklenirken</td><td>Deadmines — Mr. Smite drop</td></tr>
+    <tr><td>1H + Shield</td><td><em>Cruel Barb</em> (sword) + <em>Crescent of Forlorn Spirits</em></td><td>Deadmines / Stockades</td></tr>
+    <tr><td>Chest</td><td>SFK / Deadmines drops (mail/leather mix)</td><td>SFK (lvl 22-28, Alliance girer)</td></tr>
+    <tr><td>Trinket</td><td><strong>Lucky Trinket</strong> veya <em>Insignia</em> devam</td><td>Vendor / BG</td></tr>
+    <tr><td>Ring</td><td>Quest greens +Str/Sta</td><td>Westfall / Redridge quest</td></tr>
+    <tr><td>Bag</td><td>4x <strong>Woolen Bag</strong> 8-slot</td><td>Tailor / AH dışı</td></tr>
+  </table>
+  <div class="callout tip">Verigan's Fist questi <strong>ASLA atlama</strong> — +5 weapon skill ile lvl 30'a kadar haftalarca BiS. Deadmines run gerektirir, voice/discord olan grupla gir.</div>
+
+  <h3>Lvl 30 (30-39) — SM Armory / Uldaman</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>2H Weapon</td><td><strong>Hammer of the Northern Wind</strong> (1H+shield combo lvl 36, Frostbolt proc) <em>veya</em> <strong>Stoneslayer</strong> (2H sword)</td><td>SM Armory — Herod / Uldaman drop</td></tr>
+    <tr><td>2H alt</td><td><strong>Whitestone Oak Mace</strong> (BoE 2H mace, +Str/Sta) — Mace Spec uyumlu</td><td>BoE drop / AH dışı</td></tr>
+    <tr><td>1H + Shield</td><td><strong>Headstriker</strong> (1H sword, SM Armory Herod) + <strong>Aegis of Stormwind</strong></td><td>SM Armory / Stormwind quest</td></tr>
+    <tr><td>Head</td><td><em>Whitemane's Chapeau</em> (SM Cathedral) — cloth ama lvl 40 öncesi hâlâ geçerli</td><td>SM Cathedral (lvl 38-42)</td></tr>
+    <tr><td>Trinket ★</td><td><strong>Royal Seal of Eldre'Thalas</strong> (lvl 38, +Sta/Str)</td><td>Dire Maul attune chain reward</td></tr>
+    <tr><td>Boots</td><td><em>Doublestitched Leather Boots</em> (vendor lvl 36, +Str)</td><td>Stormwind vendor</td></tr>
+    <tr><td>Ring</td><td><em>Hammerfist Band</em> (Uldaman) / quest +Str ring</td><td>Uldaman / Hillsbrad quest</td></tr>
+  </table>
+
+  <h3>Lvl 40 (40-49) — Plate Unlock + Free Mount ★</h3>
+  <div class="callout warn">Lvl 40'ta <strong>Plate proficiency</strong> açılır — tüm leather/mail chest/legs/feet/hands/wrist/waist/shoulders/head slotlarını plate'e çevir. Plate = +%35-40 armor.</div>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>Mount ★★</td><td><strong>Warhorse</strong> — <em>Ücretsiz</em> Paladin class quest</td><td>Lord Grayson Shadowbreaker — Stormwind Cathedral, lvl 40 quest chain</td></tr>
+    <tr><td>2H Weapon</td><td><strong>The Hammer of Grace</strong> (BoE, +Str/Sta mace) <em>veya</em> <strong>Mass of McGowan</strong> (SFK)</td><td>BoE / SFK boss drop</td></tr>
+    <tr><td>1H + Shield</td><td><strong>Sword of Decay</strong> (Strat lower) + <strong>Drakeclaw Band</strong></td><td>Strat (lvl 58+, sonra)</td></tr>
+    <tr><td>Plate Set ★</td><td><strong>Lightforge Set</strong> (Paladin Dungeon Set 1) — 8 parça drops lvl 41-50</td><td>SM / ZF / Uldaman / Mara / SFK</td></tr>
+    <tr><td>Chest alt</td><td><strong>Ornate Mithril Breastplate</strong> (BS craft, lvl 45)</td><td>Blacksmith</td></tr>
+    <tr><td>Head alt</td><td><strong>Mithril Coif</strong> (BS craft, mail — plate gelene kadar)</td><td>Blacksmith</td></tr>
+    <tr><td>Trinket</td><td><strong>Carrot on a Stick</strong> (+%3 mount speed)</td><td>ZF (lvl 45+)</td></tr>
+    <tr><td>Trinket 2</td><td><em>Royal Seal of Eldre'Thalas</em> devam</td><td>—</td></tr>
+    <tr><td>Ring</td><td><em>Don Mauricio's Band</em> (DM N)</td><td>Dire Maul North</td></tr>
+    <tr><td>Off-hand</td><td><strong>Aegis of the Scarlet Commander</strong> (SM Cathedral)</td><td>SM Cathedral — Mograine drop</td></tr>
+  </table>
+  <div class="callout tip">Lightforge set tamamlanmasa bile 3-4 parça bonusu (+200 armor / +8 Str) leveling boyunca solid. Drops için Wowhead dungeon list filtrele.</div>
+
+  <h3>Lvl 50 (50-59) — Sul'thraze & Truesilver</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>2H Weapon ★</td><td><strong>Sul'thraze the Lasher</strong> (2H sword, +disease proc) — Sword Spec ile +5 skill</td><td>ZF + Hinterlands combine quest chain</td></tr>
+    <tr><td>2H alt</td><td><strong>Truesilver Champion</strong> (BS craft, +Str/Sta/Spirit) — craft pahalı ama BiS lvl 50-60</td><td>Blacksmith (kendi mesleğin ideal)</td></tr>
+    <tr><td>1H + Shield</td><td><strong>Sword of Serenity</strong> (Mara) + <strong>Tablet of Ryun'eh</strong> (BRD)</td><td>Maraudon / BRD</td></tr>
+    <tr><td>Libram ★</td><td><strong>Libram of Hope</strong> (BRD vendor) — BoP heal/proc bonus</td><td>BRD vendor (lvl 55+)</td></tr>
+    <tr><td>Head</td><td><strong>Helm of Narv</strong> (Strat Live) <em>veya</em> Lightforge Helm devam</td><td>Strat Live</td></tr>
+    <tr><td>Chest</td><td><strong>Breastplate of Bloodthirst</strong> (BRD) / Lightforge Breastplate</td><td>BRD / dungeon set</td></tr>
+    <tr><td>Trinket ★</td><td><strong>Smoking Heart of the Mountain</strong> (BS craft, +18 all res +7 Sta)</td><td>Blacksmith friend</td></tr>
+    <tr><td>Ring</td><td><strong>Magni's Will</strong> (BRD quest) + <em>Don Mauricio's Band</em></td><td>BRD / DM N</td></tr>
+    <tr><td>Boots</td><td><strong>Slaghide Gauntlets</strong> (BRD) / <strong>Brigam Girdle</strong> waist</td><td>BRD</td></tr>
+  </table>
+
+  <h3>Lvl 60 — Charger + Pre-Raid BiS</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>Mount ★★</td><td><strong>Charger</strong> (Epic Warhorse) — <em>Ücretsiz</em> Paladin class quest</td><td>Lord Grayson Shadowbreaker — <em>The Test of Righteousness</em>: SM / Strat / Scholo / DM item topla</td></tr>
+    <tr><td>2H Weapon ★★</td><td><strong>Hammer of the Twisting Nether</strong> (Strat Live) <em>veya</em> <strong>The Unstoppable Force</strong> (AV PvP, 2H mace)</td><td>Strat Live — Baron / AV reward</td></tr>
+    <tr><td>2H alt</td><td><strong>Lifestealer</strong> (UBRS, 2H polearm — sadece polearm gerektiğinde) / <strong>Quel'Serrar</strong> (DM E + Onyxia chain, 1H+shield)</td><td>UBRS / DM East quest chain</td></tr>
+    <tr><td>1H Sword ★</td><td><strong>Quel'Serrar</strong> (1H sword, Onyxia chain) — Sword Spec + shield için BiS</td><td>DM East quest — sonra Onyxia 50% HP</td></tr>
+    <tr><td>Shield</td><td><strong>Drillborer Disk</strong> (BRD Emperor) <em>veya</em> <strong>Aegis of the Blood God</strong> (ZG later)</td><td>BRD Emperor / ZG raid</td></tr>
+    <tr><td>Libram ★</td><td><strong>Libram of Truth</strong> (Scholo — Ras) / <strong>Libram of Light</strong></td><td>Scholo — Ras Frostwhisper drop</td></tr>
+    <tr><td>Head</td><td><strong>Helm of Wrath</strong> (T2 later) / <strong>Wyrmtongue Helm</strong> (BRD)</td><td>BRD / raid later</td></tr>
+    <tr><td>Neck</td><td><strong>Mark of Fordring</strong> (EPL quest chain reward)</td><td>EPL Tirion Fordring chain</td></tr>
+    <tr><td>Shoulders</td><td><strong>Truestrike Shoulders</strong> (UBRS) <em>veya</em> <strong>Lightforge Spaulders</strong></td><td>UBRS / dungeon set</td></tr>
+    <tr><td>Back</td><td><strong>Cape of the Black Baron</strong> (DM E) / <strong>Hide of the Wild</strong> (LW craft)</td><td>DM E / Leatherworker</td></tr>
+    <tr><td>Chest</td><td><strong>Breastplate of Valor</strong> (BoP, BS craft chain) / <strong>Cadaverous Armor</strong> (Strat) leveling drop</td><td>BS quest chain / Strat</td></tr>
+    <tr><td>Wrist</td><td><strong>Wristguards of Stability</strong> (Strat) / <strong>Lightforge Bracers</strong></td><td>Strat / dungeon set</td></tr>
+    <tr><td>Hands</td><td><strong>Gauntlets of Might</strong> (BS craft) / <strong>Lightforge Gauntlets</strong></td><td>Blacksmith / dungeon set</td></tr>
+    <tr><td>Waist</td><td><strong>Omokk's Girth Restrainer</strong> (LBRS) / <strong>Belt of Valor</strong> (BS craft)</td><td>LBRS / BS</td></tr>
+    <tr><td>Legs</td><td><strong>Legplates of Valor</strong> (BS craft) / <strong>Bloodmail Legguards</strong> (Strat)</td><td>Blacksmith / Strat Live</td></tr>
+    <tr><td>Feet</td><td><strong>Battlechaser's Greaves</strong> (BRD) / <strong>Boots of Valor</strong> (BS craft)</td><td>BRD / BS</td></tr>
+    <tr><td>Ring</td><td><strong>Don Julio's Band</strong> (R10 PvP) + <strong>Tarnished Elven Ring</strong> (BRD)</td><td>Honor grind / BRD</td></tr>
+    <tr><td>Trinket ★</td><td><strong>Hand of Justice</strong> (BRD) + <strong>Briarwood Reed</strong> (BRD)</td><td>BRD — ikisi de aynı dungeon!</td></tr>
+  </table>
+
+  <div class="callout tip">
+    <strong>Charger quest önceliği:</strong> Lvl 60 olur olmaz <em>The Test of Righteousness</em> chain'i başlat — SM/Strat/Scholo/DM item drop'ları random, gruplara biner gibi sokul. Ücretsiz epic mount = 1000g cebinde kalır = consumable + repair.
+  </div>
+
+  <div class="callout hc">
+    <strong>BRD = Paladin BiS hazinesi:</strong> Hand of Justice + Briarwood Reed + Libram of Hope + Tablet of Ryun'eh + Magni's Will + multiple chest options. Tek dungeon 6+ pre-raid slot doldurur. Güvenli grupla 2-3 run yap.
+  </div>
+
+  <h2>Genel Slot Önceliği (HC Paladin Hiyerarşisi)</h2>
+  <ol>
+    <li><strong>2H silah</strong> — Ret leveling damage'ının %60'ı. Her bracket'te upgrade.</li>
+    <li><strong>1H + Shield set</strong> — bag'de tut, tough pull için swap.</li>
+    <li><strong>Trinket</strong> — Hand of Justice, Carrot, Royal Seal stack et.</li>
+    <li><strong>Chest/Legs</strong> — armor + Str/Sta.</li>
+    <li><strong>Libram</strong> (lvl 50+) — spell/seal bonus.</li>
+    <li>Geri kalan slotlar quest + dungeon drop.</li>
+  </ol>
+
+  <h2>Holy/Prot Off-Spec Gear (Yan Set)</h2>
+  <div class="callout info">
+    Ret leveling boyunca <em>Intellect/Spirit</em> ve <em>+Healing</em> item'lerini ATMA — bank'te tut. Lvl 60'ta Holy spec'e geçiyorsan hazır set olur. Anahtar: <strong>Lei of the Lifegiver</strong> (ZG), <strong>Truesilver Gauntlets</strong>, <strong>Aurora Necklace</strong>.
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- İLERLEME LİSTESİ                                              -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-progress" role="tabpanel">
+
+  <h2>Level Bazlı İlerleme Listesi</h2>
+  <p>Tüm ilerlemen tarayıcıda otomatik kaydedilir (localStorage key <code>hc_human_paladin_v1</code>). Üst bardaki sayaç anlık günceller.</p>
+
+  <div class="level-group open" data-group="g1">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 1-10 — Northshire & Elwynn</span><span class="lg-meta">Starter zone</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g2">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 10-20 — Westfall / Loch Modan / Redridge</span><span class="lg-meta">Verigan's Fist + Hammer of Justice</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g3">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 20-30 — Duskwood / Wetlands</span><span class="lg-meta">Seal of Command, Divine Shield</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g4">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 30-40 — SM / Hillsbrad / Arathi</span><span class="lg-meta">Plate açılışı + ücretsiz mount</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g5">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 40-50 — STV / Tanaris / Hinterlands</span><span class="lg-meta">Repentance, Crusader Strike yolu</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g6">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 50-60 — BRD / Plaguelands / Winterspring</span><span class="lg-meta">Pre-BiS toplama</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="g7">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Lvl 60 — Endgame</span><span class="lg-meta">Charger quest, pre-raid BiS, MC/Naxx</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+  <div class="level-group" data-group="hab">
+    <div class="level-group-head"><span class="lg-toggle lg-title">Her Zaman Aktif Disiplinler</span><span class="lg-meta">Yaşam alışkanlığı</span></div>
+    <div class="level-group-body" data-checklist></div>
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- ADDON'LAR                                                      -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-addons" role="tabpanel">
+
+  <h2>Zorunlu Addon'lar</h2>
+  <table>
+    <tr><th>Addon</th><th>Ne yapar</th><th>Neden zorunlu (HC)</th></tr>
+    <tr><td><strong>Hardcore (TrueHorse)</strong></td><td>Death broadcast + rule enforcement</td><td>Karakter doğrulama + ölüm chat</td></tr>
+    <tr><td><strong>Hardcore Death Log</strong></td><td>Realm çapında ölümleri gösterir + heatmap</td><td>Aynı tuzağa düşme</td></tr>
+    <tr><td><strong>Questie</strong></td><td>Quest tracker + harita üstü yol gösterici</td><td>Yeşil quest filtreleme</td></tr>
+    <tr><td><strong>OmniCC</strong></td><td>Buton üzerinde CD sayacı</td><td>BoP / Bubble / LoH / HoJ CD'sini görmek hayat</td></tr>
+    <tr><td><strong>WeakAuras</strong></td><td>Custom alert framework</td><td>HP %30 alarm, Forbearance debuff alarm, Mana %20 alarm</td></tr>
+    <tr><td><strong>Decursive</strong></td><td>Tek-tuş poison/disease/magic cleanse</td><td>Paladin Cleanse otomasyonu — partide hayat kurtarıcı</td></tr>
+    <tr><td><strong>Bagnon</strong></td><td>Bag birleştirici</td><td>Repair / mat yönetimi</td></tr>
+    <tr><td><strong>Leatrix Plus</strong></td><td>QoL paketi</td><td>Camera 3.9 zoom, auto-repair, fast loot, auto-quest</td></tr>
+    <tr><td><strong>Forbearance Tracker</strong> (WA paketi)</td><td>Forbearance debuff sayacı</td><td>Bubble/BoP/LoH cooldown gating görselleştirme — <em>HC'de Paladin için olmazsa olmaz</em></td></tr>
+  </table>
+
+  <h2>Paladin-Spesifik Addon'lar</h2>
+  <table>
+    <tr><th>Addon</th><th>Ne yapar</th></tr>
+    <tr><td><strong>Pally Power</strong></td><td>Grup blessing assignment + tek-tuş re-buff</td></tr>
+    <tr><td><strong>SealAssistant / TidyPlates Seal Tracker</strong></td><td>Aktif Seal görseli — yanlış Seal ile Judgement basmamak için</td></tr>
+    <tr><td><strong>HealBot Continued</strong></td><td>Click-heal frame (Holy spec için)</td></tr>
+    <tr><td><strong>Clique</strong></td><td>Mouseover heal/buff macro framework</td></tr>
+  </table>
+
+  <h2>İlk Gün Macro'ları</h2>
+  <pre>/* Self-BoP (panik melee immunity) */
+#showtooltip Blessing of Protection
+/cast [@player] Blessing of Protection
+
+/* Self-Heal Holy Light maksimum rank */
+#showtooltip Holy Light
+/cast [@player] Holy Light
+
+/* Self-Cleanse (poison/disease) */
+#showtooltip Cleanse
+/cast [@player] Cleanse
+
+/* Bubble + dur (Classic Fresh — Hearthstone basma) */
+#showtooltip Divine Shield
+/cast Divine Shield
+/stopattack
+
+/* Seal + Judgement combo (lvl 20 sonrası) */
+#showtooltip Judgement
+/cast Judgement
+/cast Seal of Command
+
+/* Hammer of Justice + sesli uyarı */
+#showtooltip Hammer of Justice
+/cast Hammer of Justice
+/script PlaySound("RaidWarning")</pre>
+
+  <h2>Kamera ve UI Açılış Komutları</h2>
+  <pre>/console cameraDistanceMaxZoomFactor 3.9
+/console nameplateShowEnemyMinus 1
+/console nameplateShowEnemyTotems 1
+/console floatingCombatTextCombatDamage 1</pre>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- PVP & TEHLİKE                                                  -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-pvp" role="tabpanel">
+
+  <h2>HC PvP — Önce Bunları Bil</h2>
+  <div class="callout danger">
+    <strong>Classic Fresh HC'de <code>/duel</code> = Duel to the Death.</strong> Normal duel YOK. Bir oyuncuya duel attığında o oyuncu kabul ederse <strong>düello sonunda kaybeden ÖLÜR ve karakteri silinir.</strong> Asla yanlışlıkla kabul etme.
+  </div>
+  <ul>
+    <li>PvP <strong>flag'i opt-in</strong>: Sen aktif etmedikçe Horde seni vuramaz.</li>
+    <li>Original HC'de komut <code>/makgora</code>. Classic Fresh'te <code>/duel</code>.</li>
+    <li>Lvl 19+ minimum.</li>
+    <li>Wargames açık — guild vs guild PvP olabilir, kaybedenler ÖLÜR.</li>
+  </ul>
+
+  <h3>Paladin DTTD Stratejisi</h3>
+  <ol>
+    <li><strong>Pre-buff</strong>: BoM kendine, Devotion Aura, Sanctity Aura (Ret talent).</li>
+    <li>Açılış: <strong>Hammer of Justice</strong> (stun) → <strong>Judgement of the Crusader</strong> → <strong>Seal of Command</strong> → swing.</li>
+    <li>Düşman HP yarıladıysa <strong>BoP self</strong> (melee'yse) veya <strong>Bubble</strong> (caster'a karşı).</li>
+    <li>Bubble sırasında: bandage / Holy Light / Lay on Hands.</li>
+    <li>Bubble bitince <strong>Forbearance var</strong> — bir daha BoP/Bubble basamazsın. HoJ + Crusader Strike + Repentance ile finisher.</li>
+    <li>Caster'a karşı <strong>Concentration Aura</strong> ön (cast interrupt immunity).</li>
+  </ol>
+
+  <h2>Wowhead Resmi "Tehlikeli Quest'ler" — Paladin İçin</h2>
+  <div class="callout danger">
+    <strong>Defias Pillager</strong> (Westfall, lvl 14 caster) tüm Classic'in <strong>#1 oyuncu öldüren mob'u</strong>. Alliance "The People's Militia" quest'i #1 HC ölüm questi. Paladin çözümü: <em>BoP'u Pillager'a karşı KULLANMA</em> — BoP physical immunity, Pillager'ın fireball'ı spell damage = geçer. Çözüm: LoS abuse, tek-tek pull, Judgement of the Crusader → swing, kritik anda Bubble.
+  </div>
+
+  <table>
+    <tr><th>Quest</th><th>Konum</th><th>Risk</th><th>Paladin çözümü</th></tr>
+    <tr><td>The People's Militia</td><td>Westfall</td><td>Defias Pillager fireball (spell)</td><td>LoS abuse; tek-tek pull; <em>BoP işe yaramaz</em>, Bubble veya Concentration Aura</td></tr>
+    <tr><td>Filthy Paws</td><td>Redridge cave</td><td>Tunnel Rat Geomancer + fire shield reflect</td><td>Cave + caster + reflect = en kötü combo. <strong>SKIP veya 2 level overlevel + Cleanse hazır</strong></td></tr>
+    <tr><td>Cave Mushrooms</td><td>STV naga cave</td><td>Naga knockback alt-floor'a</td><td>Üst kat'ta kal. Naga poison: Cleanse anında.</td></tr>
+    <tr><td>The Absent-Minded Prospector</td><td>Loch Modan escort</td><td>Trogg wave + Golem fast respawn</td><td>BoP escort target'a değil sana — kendini koru; wipe olursa kaç + tekrar dene.</td></tr>
+    <tr><td>Colonel Kurzen</td><td>STV cave</td><td>Uzun stun + sert vuruş</td><td>Grup veya skip. <em>Stun = HoJ + Bubble hazır.</em></td></tr>
+    <tr><td>Wanted! Otto and Falconcrest</td><td>Arathi</td><td>Lord Falconcrest lvl 40 raid boss eşdeğer</td><td><strong>Asla solo.</strong> Duo/trio.</td></tr>
+  </table>
+
+  <h2>Mob Leash Mekaniği — Paladin İçin</h2>
+  <p>Paladin'in plate + heal kombosu uzun fight'ları kaldırır, ama yine de leash mekaniği biliyor olmak hayat kurtarır. Mob seni <em>süre</em> bazlı kovalar:</p>
+  <table>
+    <tr><th>Mob Level</th><th>Leash Süresi</th></tr>
+    <tr><td>1-29</td><td>11 sn</td></tr>
+    <tr><td>30-39</td><td>12 sn</td></tr>
+    <tr><td>40-44</td><td>13 sn</td></tr>
+    <tr><td>45-49</td><td>14 sn</td></tr>
+    <tr><td>50-60</td><td>15 sn</td></tr>
+  </table>
+  <p><strong>İstisna:</strong> Mob spawn noktasının 15-30 yard içindeyse leash kırılmaz.</p>
+
+  <p><strong>Paladin escape protokolü</strong> (Classic Fresh, bubble hearth yok):</p>
+  <ol>
+    <li><strong>Bubble</strong> (Divine Shield) — 12 sn full immunity başlat.</li>
+    <li><strong>Hemen koş</strong> (Blessing of Freedom varsa snare immunity).</li>
+    <li>12 sn içinde safe zone (NPC kampı, flight path) ya da en az 15-30y mob spawn dışına ulaş.</li>
+    <li>Bubble bittiğinde 60 sn Forbearance var — bir daha bubble/BoP yok.</li>
+    <li>Mob'lar leash zamanı dolduğu için (11-15 sn) çoğu durumda combat'tan düşersin.</li>
+    <li>Combat dışı: Holy Light maksimum rank + Cleanse + Hearthstone (CD'deyse safe zone'da bekle).</li>
+  </ol>
+
+  <div class="callout warn">
+    <strong>BoP'un sınırı:</strong> BoP <em>sadece</em> physical immunity. Caster mob (Defias Pillager, Geomancer, Scorched Guardian) BoP'tan geçer. BoP'u <em>fizik vuran</em> mob (Yeti, Worgen, Bear, Ogre) için sakla; caster'a karşı Bubble veya Concentration Aura kullan.
+  </div>
+
+  <h2>Daze Mekaniği — Backpedal YASAK</h2>
+  <p>Mob senin <strong>sırtına</strong> vururken daze proc olur. Plate armor seni daze'den korumaz.</p>
+  <ul>
+    <li><strong>S (backpedal) tuşunu kaçışta ASLA kullanma.</strong> Sırt dönük olursun.</li>
+    <li>Strafe (Q/E) ile yan koş — yüzün kısmen mob'a dönük kalır.</li>
+    <li><strong>Blessing of Freedom</strong> (lvl 18) snare immunity 10 sn — daze çözmez ama snare'i çözer.</li>
+  </ul>
+
+  <h2>Tehlikeli Zone Özeti (Human Paladin Yolu)</h2>
+  <ul>
+    <li><strong>Westfall (10-20):</strong> Defias Pillager (caster, fireball — BoP geçer). LoS abuse + Bubble emergency.</li>
+    <li><strong>Redridge (10-20):</strong> Filthy Paws Tunnel Rat fire shield reflect — Cleanse hazır.</li>
+    <li><strong>Duskwood (18-30):</strong> Stitches geldiğinde Darkshire'a gir, ASLA saldırma. Worgen night packs — Repentance/HoJ + 2H swing.</li>
+    <li><strong>STV (30-45):</strong> Bloodsail boats multi-pull. Big Game Hunter elite tiger — solo gitme.</li>
+    <li><strong>Tanaris (40-50):</strong> Hyena patrols, Pawn Captures Queen cave 3 wasp wave.</li>
+    <li><strong>WPL/EPL (51-60):</strong> Stitches benzeri Crusader patrol gece artar. Tyr's Hand multi-pull — Shadow Resistance Aura.</li>
+    <li><strong>Winterspring (53-60):</strong> Frostmaul Giant — Frost Resistance Aura.</li>
+    <li><strong>BRD (52-60):</strong> Charger questi için gerek — sadece deneyimli party.</li>
+  </ul>
+
+  <h2>Wowhead'in Top 10 HC İpucu (Hızlı Liste)</h2>
+  <ol>
+    <li>Yeşil quest yap. Sarı/turuncu = hit chance düşer.</li>
+    <li>Consumable kullan, "saklama" — ölümde kaybedersin.</li>
+    <li>Silah upgrade'ini yolundan çıkarak yap.</li>
+    <li>Kamera zoom <code>3.9</code>.</li>
+    <li>Caster mob'lar ölümcül — LoS abuse, BoP işe yaramaz.</li>
+    <li>Enemy nameplates always on.</li>
+    <li>Spell training parasını akıllı harca (ama Paladin'in mount questi ücretsiz, biraz rahat).</li>
+    <li>Bag al — pouch 5s, 2 vendor trip kâra geçer.</li>
+    <li>Kaçış rotanı her pull'dan önce planla (özellikle bubble zone).</li>
+    <li>Cave'ler ölümcül — Hearthstone hazır olsun. <em>Bubble Hearth Classic Fresh'te yok.</em></li>
+  </ol>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- CRAFTING                                                       -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-crafting" role="tabpanel">
+
+  <h2>Profession Yolu: Mining + Blacksmithing</h2>
+  <p>Human Paladin için kanonik combo. Plate self-craft + mount discount items + 2H weapon craft + Truesilver Champion lvl 60.</p>
+
+  <h3>Neden Bu Combo?</h3>
+  <ul>
+    <li>Mining lvl 5'te pickup edilebilir — Dun Morogh ve Loch Modan'da Copper Vein her yerde.</li>
+    <li>BS lvl 40 plate armor (lvl 40'ta unlock olur) craft eder.</li>
+    <li><strong>Mithril Coif</strong> (lvl 50 BS craft head) — pre-raid BiS head yıllarca dayandı.</li>
+    <li><strong>Truesilver Champion</strong> (lvl 60 BS craft 2H mace) — Paladin pre-raid BiS 2H.</li>
+    <li><strong>Sharpening Stone</strong> (Rough/Coarse/Heavy/Solid/Dense Sharpening Stone) — kendi silahına buff, +damage pasif gold.</li>
+  </ul>
+
+  <h3>Alternatif: Mining + Engineering</h3>
+  <p>Wowhead'in resmi top 2 combo'sundan biri:</p>
+  <ul>
+    <li><strong>Goblin Jumper Cables / Mind Control Cap</strong> — utility.</li>
+    <li><strong>Goblin Rocket Boots</strong> — +70% speed 20 sn emergency.</li>
+    <li><strong>Iron Grenade / M73 Frag</strong> — split pull, AoE damage.</li>
+    <li><strong>Mithril Mechanical Dragonling</strong> — combat pet ek damage.</li>
+  </ul>
+  <p>Ama Paladin'in <em>kendi plate craft'ı</em> kayboluyor. Eğer ikinci karakter Hunter veya Mage düşünüyorsan, ikincide Eng. Birincide Paladin için BS daha mantıklı.</p>
+
+  <h3>Alternatif 2: Alchemy + Herbalism</h3>
+  <p>Wowhead'in diğer resmi top combo'su. Plate craft'ı kaybedersin ama:</p>
+  <ul>
+    <li><strong>Free Action Potion</strong> — root/snare/fear immunity 30 sn (DTTD altın).</li>
+    <li><strong>Greater Stoneshield Potion</strong> — armor +%75 2 dk.</li>
+    <li><strong>Limited Invulnerability Potion</strong> — 6 sn physical immunity (bubble alternatif!).</li>
+    <li><strong>Healing/Mana Potion</strong> — self-craft, sınırsız.</li>
+  </ul>
+
+  <div class="callout tip">
+    <strong>Pratik kombinasyon:</strong> İlk Paladin'de <em>Mining + Blacksmithing</em> (Verigan's Fist + Mithril Coif + Truesilver Champion + plate progression). Eğer ikinci karakter denersen <em>Alchemy + Herbalism</em> — Free Action Potion'lar tüm guild'in işine yarar.
+  </div>
+
+  <h2>Zorunlu Secondary Profession'lar</h2>
+  <ul>
+    <li><strong>First Aid:</strong> Bandage = mana harcamayan heal. Holy Light yerine bandage = mana koru. Linen → Wool → Silk → Mageweave → Runecloth. Lvl 35'te <em>Triage</em> questi (Hillsbrad veya STV) skill cap 225.</li>
+    <li><strong>Cooking:</strong> Well Fed buff = +5 stat. Spiced Wolf Meat (stam), Tender Wolf Meat (lvl 45, +20 spirit/stam), Smoked Desert Dumplings (+20 strength = Paladin Ret altın).</li>
+    <li><strong>Fishing:</strong> Cooking ile sinerji. Strawberry's Hat fishing rod.</li>
+  </ul>
+
+  <h2>Gold Yönetimi Hedefleri</h2>
+  <table>
+    <tr><th>Level</th><th>Gold Hedefi</th><th>Not</th></tr>
+    <tr><td>10</td><td>1g</td><td>İlk pouch</td></tr>
+    <tr><td>20</td><td>5-8g</td><td>Spell training (Paladin'in spell sayısı çok — bütçele)</td></tr>
+    <tr><td>30</td><td>15g</td><td>Bag investment</td></tr>
+    <tr><td>40</td><td>~10-20g</td><td><strong>Mount ÜCRETSİZ</strong> (Paladin questi). Para repair + spell + Mithril Coif mat'ına.</td></tr>
+    <tr><td>50</td><td>50-80g</td><td>Mithril Coif + spell + repair stoğu</td></tr>
+    <tr><td>60</td><td>100-200g</td><td><strong>Charger ÜCRETSİZ</strong>. Para Truesilver Champion mat (Truesilver Bar epic mat) + pre-raid BiS upgrade</td></tr>
+  </table>
+
+  <h3>Pasif Gold Kaynakları (Human Paladin)</h3>
+  <ul>
+    <li><strong>Mining</strong> her ore'u stack sat veya BS'ye smelt (Mithril Bar 1-1.5g/stack).</li>
+    <li><strong>Mid-grey trash</strong> sat — bag yer açar.</li>
+    <li><strong>Diplomacy +%10 rep</strong> — dungeon faction questleri (Argent Dawn, Cenarion) ödüllerini hızlıca alır.</li>
+    <li><strong>Quest gold</strong> — yeşil quest priority.</li>
+    <li><strong>Sharpening Stone craft</strong> — kendi 2H mace'ine sürekli +damage buff.</li>
+  </ul>
+
+  <h2>Bag Yatırımı</h2>
+  <ul>
+    <li>Lvl 10: 6-slot Linen Bag.</li>
+    <li>Lvl 20-30: 10-slot Mageweave Bag.</li>
+    <li>Lvl 40+: 14-slot Runecloth Bag.</li>
+    <li>Lvl 50+: 16-slot Mooncloth Bag (tailor friend gerek).</li>
+    <li><em>Mining karaktersin — ek mining bag (Mining Sack / Reinforced Mining Bag) ore taşıma için.</em></li>
+  </ul>
+
+</section>
+
+</main>
+
+<footer>
+  <p>WoW Classic Hardcore — Human Paladin Başlangıç Rehberi v1.0 · Kaynaklar: Wowhead HC Overview, Paladin HC Leveling Guide, Tips &amp; Tricks (Calamityhc), Hardcore Death Log community heatmap. Tüm ilerleme tarayıcında yerel olarak (<code>hc_human_paladin_v1</code>) saklanır.</p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // -----------------------------------------------------------
+  // İlerleme listesi içerikleri
+  // -----------------------------------------------------------
+  var CHECKLIST = {
+    g1: [
+      { id: 'g1-1',  tags: ['quest'],          text: 'Northshire Abbey starter chain bitir (Marshal McBride, Brother Sammuel).' },
+      { id: 'g1-2',  tags: ['spell', 'aura'],  text: 'Devotion Aura öğren (lvl 4) — sürekli açık tut.' },
+      { id: 'g1-3',  tags: ['spell'],          text: 'Blessing of Might öğren (lvl 4) — kendine cast, saatlik AP buff.' },
+      { id: 'g1-4',  tags: ['spell'],          text: 'Judgement öğren (lvl 4) — Seal\'ı tüketir, target\'a damage + debuff.' },
+      { id: 'g1-5',  tags: ['spell'],          text: 'Seal of Righteousness öğren (lvl 6) — leveling damage temeli.' },
+      { id: 'g1-6',  tags: ['spell'],          text: 'Hammer of Justice öğren (lvl 8) — 3 sn stun, action bar\'a koy.' },
+      { id: 'g1-7',  tags: ['race'],           text: 'Human racial: Sword/Mace Spec pasif — silah seçerken sword veya mace tercih et.' },
+      { id: 'g1-8',  tags: ['hc'],             text: 'Kamera zoom: /console cameraDistanceMaxZoomFactor 3.9' },
+      { id: 'g1-9',  tags: ['hc'],             text: 'Enemy nameplates Always On (Interface → Names).' },
+      { id: 'g1-10', tags: ['quest'],          text: 'First Aid + Cooking + Fishing pickup (Goldshire).' },
+      { id: 'g1-11', tags: ['quest'],          text: 'Mining pickup (Stormwind Mining trainer Gelman Stonehand).' }
+    ],
+    g2: [
+      { id: 'g2-1',  tags: ['quest', 'hc'],    text: 'Westfall quest hub — Defias Pillager (caster, fireball) DİKKAT. LoS abuse, BoP geçer.' },
+      { id: 'g2-2',  tags: ['spell'],          text: 'Lay on Hands öğren (lvl 10) — sadece ölüm anı için sakla, 60 dk CD.' },
+      { id: 'g2-3',  tags: ['spell'],          text: 'Blessing of Protection (lvl 10) — kendine cast, 10 sn physical immunity.' },
+      { id: 'g2-4',  tags: ['spell'],          text: 'Seal of the Crusader öğren (lvl 12) — Judgement of the Crusader holy debuff.' },
+      { id: 'g2-5',  tags: ['spell'],          text: 'Blessing of Wisdom öğren (lvl 14) — healer modu için mana regen.' },
+      { id: 'g2-6',  tags: ['spell'],          text: 'Cleanse öğren (lvl 8) — Decursive macro ile bind.' },
+      { id: 'g2-7',  tags: ['spell', 'aura'],  text: 'Retribution Aura (lvl 16) — DTTD veya melee mob heavy alan.' },
+      { id: 'g2-8',  tags: ['spell'],          text: 'Blessing of Freedom (lvl 18) — root/snare immunity 10 sn.' },
+      { id: 'g2-9',  tags: ['spell'],          text: 'Divine Shield (lvl 18) — bubble, 12 sn full immunity. NOT: Classic Fresh\'te Hearthstone basamazsın bubble içinde.' },
+      { id: 'g2-10', tags: ['quest', 'hc'],    text: 'Verigan\'s Fist class quest BAŞLAT (lvl 20\'de bitir) — 2H mace, Mace Spec ile devasa.' },
+      { id: 'g2-11', tags: ['hc'],             text: 'Talent: Improved Seal of Righteousness 5/5 (lvl 14).' }
+    ],
+    g3: [
+      { id: 'g3-1',  tags: ['quest'],          text: 'Verigan\'s Fist tamamla — 2H mace BiS lvl 20-32.' },
+      { id: 'g3-2',  tags: ['spell'],          text: 'Seal of Command öğren (lvl 20 class quest, "Tome of the Cabal") — burst seal.' },
+      { id: 'g3-3',  tags: ['spell'],          text: 'Blessing of Kings (lvl 20) — +%10 all stats, 5 dk. Endgame BiS blessing.' },
+      { id: 'g3-4',  tags: ['spell', 'aura'],  text: 'Shadow Resistance Aura (lvl 20) — Scholomance / Strat UD / Naxx için.' },
+      { id: 'g3-5',  tags: ['spell', 'aura'],  text: 'Concentration Aura (lvl 30) — caster heavy dungeon spell pushback immunity.' },
+      { id: 'g3-6',  tags: ['quest', 'hc'],    text: 'Duskwood\'a uğrarsan: Stitches geldiğinde Darkshire\'a gir, ASLA saldırma.' },
+      { id: 'g3-7',  tags: ['hc'],             text: 'Talent: Improved Judgement 2/2 + Improved BoM 5/5 tamam (lvl 25).' },
+      { id: 'g3-8',  tags: ['gear'],           text: 'SM Graveyard / Stockade hafif dungeon run — gear + XP.' },
+      { id: 'g3-9',  tags: ['hc'],             text: 'Forbearance debuff\'unu öğren: Bubble/BoP/LoH = 60 sn Forbearance + 5 dk CD.' }
+    ],
+    g4: [
+      { id: 'g4-1',  tags: ['gear', 'hc'],     text: 'Lvl 40 PLATE armor unlock — quest reward / BS craft plate body.' },
+      { id: 'g4-2',  tags: ['quest', 'hc'],    text: '<strong>Paladin mount questi başlat</strong> (lvl 40, Lord Grayson Shadowbreaker SW) — ÜCRETSİZ Warhorse.' },
+      { id: 'g4-3',  tags: ['spell'],          text: 'Aimed Shot yok — Paladin ranged yok. Yerine 2H upgrade: Headstriker Sword (SM Armory, Herod).' },
+      { id: 'g4-4',  tags: ['gear'],           text: 'Stoneslayer (Uldaman) veya Headstriker Sword (SM Armory) target.' },
+      { id: 'g4-5',  tags: ['quest'],          text: 'SM Library / Armory / Cathedral run — gear set + XP.' },
+      { id: 'g4-6',  tags: ['spell'],          text: 'Repentance (Ret talent lvl 40) — 6 sn humanoid CC. <em>HC altın talent.</em>' },
+      { id: 'g4-7',  tags: ['spell', 'aura'],  text: 'Fire Resistance Aura (lvl 40) — MC, BWL, BRD lower.' },
+      { id: 'g4-8',  tags: ['hc'],             text: 'Talent: Sanctity Aura 1/1 + 2H Weapon Spec 3/3.' },
+      { id: 'g4-9',  tags: ['quest'],          text: 'First Aid Expert (Triage quest) — Hillsbrad veya STV.' }
+    ],
+    g5: [
+      { id: 'g5-1',  tags: ['quest'],          text: 'STV veya Tanaris quest hub.' },
+      { id: 'g5-2',  tags: ['hc'],             text: 'STV: "Big Game Hunter" elite quest\'leri SKIP veya 3+ grup.' },
+      { id: 'g5-3',  tags: ['gear'],           text: 'Sul\'thraze the Lasher (ZF) — 2H sword/mace combination.' },
+      { id: 'g5-4',  tags: ['gear'],           text: 'Carrot on a Stick (ZF mount trinket) — +%3 mount speed.' },
+      { id: 'g5-5',  tags: ['spell'],          text: 'Greater Blessings (lvl 50) — 15 dk buff version.' },
+      { id: 'g5-6',  tags: ['hc'],             text: 'Free Action Potion stoğu (DTTD veya emergency root/snare/fear immunity).' },
+      { id: 'g5-7',  tags: ['hc'],             text: 'Talent: Repentance + Vengeance 5/5 tamamla.' },
+      { id: 'g5-8',  tags: ['gear'],           text: 'Mithril Coif (BS craft lvl 50) — pre-raid BiS head; mining stoğu hazırla.' }
+    ],
+    g6: [
+      { id: 'g6-1',  tags: ['quest'],          text: 'WPL / EPL / BRD quest hub.' },
+      { id: 'g6-2',  tags: ['gear'],           text: 'Hand of Justice (BRD trinket) — Ret BiS trinket.' },
+      { id: 'g6-3',  tags: ['gear'],           text: 'Empyrean Demolisher (BRD fast mace, 1H).' },
+      { id: 'g6-4',  tags: ['quest', 'hc'],    text: 'BRD detaylı öğren — Charger quest için zorunlu. Sadece deneyimli party.' },
+      { id: 'g6-5',  tags: ['spell'],          text: 'Crusader Strike (31-point Ret talent) — instant strike, judgement debuff refresh.' },
+      { id: 'g6-6',  tags: ['hc'],             text: 'Plaguelands\'te gece Crusader patrol — Bubble + run hazır.' },
+      { id: 'g6-7',  tags: ['hc'],             text: 'Winterspring Frostmaul Giant — Frost Resistance Aura.' }
+    ],
+    g7: [
+      { id: 'g7-1',  tags: ['quest', 'hc'],    text: '<strong>Charger questi başlat</strong> (lvl 60, The Test of Righteousness chain) — ÜCRETSİZ epic mount. SM/Strat/Scholo/DM item topla.' },
+      { id: 'g7-2',  tags: ['gear'],           text: 'Truesilver Champion (BS craft 2H mace) — Truesilver Bar epic mat.' },
+      { id: 'g7-3',  tags: ['gear'],           text: 'Aurastone Hammer (SM Cathedral, Mograine drop) — Holy caster mace.' },
+      { id: 'g7-4',  tags: ['gear'],           text: 'Headmaster\'s Charge (Scholomance, Darkmaster Gandling) — Holy pre-BiS staff.' },
+      { id: 'g7-5',  tags: ['hc'],             text: 'Pre-raid BiS toplama (Wowhead Paladin pre-raid liste).' },
+      { id: 'g7-6',  tags: ['hc'],             text: 'Defense 315 cap (Prot tank).' },
+      { id: 'g7-7',  tags: ['hc'],             text: 'First raid: MC attunement → Greater Fire Protection Potion stoğu.' },
+      { id: 'g7-8',  tags: ['hc'],             text: 'Pally Power addon ile grup blessing assignment.' }
+    ],
+    hab: [
+      { id: 'h-1',  tags: ['hc'],             text: 'Her pull öncesi Seal aktif → ilk swing Judgement → re-Seal — bu sırayı asla bozma.' },
+      { id: 'h-2',  tags: ['hc'],             text: 'BoM / BoW saatlik buff: oturup buff atmayı unutma (saatte 1 kez self-cast).' },
+      { id: 'h-3',  tags: ['hc'],             text: 'Her pull öncesi etrafa bak: 30y içinde 2. mob var mı? Repentance hazır mı?' },
+      { id: 'h-4',  tags: ['hc'],             text: 'Forbearance kontrol: Bubble/BoP/LoH bastıktan sonra 60 sn yeniden basılamaz.' },
+      { id: 'h-5',  tags: ['hc'],             text: 'BoP sadece physical immunity — caster mob\'a karşı KULLANMA, Bubble veya Concentration Aura.' },
+      { id: 'h-6',  tags: ['hc'],             text: 'Backpedal ASLA — strafe veya 180° dönerek koş.' },
+      { id: 'h-7',  tags: ['hc'],             text: 'Cave\'den önce Hearthstone CD kontrol — bubble Hearth Classic Fresh\'te YOK.' },
+      { id: 'h-8',  tags: ['hc'],             text: 'Repair gold = 3x mevcut repair maliyeti her zaman cebinde.' },
+      { id: 'h-9',  tags: ['hc'],             text: 'Poison/disease alırsan Cleanse refleksi (1 sn cast).' }
+    ]
+  };
+
+  var STORAGE_KEY = 'hc_human_paladin_v1';
+
+  function loadState() {
+    try { var raw = localStorage.getItem(STORAGE_KEY); return raw ? (JSON.parse(raw) || {}) : {}; }
+    catch (e) { return {}; }
+  }
+  function saveState(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  var state = loadState();
+
+  function tagLabel(t) {
+    var map = { quest:'Quest', spell:'Spell', gear:'Gear', aura:'Aura', race:'Racial', hc:'HC' };
+    return map[t] || t;
+  }
+  function renderChecklists() {
+    Object.keys(CHECKLIST).forEach(function (gid) {
+      var host = document.querySelector('.level-group[data-group="' + gid + '"] [data-checklist]');
+      if (!host) return;
+      host.innerHTML = '';
+      CHECKLIST[gid].forEach(function (it) {
+        var row = document.createElement('div');
+        row.className = 'check-item';
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = it.id;
+        cb.checked = !!state[it.id];
+        cb.addEventListener('change', function () {
+          state[it.id] = cb.checked;
+          saveState(state);
+          updateProgress();
+        });
+        var lbl = document.createElement('label');
+        lbl.setAttribute('for', it.id);
+        (it.tags || []).forEach(function (t) {
+          var sp = document.createElement('span');
+          sp.className = 'tag ' + t;
+          sp.textContent = tagLabel(t);
+          lbl.appendChild(sp);
+        });
+        var txt = document.createElement('span');
+        txt.innerHTML = ' ' + it.text;
+        lbl.appendChild(txt);
+        row.appendChild(cb);
+        row.appendChild(lbl);
+        host.appendChild(row);
+      });
+    });
+  }
+  function updateProgress() {
+    var total = 0, done = 0;
+    Object.keys(CHECKLIST).forEach(function (gid) {
+      CHECKLIST[gid].forEach(function (it) {
+        total++;
+        if (state[it.id]) done++;
+      });
+    });
+    var pct = total ? Math.round((done / total) * 100) : 0;
+    var pill = document.getElementById('progress-pill');
+    if (pill) pill.textContent = done + ' / ' + total + ' (' + pct + '%)';
+  }
+
+  document.querySelectorAll('.tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      var id = 'panel-' + btn.getAttribute('data-tab');
+      var panel = document.getElementById(id);
+      if (panel) panel.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+  document.querySelectorAll('.level-group-head').forEach(function (h) {
+    h.addEventListener('click', function () { h.parentElement.classList.toggle('open'); });
+  });
+  document.getElementById('reset-btn').addEventListener('click', function () {
+    if (!confirm('Tüm ilerleme silinecek. Emin misin?')) return;
+    state = {};
+    saveState(state);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(function (cb) { cb.checked = false; });
+    updateProgress();
+  });
+
+  renderChecklists();
+  updateProgress();
+})();
+</script>
+
+</body>
+</html>

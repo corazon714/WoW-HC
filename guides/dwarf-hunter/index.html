@@ -49,6 +49,11 @@
   .crest { width: 52px; height: 52px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--bronze), var(--iron) 70%, #2a1f15); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 0 12px rgba(200,168,120,.5); flex-shrink: 0; }
   .title-block { flex: 1; min-width: 200px; }
   .subtitle { color: var(--text-dim); font-size: .9rem; margin-top: 2px; }
+  .char-card { margin-top: 6px; display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 8px; padding: 4px 10px; background: rgba(0,0,0,.35); border: 1px solid var(--iron); border-left: 3px solid var(--gold); border-radius: 3px; font-size: .85rem; }
+  .char-name { color: var(--gold); font-family: "Trajan Pro", Georgia, serif; font-weight: 700; letter-spacing: .03em; }
+  .char-guild { color: var(--hunter); font-style: italic; }
+  .char-bio { color: var(--text-dim); }
+  .char-bio::before { content: "• "; color: var(--iron); }
   .progress-pill { background: var(--bg-elev); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: .85rem; color: var(--hunter); }
   .reset-btn { background: transparent; color: var(--text-dim); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: .8rem; }
   .reset-btn:hover { color: var(--danger); border-color: var(--danger); }
@@ -131,10 +136,15 @@
 
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="crest" aria-hidden="true">🏔</div>
+    <div class="crest" aria-hidden="true">�</div>
     <div class="title-block">
       <h1>Dwarf Hunter — Hardcore Başlangıç Rehberi</h1>
       <div class="subtitle">Classic Era 1.15.x / Anniversary HC (Classic Fresh) • Yeni başlayanlar için</div>
+      <div class="char-card" title="Stout = Dwarf'ın sevdiği koyu bira + Quiver = Hunter ok torbası. 11 harf, WoW'un 12-harf limitine uygun. Guild: pet boar + bira teması.">
+        <span class="char-name">Stoutquiver</span>
+        <span class="char-guild">&lt;Bira ve Boar&gt;</span>
+        <span class="char-bio">Dwarf · Hunter · Beast Mastery</span>
+      </div>
     </div>
     <span class="progress-pill" id="progress-pill">0 / 0 (0%)</span>
     <button class="reset-btn" id="reset-btn" title="Tüm ilerlemeyi sıfırla">Sıfırla</button>
@@ -144,6 +154,7 @@
 <nav class="tabs" role="tablist">
   <button class="tab active" data-tab="overview" role="tab">Genel Bakış</button>
   <button class="tab" data-tab="build" role="tab">Build</button>
+  <button class="tab" data-tab="gearing" role="tab">Gearing</button>
   <button class="tab" data-tab="progress" role="tab">İlerleme Listesi</button>
   <button class="tab" data-tab="addons" role="tab">Addon'lar</button>
   <button class="tab" data-tab="pvp" role="tab">PvP & Tehlike</button>
@@ -338,15 +349,126 @@ Mob öldü → Mend Pet → bir sonraki Hunter's Mark</pre>
 
   <div class="callout hc">Pet ÖLMESİN. Pet ölürse Revive Pet <strong>15 dakika CD</strong>. Pet ölmek üzereyse: <em>Mend Pet bas + Feign Death</em> → mob senin aggro'nu da bırakır → pet hayatta kalır.</div>
 
-  <h2>Gear Hedefleri (Ana Yol İşaretleri)</h2>
-  <ul>
-    <li><strong>Lvl 19</strong>: <em>Bow of Searing Arrows</em> alternatif (BoE drop) — ama Dwarf tüfek tercih: <em>Engraved Hunting Rifle</em> (lvl 21 BoE) veya quest reward rifle.</li>
-    <li><strong>Lvl 25-30</strong>: Quest reward ranged silahlar. <em>Riverpaw Mystic Staff</em> melee swap (rağmen Hunter melee zayıf).</li>
-    <li><strong>Lvl 40</strong>: <strong>Mount alın</strong> (Honored rep ile 80g %10 indirim Classic Fresh'te %10/%20 mount discount).</li>
-    <li><strong>Lvl 45-55</strong>: <strong>Devilsaur Set</strong> (Leatherworking craft, Un'Goro mats) — lvl 45-58 leveling BiS Hunter set'i.</li>
-    <li><strong>Lvl 50-58</strong>: <strong>Sul'thraze</strong> (ZF) — melee swap için. <strong>Carrot on a Stick</strong> (ZF, mount speed trinket).</li>
-    <li><strong>Lvl 60</strong>: <strong>Striker's Mark</strong> (LBRS gun), <strong>Hurricane</strong> (UBRS bow), <strong>Hand of Justice</strong> (BRD). <strong>Rhok'delar</strong> epic bow class quest başlat.</li>
-  </ul>
+  <h2>Gear Hedefleri</h2>
+  <div class="callout info">
+    Her 10 level için slot bazlı tam gear listesi ayrı <strong>Gearing</strong> sekmesinde. Sekmeye geç — silah, quiver, set, trinket, BoE/dungeon kaynakları orada.
+  </div>
+
+</section>
+
+<!-- ============================================================= -->
+<!-- GEARING                                                        -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-gearing" role="tabpanel">
+
+  <h2>Gearing Yol Haritası — Her 10 Level</h2>
+  <p>Dwarf Hunter için slot bazlı gear hedefleri. Her bracket'te sırasıyla: ana ranged silah, quiver/ammo pouch, zırh seti / kilit slotlar, trinket/ring, melee swap (dead zone için).</p>
+
+  <div class="callout hc">
+    <strong>Dwarf önceliği:</strong> <em>Gun Specialization</em> +5 weapon skill sadece tüfeklerde aktif. Tüfek/bow eşit ilan listesinden varsa <strong>her zaman tüfek seç</strong>. Skill = miss/glancing düşer = HC'de hayatta kalış.
+  </div>
+
+  <h3>Lvl 10 (1-19) — Coldridge & Loch Modan</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>Ranged</td><td><strong>Old Blunderbuss</strong> (lvl 1 starter) → <em>Smooth Stone Handgonne</em> (vendor lvl 5)</td><td>Coldridge starter / Anvilmar vendor</td></tr>
+    <tr><td>Quiver / Pouch</td><td><strong>Light Quiver</strong> 8-slot veya <em>Small Ammo Pouch</em> 6-slot</td><td>BoE / Tailor friend / AH dışı vendor</td></tr>
+    <tr><td>Chest</td><td><em>Tough Leather Armor</em> veya quest greens (+Agi/Sta)</td><td>Coldridge quest reward</td></tr>
+    <tr><td>Trinket</td><td><strong>Insignia of the Alliance</strong> (PvP, açıldığında)</td><td>BG (lvl 10+ erişim)</td></tr>
+    <tr><td>Melee swap</td><td>Herhangi 2H axe/sword (Stoneform sonrası dead zone için)</td><td>Quest reward</td></tr>
+    <tr><td>Bag</td><td>2-3x <strong>Linen Bag</strong> 6-slot</td><td>Tailor / vendor</td></tr>
+  </table>
+
+  <h3>Lvl 20 (20-29) — Wetlands & Westfall / Deadmines</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>Ranged ★</td><td><strong>Engraved Hunting Rifle</strong> (lvl 21, ~95s)</td><td>Vendor <em>Thuul</em> — Thelsamar, Loch Modan</td></tr>
+    <tr><td>Quiver</td><td><strong>Quilted Quiver</strong> 10-slot</td><td>BoE drop / Tailor</td></tr>
+    <tr><td>Chest</td><td><em>Stonecutter Cloak</em> + leather quest greens</td><td>Loch Modan / Wetlands quest</td></tr>
+    <tr><td>Weapon (melee)</td><td><strong>Cruel Barb</strong> (sword) — Mr. Smite</td><td>Deadmines (lvl 17-26, grup)</td></tr>
+    <tr><td>Ring</td><td><em>Rockguard Ring</em> veya quest +Agi ring</td><td>Wetlands quest</td></tr>
+    <tr><td>Bag</td><td>4x <strong>Woolen Bag</strong> 8-slot</td><td>Tailor / AH</td></tr>
+    <tr><td>Ammo</td><td><strong>Crude Throwing Axe → Heavy Shot</strong> (vendor)</td><td>Vendor stack 200x ucuz</td></tr>
+  </table>
+  <div class="callout tip">Deadmines run yapacaksan grup için Polymorph/Sap olmalı. Mr. Smite trio'su HC'de en sık ölüm sebeplerinden — voice/discord şart.</div>
+
+  <h3>Lvl 30 (30-39) — STV / Hillsbrad / SM Library</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>Ranged</td><td><strong>Heart of the Wild Bow</strong> (RFK) <em>veya</em> <strong>Don Julio's Heart</strong> (STV quest reward, +Agi rifle)</td><td>RFK drop / STV "Big Game Hunter" SKIP edip vendor rifle</td></tr>
+    <tr><td>Quiver ★</td><td><strong>Heavy Quiver</strong> 14-slot — Auto Shot speed +15%</td><td>BoE drop / AH dışı vendor (lvl 30 req)</td></tr>
+    <tr><td>Head</td><td><em>Pridelord Halo</em> (RFK) veya quest mail helm (lvl 35+)</td><td>RFK / SM Library</td></tr>
+    <tr><td>Chest</td><td><em>Beaststalker's Tunic</em> (set, drop)</td><td>SM / Mara lower drop</td></tr>
+    <tr><td>Trinket ★</td><td><strong>Royal Seal of Eldre'Thalas</strong> (lvl 38, +Sta/Agi)</td><td>Dire Maul attune chain quest reward</td></tr>
+    <tr><td>Boots</td><td><em>Doublestitched Leather Boots</em> (vendor lvl 36, +Agi)</td><td>Stormwind vendor</td></tr>
+    <tr><td>Melee swap</td><td><strong>Headstriker Sword</strong> (Herod, SM Armory)</td><td>SM Armory (lvl 36-40)</td></tr>
+  </table>
+
+  <h3>Lvl 40 (40-49) — Mail Unlock + Mount</h3>
+  <div class="callout warn">Lvl 40'ta <strong>Mail proficiency</strong> aktif olur — leather'dan mail'e geçiş zorunlu. Eski leather chest/legs/boots gold verir, mail upgrade et.</div>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>Mount ★</td><td><strong>Brown Ram</strong> (Dwarf mount, 80g — Honored rep ile %10 indirim)</td><td>Ironforge mount vendor</td></tr>
+    <tr><td>Ranged</td><td><strong>Bow of Searing Arrows</strong> (lvl 37 BoE, +Fire dmg proc) — geçici, tüfek bulamıyorsan</td><td>BoE drop / AH dışı vendor</td></tr>
+    <tr><td>Quiver</td><td><strong>Heavy Quiver</strong> hâlâ geçerli — lvl 50'de upgrade</td><td>Yukarıdaki bracket</td></tr>
+    <tr><td>Set ★</td><td><strong>Beaststalker's Set</strong> (Hunter Dungeon Set 1) — 8 parça, lvl 41-49 drops</td><td>SM / Uldaman / ZF / Mara / SFK</td></tr>
+    <tr><td>Trinket</td><td><strong>Carrot on a Stick</strong> (+%3 mount speed)</td><td>ZF (lvl 45+)</td></tr>
+    <tr><td>Trinket 2</td><td><em>Royal Seal of Eldre'Thalas</em> (devam)</td><td>—</td></tr>
+    <tr><td>Ring</td><td><em>Don Mauricio's Band</em> (DM N drop)</td><td>Dire Maul North</td></tr>
+    <tr><td>Melee swap</td><td><strong>Sul'thraze the Lasher</strong> (ZF combine quest, 2H)</td><td>ZF + Hinterlands quest chain</td></tr>
+  </table>
+
+  <h3>Lvl 50 (50-59) — Devilsaur Set & Quickdraw</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>Ranged</td><td><strong>Heart Seeker</strong> (BoE epic crossbow) <em>veya</em> <strong>Precisely Calibrated Boomstick</strong> (Eng craft lvl 52)</td><td>BoE / Engineering</td></tr>
+    <tr><td>Quiver ★</td><td><strong>Quickdraw Quiver</strong> 18-slot (LW craft lvl 50)</td><td>Leatherworker craft / AH dışı</td></tr>
+    <tr><td>Head ★</td><td><strong>Flying Tiger Goggles</strong> (Eng goggles lvl 50, +Agi/Sta + ranged AP) — <em>pre-raid BiS head</em></td><td>Engineering craft (kendi mesleğin değilse skip)</td></tr>
+    <tr><td>Chest + Legs ★</td><td><strong>Devilsaur Set</strong> (Devilsaur Leggings + Devilsaur Tunic) — leveling BiS</td><td>Leatherworking craft (Un'Goro: Tough Scorpid + Devilsaur Leather)</td></tr>
+    <tr><td>Trinket</td><td><strong>Smoking Heart of the Mountain</strong> (BS craft, +18 all res +7 stam)</td><td>Blacksmith friend</td></tr>
+    <tr><td>Trinket 2</td><td><em>Carrot on a Stick</em> hâlâ geçerli</td><td>—</td></tr>
+    <tr><td>Hands</td><td><em>Gloves of the Hidden Temple</em> (ZG, raid 60'a kadar bekle) / <em>Devilsaur Gauntlets</em></td><td>LW craft</td></tr>
+    <tr><td>Melee swap</td><td><strong>Ice Barbed Spear</strong> (AV PvP reward) veya Sul'thraze devam</td><td>AV / önceki bracket</td></tr>
+  </table>
+
+  <h3>Lvl 60 — Pre-Raid BiS Yolu</h3>
+  <table>
+    <tr><th>Slot</th><th>Item</th><th>Kaynak</th></tr>
+    <tr><td>Ranged ★★</td><td><strong>Striker's Mark</strong> (gun) — Dwarf Gun Spec için BiS pre-raid</td><td>LBRS — The Beast drop</td></tr>
+    <tr><td>Ranged alt</td><td><strong>Hurricane</strong> (bow) / <strong>Heartstriker</strong> (bow)</td><td>UBRS / DM East drop</td></tr>
+    <tr><td>Ranged ★★★</td><td><strong>Rhok'delar</strong> (epic bow) — uzun class quest chain, hafta sürer</td><td>Hunter class quest lvl 60</td></tr>
+    <tr><td>Quiver</td><td><strong>Quickdraw Quiver</strong> devam — raid sonrası <em>Ancient Sinew Wrapped Lamina</em> (Naxx) target</td><td>—</td></tr>
+    <tr><td>Head</td><td>Flying Tiger Goggles devam (raid'e kadar BiS)</td><td>—</td></tr>
+    <tr><td>Neck</td><td><strong>Mark of Fordring</strong> (EPL quest)</td><td>EPL Tirion Fordring chain</td></tr>
+    <tr><td>Shoulders</td><td><strong>Truestrike Shoulders</strong> (UBRS)</td><td>UBRS — Pyroguard Emberseer drop</td></tr>
+    <tr><td>Back</td><td><strong>Cape of the Black Baron</strong> (DM E)</td><td>Dire Maul East</td></tr>
+    <tr><td>Chest/Legs</td><td>Devilsaur set devam — sonra <em>Cadaverous Armor</em> (Strat) ile mix</td><td>Strat Live</td></tr>
+    <tr><td>Wrist</td><td><strong>Wristguards of Renown</strong> (Strat trash)</td><td>Stratholme</td></tr>
+    <tr><td>Hands</td><td><strong>Sentinel Gloves</strong> (Mara)</td><td>Maraudon</td></tr>
+    <tr><td>Waist</td><td><strong>Cloudrunner Girdle</strong> (UBRS)</td><td>UBRS</td></tr>
+    <tr><td>Feet</td><td><strong>Boots of Avoidance</strong> (Strat) / <em>Swiftwalker Boots</em> (DM N)</td><td>Strat / Dire Maul North</td></tr>
+    <tr><td>Ring</td><td><strong>Don Mauricio's Band of Domination</strong> (DM N) + <strong>Tarnished Elven Ring</strong> (BRD)</td><td>DM N / BRD</td></tr>
+    <tr><td>Trinket ★</td><td><strong>Hand of Justice</strong> (BRD) + <strong>Blackhand's Breadth</strong> (UBRS quest)</td><td>BRD / UBRS quest reward</td></tr>
+    <tr><td>Melee swap</td><td><strong>Lok'delar</strong> (Hunter epic stave class quest) veya <em>R14 PvP weapon</em></td><td>Class quest / Honor grind</td></tr>
+  </table>
+
+  <div class="callout tip">
+    <strong>Pre-raid full liste:</strong> Wowhead Hunter Pre-Raid BiS sayfası — class quest <em>Rhok'delar</em> başlatmak HC'de uzun ama tek seferlik kalıcı yatırım. Naxx açıldıysa <em>Striker's Mark</em> sweet spot kalır, <em>Ashjre'thul</em> (BWL) ile değişir.
+  </div>
+
+  <h2>Genel Slot Önceliği (HC Hunter Hiyerarşisi)</h2>
+  <ol>
+    <li><strong>Ranged silah</strong> — damage'ın %70'i buradan. Her bracket'te upgrade.</li>
+    <li><strong>Quiver/Ammo Pouch</strong> — Auto Shot speed (en az 14-slot her zaman).</li>
+    <li><strong>Trinket on-use</strong> — emergency burst / survive (Carrot, Hand of Justice).</li>
+    <li><strong>Chest/Legs</strong> — en çok armor + stat sağlar.</li>
+    <li><strong>Head</strong> — Flying Tiger Goggles yoksa quest reward yeterli.</li>
+    <li>Geri kalan slotlar quest reward + dungeon drop.</li>
+  </ol>
+
+  <div class="callout hc">
+    <strong>HC kuralı:</strong> Stamina/Armor olan item'i Agi olan item'e <em>her zaman tercih et</em> (eşitse). Sayısal DPS kaybı çok küçük, ama 1 ekstra mob hit'inde hayatta kalırsın.
+  </div>
 
 </section>
 
