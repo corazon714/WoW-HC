@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Night Elf Rogue — WoW Classic HC Sword/Sword Rehberi</title>
+<style>
+  /* ---------- Tema (Night Elf mor/teal moonlight + Rogue sarı) ---------- */
+  :root {
+    --bg:        #0a0b12;
+    --bg-soft:   #12131e;
+    --bg-card:   #181a28;
+    --bg-elev:   #20233480;
+    --bg-elev2:  #232639;
+    --border:    #353a55;
+    --text:      #e7e9f2;
+    --text-dim:  #9aa3c0;
+    --rogue:     #fff569;   /* Rogue class rengi (sarı) */
+    --rogue-d:   #b3a93f;
+    --moon:      #8fd4d8;   /* Night Elf moonlight teal */
+    --violet:    #9d7bff;   /* Night Elf mor */
+    --violet-d:  #5e479e;
+    --gold:      #ffd700;
+    --danger:    #ff5b4f;
+    --warn:      #ffae42;
+    --ok:        #8be37d;
+    --info:      #6cb6ff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; font-size: 16px; }
+  a { color: var(--moon); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { font-family: "Trajan Pro", Georgia, serif; letter-spacing: .02em; color: var(--moon); margin-top: 1.5em; }
+  h1 { font-size: 1.8rem; margin: 0; color: var(--rogue); }
+  h2 { font-size: 1.4rem; border-bottom: 2px solid var(--violet-d); padding-bottom: .3em; }
+  h3 { font-size: 1.15rem; color: var(--violet); }
+  h4 { font-size: 1rem; color: var(--moon); margin-bottom: .3em; }
+  p { margin: .6em 0; }
+  code { background: var(--bg-elev2); padding: 2px 6px; border-radius: 3px; font-size: .92em; color: var(--rogue); }
+  pre { background: var(--bg-elev2); padding: 12px; border-radius: 4px; overflow-x: auto; border-left: 3px solid var(--violet); white-space: pre-wrap; }
+  ul, ol { padding-left: 22px; }
+  li { margin: .3em 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; background: var(--bg-soft); }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-elev2); color: var(--rogue); }
+  tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+  strong { color: #fff; }
+
+  /* ---------- Layout ---------- */
+  .topbar { background: linear-gradient(135deg, #12131e 0%, #232639 100%); border-bottom: 3px solid var(--violet); padding: 18px 20px; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 10px rgba(0,0,0,.4); }
+  .topbar-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .crest { width: 52px; height: 52px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--moon), var(--violet-d) 70%, #1a1230); display: flex; align-items: center; justify-content: center; font-size: 1.7rem; box-shadow: 0 0 12px rgba(157,123,255,.5); flex-shrink: 0; }
+  .title-block { flex: 1; min-width: 200px; }
+  .subtitle { color: var(--text-dim); font-size: .9rem; margin-top: 2px; }
+  .char-card { margin-top: 6px; display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 8px; padding: 4px 10px; background: rgba(0,0,0,.35); border: 1px solid var(--violet-d); border-left: 3px solid var(--rogue); border-radius: 3px; font-size: .85rem; }
+  .char-name { color: var(--rogue); font-family: "Trajan Pro", Georgia, serif; font-weight: 700; letter-spacing: .03em; }
+  .char-guild { color: var(--moon); font-style: italic; }
+  .char-bio { color: var(--text-dim); }
+  .char-bio::before { content: "• "; color: var(--violet-d); }
+  .progress-pill { background: var(--bg-elev2); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: .85rem; color: var(--moon); }
+  .reset-btn { background: transparent; color: var(--text-dim); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: .8rem; }
+  .reset-btn:hover { color: var(--danger); border-color: var(--danger); }
+
+  /* ---------- Tabs ---------- */
+  .tabs { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4px; padding: 12px 20px 0; background: var(--bg); position: sticky; top: 91px; z-index: 40; }
+  .tab { background: var(--bg-soft); border: 1px solid var(--border); border-bottom: none; color: var(--text-dim); padding: 10px 16px; cursor: pointer; border-radius: 6px 6px 0 0; font-size: .9rem; transition: all .15s; }
+  .tab:hover { color: var(--text); background: var(--bg-card); }
+  .tab.active { background: var(--bg-card); color: var(--rogue); border-color: var(--violet); border-bottom: 1px solid var(--bg-card); position: relative; top: 1px; font-weight: 600; }
+
+  /* ---------- Content ---------- */
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; background: var(--bg-card); border: 1px solid var(--border); border-top: 2px solid var(--violet); }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ---------- Callouts ---------- */
+  .callout { padding: 12px 16px; border-radius: 4px; margin: 12px 0; border-left: 4px solid; background: var(--bg-soft); }
+  .callout.hc { border-color: var(--rogue); }
+  .callout.hc::before { content: "🗡 HC "; font-weight: 700; color: var(--rogue); }
+  .callout.danger { border-color: var(--danger); }
+  .callout.danger::before { content: "🚨 KRİTİK "; font-weight: 700; color: var(--danger); }
+  .callout.warn { border-color: var(--warn); }
+  .callout.warn::before { content: "⚠ UYARI "; font-weight: 700; color: var(--warn); }
+  .callout.tip { border-color: var(--ok); }
+  .callout.tip::before { content: "💡 İPUCU "; font-weight: 700; color: var(--ok); }
+  .callout.info { border-color: var(--info); }
+  .callout.info::before { content: "ℹ NOT "; font-weight: 700; color: var(--info); }
+  .callout.source { border-color: var(--moon); font-size: .9rem; }
+  .callout.source::before { content: "📖 KAYNAK "; font-weight: 700; color: var(--moon); }
+
+  /* ---------- Checklist ---------- */
+  .level-group { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px; margin: 14px 0; overflow: hidden; }
+  .level-group-head { background: var(--bg-elev2); padding: 12px 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+  .level-group-head:hover { background: #2c3045; }
+  .level-group-head .lg-title { font-weight: 600; color: var(--rogue); }
+  .level-group-head .lg-meta { font-size: .85rem; color: var(--text-dim); }
+  .level-group-body { padding: 8px 16px 16px; display: none; }
+  .level-group.open .level-group-body { display: block; }
+  .level-group.open .lg-toggle::before { content: "▾ "; }
+  .lg-toggle::before { content: "▸ "; color: var(--rogue); }
+
+  .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 1px dashed rgba(255,255,255,.05); }
+  .check-item:last-child { border: none; }
+  .check-item input[type=checkbox] { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--violet); cursor: pointer; flex-shrink: 0; }
+  .check-item label { cursor: pointer; flex: 1; }
+  .check-item input:checked + label { color: var(--text-dim); text-decoration: line-through; }
+  .check-item .tag { display: inline-block; font-size: .72rem; padding: 1px 6px; border-radius: 3px; margin-right: 6px; background: var(--bg-elev2); color: var(--rogue); border: 1px solid var(--border); }
+  .check-item .tag.hc { background: rgba(255,245,105,.1); color: var(--rogue); border-color: var(--rogue-d); }
+  .check-item .tag.spell { color: var(--moon); border-color: var(--moon); }
+  .check-item .tag.gear { color: var(--info); border-color: var(--info); }
+  .check-item .tag.skill { color: var(--warn); border-color: var(--warn); }
+  .check-item .tag.race { color: var(--violet); border-color: var(--violet); background: rgba(157,123,255,.08); }
+
+  /* ---------- Race racial card ---------- */
+  .racial-card { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 700px) { .racial-card { grid-template-columns: 1fr 1fr; } }
+  .racial { background: var(--bg-soft); border: 1px solid var(--border); border-left: 3px solid var(--violet); padding: 12px 14px; border-radius: 4px; }
+  .racial h4 { margin-top: 0; color: var(--rogue); }
+  .racial .cd { font-size: .82rem; color: var(--text-dim); font-style: italic; }
+
+  /* ---------- Hotbar / Rotation visual ---------- */
+  .hotbar { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; align-items: center; }
+  .key { background: var(--bg-elev2); border: 1px solid var(--border); padding: 6px 10px; border-radius: 4px; font-family: monospace; font-size: .85rem; }
+  .key.skill { border-color: var(--moon); color: var(--moon); }
+  .key.fin { border-color: var(--rogue-d); color: var(--rogue); }
+  .arrow { color: var(--text-dim); }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 600px) {
+    .topbar { padding: 12px 14px; }
+    .crest { width: 42px; height: 42px; font-size: 1.3rem; }
+    h1 { font-size: 1.3rem; }
+    main { padding: 16px 14px 60px; }
+    .tabs { padding: 8px 10px 0; top: 76px; }
+    .tab { padding: 8px 10px; font-size: .82rem; }
+    table { font-size: .85rem; }
+    th, td { padding: 6px; }
+  }
+
+  footer { max-width: 1100px; margin: 12px auto 30px; padding: 0 20px; color: var(--text-dim); font-size: .82rem; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="crest" aria-hidden="true">🗡</div>
+    <div class="title-block">
+      <h1>Night Elf Rogue — Hardcore Sword/Sword Rehberi</h1>
+      <div class="subtitle">Classic Era 1.15.x / Classic Fresh HC • Combat (Sword Spec 5/5) • Server: <strong>Soulseeker EU</strong></div>
+      <div class="char-card" title="Night Elf Rogue, çift kılıç. Guild: Gece Bıçakları.">
+        <span class="char-name">Duskblade</span>
+        <span class="char-guild">&lt;Gece Bicaklari&gt;</span>
+        <span class="char-bio">Night Elf · Rogue · Combat (Sword/Sword)</span>
+      </div>
+    </div>
+    <span class="progress-pill" id="progress-pill">0 / 0 (0%)</span>
+    <button class="reset-btn" id="reset-btn" title="Tüm ilerlemeyi sıfırla">Sıfırla</button>
+  </div>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button class="tab active" data-tab="overview" role="tab">Genel Bakış</button>
+  <button class="tab" data-tab="build" role="tab">Build</button>
+  <button class="tab" data-tab="gearing" role="tab">Gearing</button>
+  <button class="tab" data-tab="progress" role="tab">İlerleme Listesi</button>
+  <button class="tab" data-tab="addons" role="tab">Addon'lar</button>
+  <button class="tab" data-tab="pvp" role="tab">PvP &amp; Tehlike</button>
+  <button class="tab" data-tab="crafting" role="tab">Crafting</button>
+</nav>
+
+<main>
+
+<!-- ============================================================= -->
+<!-- GENEL BAKIŞ                                                    -->
+<!-- ============================================================= -->
+<section class="panel active" id="panel-overview" role="tabpanel">
+
+  <h2>Neden Night Elf Rogue (Sword/Sword)?</h2>
+  <p>Rogue, Wowhead HC Tier List'te <strong>S Tier</strong> — yeni ve deneyimli oyuncuya hitap eden, hayatta kalması en kolay sınıflardan biri. Sebebi: oyundaki en geniş <strong>crowd control (CC)</strong> ve kaçış kiti (Stealth, Sap, Vanish, Sprint, Gouge, Blind). Hata yaptığında seni kurtaracak araç hep var.</p>
+
+  <div class="callout source">
+    Bu rehber <strong>Wowhead HC Rogue Leveling Guide (yazar: Lndegenerate, güncelleme 2024/11/20)</strong> ve resmi spell verisi (Wowhead spell=13964 Sword Specialization) üzerinden VPN ile doğrulanarak hazırlandı. Spec, rotasyon, poison quest seviyesi ve silah listesi birincil kaynaktan teyit edildi.
+  </div>
+
+  <div class="callout warn">
+    <strong>Night Elf hakkında dürüst olalım:</strong> Wowhead, Rogue için NE'i meta DPS açısından <em>vasat</em> bulur — Shadowmeld'in stealth bonusu vanilla'da Rogue'a fayda vermez. NE'in gerçek değeri iki yerde: <strong>(1)</strong> Oyundaki en yüksek base Agility (Rogue için en yüksek), <strong>(2)</strong> HC'de hayat kurtaran <strong>Shadowmeld</strong> aggro-dump / patrol-skip. "En hızlı leveling" istiyorsan Dwarf/Gnome (Alliance) veya Troll (Horde) daha güçlü; ama <strong>"en güvenli + temalı NE Rogue"</strong> istiyorsan bu rehber tam sana göre.
+  </div>
+
+  <h2>Race + Class Sinerjisi — Night Elf Racial'ları</h2>
+  <div class="racial-card">
+    <div class="racial">
+      <h4>Shadowmeld <span class="cd">(aktif, combat dışı, CD yok)</span></h4>
+      <p>Combat <em>dışında</em> stealth. HC'de <strong>#1 utility</strong>: zaten Stealth'in varken Shadowmeld ek katman değil — asıl güç <strong>aggro dump</strong>. Combat'tan çıkınca (~6 sn hasarsız) Shadowmeld → mob de-aggro olur.</p>
+      <p><em>Kullanım:</em> Vanish CD'deyken yedek panic butonu. Vanish → mesafe aç → combat düştü → Shadowmeld → güvenli kalk-yürü. İki ayrı "görünmezlik" = HC'de çift can.</p>
+    </div>
+    <div class="racial">
+      <h4>Quickness <span class="cd">(pasif)</span></h4>
+      <p><strong>+%1 Dodge</strong> her zaman. Rogue zaten Agility + Evasion ile dodge'a scale eder; bu pasif sustain'i biraz daha artırır. Küçük ama bedava.</p>
+    </div>
+    <div class="racial">
+      <h4>Yüksek Base Agility <span class="cd">(pasif ırk bonusu)</span></h4>
+      <p>NE, Rogue için <strong>oyundaki en yüksek base Agility</strong>'e sahip (Wowhead). Agility = AP + crit + dodge + armor. Sword/Sword burst'ünü ve survival dodge'unu destekler. NE'in tek "saf güç" avantajı budur.</p>
+    </div>
+    <div class="racial">
+      <h4>Nature Resistance <span class="cd">(pasif)</span></h4>
+      <p><strong>+10 Nature Resistance.</strong> Niş ama bedava: bazı nature hasarı (zehirli böcekler, Druid Wrath, Plaguelands) hafifler.</p>
+    </div>
+  </div>
+  <p class="subtitle">Wisp Spirit (ölüm hızı) HC'de geçersiz — ölüm = ölüm, ghost form yok.</p>
+
+  <h2>Server: Soulseeker EU — Classic Fresh HC Kuralları</h2>
+  <div class="callout danger">
+    <strong>Soulseeker = Classic Fresh Hardcore realm.</strong> En kritik fark: <strong>Cheat-Death tarzı mekanikler DEVRE DIŞI.</strong> Yani ölüm tamamen kalıcıdır, "kandırma" yok. Yanlış pull = karakter biter. Bu yüzden Rogue'un kaçış kitini (Vanish/Sprint/Shadowmeld/Gouge) <em>israf etme</em>, hep hazır tut.
+  </div>
+  <ul>
+    <li><strong>Permadeath:</strong> Ölünce karakter kalıcı ghost — normal Era realm'e transfer edilebilir ama HC biter.</li>
+    <li><strong>Trade / Auction House / başka oyuncuya mail YOK:</strong> Kendi başının çaresine bak (self-found ruhu). Bu yüzden <strong>profession + Pick Pocket gold + First Aid</strong> kendine yetebilmek için kritik.</li>
+    <li><strong>Group / Dungeon serbest</strong> (kurallar dahilinde) — ama HC ölüm datasının çoğu dungeon over-pull. Dikkatli grup seç.</li>
+    <li><strong>/duel = duel-to-the-death (Mak'gora):</strong> Kabul edersen kaybeden ölür. PvE odaklı HC'de gereksiz risk — istemiyorsan kabul etme.</li>
+  </ul>
+  <p class="subtitle">Not: Realm ruleset detayları zamanla güncellenebilir; emin olmak için oyun-içi HC addon ve realm duyurularını kontrol et.</p>
+
+  <h2>Sınıfın 5 Dakikalık Özeti</h2>
+  <ul>
+    <li><strong>Leveling Spec:</strong> Combat. Kullanıcı tercihi <strong>Sword/Sword</strong> = Combat ağacında 5/5 Sword Specialization (kılıçla %5 ekstra saldırı), iki 1H kılıç tut.</li>
+    <li><strong>Silah:</strong> Main hand = en yüksek <em>top-end damage</em> (yavaş) kılıç; off hand kılıç (hızlı = poison daha sık uygular).</li>
+    <li><strong>Stat:</strong> Agility her şeyden önce. Sonra zevkine göre Stamina (güvenli) ya da Strength (hız). "of the Monkey" / "of the Tiger".</li>
+    <li><strong>Rotasyon:</strong> Garrote → Slice and Dice → Sinister Strike x3-5 → Eviscerate.</li>
+    <li><strong>Survival kiti:</strong> Stealth (hep açık), Sap (patrol CC), Vanish (panik), Sprint (kaçış), Gouge + Bandage, Evasion, Blind, + Shadowmeld.</li>
+    <li><strong>Profession:</strong> Herbalism + Alchemy (Thistle Tea + eliksir) — Wowhead #1. Alternatif: Mining + Engineering.</li>
+    <li><strong>Altın kural:</strong> Asla 2+ mob aggro alma. CC'leri (Sap/Blind/Gouge/Crippling) kullanıp her şeyi 1v1'e çevir.</li>
+  </ul>
+
+  <div class="callout tip">Rogue'un HC mantrası: <em>"Vanish CD'deyken tehlikeli dövüşe girme."</em> Vanish resist etmez — ama Vanish anında bir vuruş yersen stealth anında kırılır. Bu yüzden ya önce mesafe aç, ya da düşman vurduktan hemen sonra Vanish'le.</div>
+
+  <h2>İlk Gün Checklist (1-10)</h2>
+  <ol>
+    <li>Karakter oluştur: Night Elf → Rogue. Realm: <strong>Soulseeker EU</strong> (Classic Fresh HC).</li>
+    <li>Başlangıç: <strong>Shadowglen (Teldrassil)</strong> — HC'nin en güvenli başlangıç bölgesi (1-12 neredeyse sıfır ölüm).</li>
+    <li><code>/console cameraDistanceMaxZoomFactor 3.9</code> — kamerayı en geri zoom'la (etrafı gör).</li>
+    <li>Interface → Names → <strong>Always Show Nameplates</strong> ON.</li>
+    <li>Addon'ları kur: <em>Hardcore, Hardcore Death Log, Questie, Threat Classic 2, WeakAuras</em> (detay Addon'lar sekmesinde).</li>
+    <li><strong>Stealth'i hemen aç</strong> ve combat dışında hep açık tut. Erken seviyede sadece Sinister Strike + (gerekirse) Eviscerate.</li>
+    <li>İlk fırsatta bir <strong>Stiletto</strong> (off-hand) al; main hand için en yüksek top-end kılıcı kovala.</li>
+  </ol>
+</section>
+
+<!-- ============================================================= -->
+<!-- BUILD                                                          -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-build" role="tabpanel">
+
+  <h2>Spec: Combat — Sword/Sword</h2>
+  <div class="callout source">
+    Wowhead'in <strong>resmi önerdiği final build 19/32/0</strong> (Assassination 19 / Combat 32) ve bu build <strong>Sword Spec yerine Dual Wield Specialization</strong> alır — sebebi "daha tutarlı hasar + silah tipi esnekliği (illa iki kılıç tutmak zorunda kalmazsın)". Sen <strong>Sword/Sword</strong> istediğin için aşağıda DW Spec puanlarını <strong>5/5 Sword Specialization</strong>'a kaydırıyoruz.
+  </div>
+
+  <h3>Sword/Sword'ün artısı ve eksisi (dürüst)</h3>
+  <table>
+    <tr><th>Artı</th><th>Eksi</th></tr>
+    <tr>
+      <td>Sword Spec 5/5 = kılıçla vuruşta <strong>%5 ihtimalle ekstra saldırı</strong> (doğrulandı: spell=13964). Proc'larda burst + bonus combo point + bonus poison şansı. Grind'de eğlenceli ve patlayıcı.</td>
+      <td>"Swingy" — RNG'ye bağlı, kötü seride hasar düşer. Ayrıca <strong>iki kılıç tutmak zorundasın</strong>; drop kuyusu kılıçla sınırlanır (mace/dagger upgrade'ini değerlendiremezsin).</td>
+    </tr>
+  </table>
+
+  <h3>Talent Yolu (Wowhead sıralaması + Sword/Sword uyarlaması)</h3>
+  <p>Combat ağacı önce; ~lvl 29/30'da temiz bir respec mantıklı (Wowhead da bunu yapar). Sword/Sword için <strong>final hedef ~19/32/0</strong> ama Combat tarafında <strong>5/5 Dual Wield Spec yerine 5/5 Sword Specialization</strong>.</p>
+  <ol>
+    <li><strong>Improved Sinister Strike 2/2</strong> — SS enerji maliyeti düşer, erken kill time çok hızlanır.</li>
+    <li><strong>Improved Gouge</strong> — Gouge süresi/uptime; kite + bandage için.</li>
+    <li><strong>Riposte (mümkün olan en kısa sürede)</strong> — Wowhead: "oyunun sessizce en güçlü yeteneklerinden biri" (parry sonrası anında vuruş + 4 sn disarm). Humanoid grind'de devasa.</li>
+    <li><strong>Precision 5/5</strong> — +hit; miss = ölü enerji = HC'de risk.</li>
+    <li><strong>Improved Sprint</strong> — kaçış (root/slow kır). NE isen yine al, panik kaçışı çok değerli.</li>
+    <li><strong>(Respec ~30)</strong> Lethality 5/5 + Malice 5/5 (Assassination crit) → Combat'a dön.</li>
+    <li><strong>Dual Wield Specialization yerine → Sword Specialization 5/5</strong> (Sword/Sword'ün kalbi).</li>
+    <li><strong>Blade Flurry 1/1</strong> (lvl 40 — 30 puan Combat) — tek AoE'in, 2+ mob.</li>
+    <li><strong>Adrenaline Rush 1/1</strong> (lvl 40+, 31-point) — enerji patlaması; Blade Flurry ile birleştir.</li>
+  </ol>
+
+  <div class="callout info">Kesin trainer seviyeleri oyun-içi trainer'da değişebilir; bu yüzden her yetenek için <em>net level</em> iddia etmiyoruz. Doğrulanmış kilometre taşları: <strong>Slice and Dice ~lvl 10</strong>, <strong>Vanish lvl 22</strong>, <strong>poison quest lvl 22</strong>, <strong>Blade Flurry / Adrenaline Rush / mount lvl 40</strong>.</div>
+
+  <h2>Stat Öncelikleri</h2>
+  <h4>Leveling</h4>
+  <ol>
+    <li><strong>Agility</strong> (AP + crit + dodge + armor) — her zaman #1.</li>
+    <li><strong>Stamina</strong> (güvenli oyun) <em>veya</em> <strong>Strength</strong> (hızlı kill). Wowhead: yüksek hasar/düşük stamina önerir ama sınıfta rahat olana kadar Stamina'yı tamamen bırakma.</li>
+    <li><strong>Hit %</strong> — miss'i azaltır.</li>
+  </ol>
+  <p>Affix avı: <strong>"of the Monkey"</strong> (Agi+Sta) ve <strong>"of the Tiger"</strong> (Agi+Str).</p>
+
+  <h2>Rotasyon</h2>
+  <h4>Solo Pull (Combat — doğrulanmış)</h4>
+  <div class="hotbar">
+    <span class="key skill">Garrote</span><span class="arrow">→</span>
+    <span class="key skill">Slice and Dice</span><span class="arrow">→</span>
+    <span class="key skill">Sinister Strike ×3-5</span><span class="arrow">→</span>
+    <span class="key fin">Eviscerate</span>
+  </div>
+  <ul>
+    <li><strong>Erken (lvl &lt;10):</strong> Sadece Sinister Strike; Eviscerate'i ancak mob'u <em>overkill yapmadan</em> bitirecekse bas.</li>
+    <li><strong>lvl 10+:</strong> Garrote opener (DoT, sessiz açılış — çoğu zaman Cheap Shot'tan iyi) → 1-2 CP'de Slice and Dice (attack speed) → SS spam → Eviscerate finish.</li>
+    <li><strong>Uzun dövüş:</strong> SnD'yi yenile. Mob ölmek üzereyse ve Eviscerate overkill olacaksa CP'leri SnD'ye harca → sonraki mob'a taşı.</li>
+  </ul>
+
+  <h4>Alternatif Opener (stun gerekiyorsa)</h4>
+  <div class="hotbar">
+    <span class="key skill">Stealth</span><span class="arrow">→</span>
+    <span class="key skill">Cheap Shot</span><span class="arrow">→</span>
+    <span class="key skill">Sinister Strike</span><span class="arrow">→</span>
+    <span class="key fin">Kidney Shot</span><span class="arrow">→</span>
+    <span class="key fin">Eviscerate</span>
+  </div>
+
+  <h4>AoE (Blade Flurry, lvl 40+)</h4>
+  <div class="hotbar">
+    <span class="key fin">Adrenaline Rush</span><span class="arrow">+</span>
+    <span class="key fin">Blade Flurry</span><span class="arrow">→</span>
+    <span class="key skill">SnD aç</span><span class="arrow">→</span>
+    <span class="key skill">SS spam</span>
+  </div>
+  <p>Blade Flurry CD'de geldikçe 2+ mob pull et. Blade Flurry aktifken SnD uptime'ı çok daha önemli. Adrenaline Rush + Blade Flurry hizalaması = çok hızlı temizlik.</p>
+
+  <h2>Enerji Yönetimi</h2>
+  <ul>
+    <li>Max 100 enerji, ~2 sn'de +20.</li>
+    <li>Enerjiyi 100'e biriktirip patlatma; tutarlı Sinister Strike bas.</li>
+    <li><strong>Thistle Tea</strong> (Alchemy crafted) = anında enerji dolumu — panik / burst için sakla.</li>
+  </ul>
+
+  <h2>Şu Spell'leri ALMA / Yükseltme (Wowhead)</h2>
+  <ul>
+    <li><strong>Feint</strong> — solo'da işe yaramaz (dungeon'da threat dump için faydalı, orada al).</li>
+    <li><strong>Gouge sadece rank 1</strong> — üst rank süreyi artırmaz.</li>
+    <li>Dagger kullanmıyorsan <strong>Backstab/Ambush'u rank'lama</strong>.</li>
+    <li>Crippling/Instant dışı poison'lar leveling'de kullanılmaz. <strong>Expose Armor</strong> gereksiz; <strong>Disarm Trap</strong> Stratholme'a kadar bekler.</li>
+  </ul>
+</section>
+
+<!-- ============================================================= -->
+<!-- GEARING                                                        -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-gearing" role="tabpanel">
+
+  <h2>Silah Prensibi (Wowhead)</h2>
+  <div class="callout info">
+    Yetenekler <strong>weapon damage</strong>'a scale eder. <strong>Main hand</strong> = en yüksek <em>top-end damage</em> (genelde yavaş silah). <strong>Off hand</strong> hızlı olabilir (poison'u daha sık uygular) ama bunun için fazla stat/damage feda etme. En iyi stat daima <strong>Agility</strong>.
+  </div>
+  <div class="callout hc">Sword/Sword spec'inde <strong>iki silahın da kılıç</strong> olması şart (Sword Spec proc'u için). Bu yüzden kılıç drop/quest'lerini öncele; mace/dagger upgrade'leri sana yaramaz.</div>
+
+  <h2>Leveling Kılıçları — Dungeon &amp; Quest (verified)</h2>
+  <table>
+    <tr><th>Lvl</th><th>Silah</th><th>Kaynak</th></tr>
+    <tr><td>23+</td><td><strong>Outlaw Sabre</strong></td><td>Baron Aquanis quest — Blackfathom Depths</td></tr>
+    <tr><td>35+</td><td><strong>Sword of Serenity</strong> / <strong>Black Menace</strong></td><td>In the Name of the Light quest — Scarlet Monastery</td></tr>
+    <tr><td>35+</td><td><strong>Sword of Omen</strong></td><td>Into The Scarlet Monastery quest — SM</td></tr>
+    <tr><td>39+</td><td><strong>Hand of Righteousness</strong></td><td>High Inquisitor Whitemane drop — SM Cathedral</td></tr>
+    <tr><td>39+</td><td><strong>Vanquisher's Sword</strong></td><td>Bring the Light quest — Razorfen Downs</td></tr>
+    <tr><td>45+</td><td><strong>Joonho's Mercy</strong></td><td>General Fangferror rare drop — Azshara</td></tr>
+    <tr><td>46+</td><td><strong>Thrash Blade</strong></td><td>Corruption of Earth and Seed quest — Maraudon (leveling'in en iyi 1H'lerinden)</td></tr>
+    <tr><td>48+</td><td><strong>Inventor's Focal Sword</strong></td><td>Tinkerer Gizlock drop — Maraudon</td></tr>
+  </table>
+  <div class="callout tip">Off-hand olarak <strong>Cruel Barb</strong> (Edwin VanCleef, Deadmines) teknik olarak dagger'dır — Sword/Sword saflığı için onu değil, ikinci bir kılıç tut. İyi kılıç kıtsa vendor kılıçları boşluğu doldurur.</div>
+
+  <h2>Vendor Kılıçları (drop şanssızsa)</h2>
+  <ul>
+    <li><strong>Longsword</strong> — ~lvl 21 civarı en iyi vendor kılıç.</li>
+    <li><strong>Broadsword</strong> — ~lvl 31.</li>
+    <li><strong>Falchion</strong> — ~lvl 41 (SM/RFD yapmadıysan kabul edilir).</li>
+    <li>Erken: <strong>Stiletto</strong>'yu mümkün olan en kısa sürede al (off-hand boşluğu için).</li>
+  </ul>
+
+  <div class="callout hc"><strong>Herbalist isen:</strong> <strong>Phytoblade</strong> — herbalist-only bir kılıç, çok iyi bir mainhand. Herb + Alch alıyorsan kaçırma.</div>
+
+  <h2>Kalıcı Zırh Parçaları (uzun ömürlü)</h2>
+  <ul>
+    <li><strong>Tunic of Westfall</strong> (The Defias Brotherhood quest) — 20+ level dayanır.</li>
+    <li><strong>Triprunner Dungarees</strong> (Gnomeregan, The Grand Betrayal quest) — 60'a kadar giyilebilir.</li>
+    <li><strong>Failed Flying Experiment</strong> (Rescue OOX-22/FE, Feralas) — stat dolu shoulder (omuz upgrade'i nadirdir).</li>
+  </ul>
+
+  <h2>Endgame Yönü (Pre-raid → raid)</h2>
+  <ul>
+    <li>Trinket: <strong>Hand of Justice</strong> (BRD), <strong>Mark of the Chosen</strong> (LBRS).</li>
+    <li>Silah: <strong>Perdition's Blade</strong> (Molten Core), <strong>Maladath, Runed Blade of the Black Flight</strong> (BWL).</li>
+  </ul>
+</section>
+
+<!-- ============================================================= -->
+<!-- İLERLEME LİSTESİ                                               -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-progress" role="tabpanel">
+
+  <h2>HC İlerleme Listesi</h2>
+  <p class="subtitle">Tıkla → otomatik kaydedilir (tarayıcı localStorage). Sword/Sword Night Elf Rogue yolculuğu, güvenlik odaklı.</p>
+
+  <div class="checklist" id="checklist">
+
+    <!-- 1-10 -->
+    <div class="level-group open">
+      <div class="level-group-head"><span class="lg-title lg-toggle">Lvl 1-10 — Shadowglen / Teldrassil</span><span class="lg-meta">Temel + güvenli başlangıç</span></div>
+      <div class="level-group-body">
+        <div class="check-item"><input type="checkbox" id="c1"><label for="c1"><span class="tag race">RACE</span> NE → Rogue, <strong>Soulseeker EU</strong>. Teldrassil = en güvenli HC start.</label></div>
+        <div class="check-item"><input type="checkbox" id="c2"><label for="c2"><span class="tag spell">SPELL</span> Stealth'i hemen aç, combat dışında <strong>hep açık</strong> tut.</label></div>
+        <div class="check-item"><input type="checkbox" id="c3"><label for="c3"><span class="tag hc">HC</span> <code>cameraDistanceMaxZoomFactor 3.9</code> + Always Show Nameplates ON.</label></div>
+        <div class="check-item"><input type="checkbox" id="c4"><label for="c4"><span class="tag spell">SPELL</span> Erken rotasyon: Sinister Strike spam, Eviscerate ile bitir (overkill yapma).</label></div>
+        <div class="check-item"><input type="checkbox" id="c5"><label for="c5"><span class="tag gear">GEAR</span> Off-hand için <strong>Stiletto</strong> al; main hand = en yüksek top-end kılıç.</label></div>
+        <div class="check-item"><input type="checkbox" id="c6"><label for="c6"><span class="tag skill">SKILL</span> First Aid başlat (bandaj = HC'de can).</label></div>
+      </div>
+    </div>
+
+    <!-- 10-20 -->
+    <div class="level-group">
+      <div class="level-group-head"><span class="lg-title lg-toggle">Lvl 10-20 — Darkshore</span><span class="lg-meta">CC kiti açılıyor</span></div>
+      <div class="level-group-body">
+        <div class="check-item"><input type="checkbox" id="c10"><label for="c10"><span class="tag spell">SPELL</span> <strong>Slice and Dice</strong> (~lvl 10) — CP'de aç, attack speed.</label></div>
+        <div class="check-item"><input type="checkbox" id="c11"><label for="c11"><span class="tag spell">SPELL</span> <strong>Sprint</strong> — kaçış. <strong>Sap</strong> — patrol/humanoid CC.</label></div>
+        <div class="check-item"><input type="checkbox" id="c12"><label for="c12"><span class="tag spell">SPELL</span> <strong>Cheap Shot</strong> (opener stun) + <strong>Pick Pocket</strong> (gold — tüm opener'lara macro'la).</label></div>
+        <div class="check-item"><input type="checkbox" id="c13"><label for="c13"><span class="tag skill">SKILL</span> Talent: Improved Sinister Strike 2/2 → Improved Gouge.</label></div>
+        <div class="check-item"><input type="checkbox" id="c14"><label for="c14"><span class="tag skill">SKILL</span> Profession seç: <strong>Herbalism + Alchemy</strong> (önerilen) veya Mining + Engineering.</label></div>
+        <div class="check-item"><input type="checkbox" id="c15"><label for="c15"><span class="tag race">RACE</span> Shadowmeld'i panik yedeği olarak öğren: combat düştü → meld → de-aggro.</label></div>
+        <div class="check-item"><input type="checkbox" id="c16"><label for="c16"><span class="tag gear">GEAR</span> Tunic of Westfall (Defias Brotherhood) — 20+ level dayanır.</label></div>
+      </div>
+    </div>
+
+    <!-- 20-30 -->
+    <div class="level-group">
+      <div class="level-group-head"><span class="lg-title lg-toggle">Lvl 20-30 — Ashenvale / Stonetalon</span><span class="lg-meta">Vanish + Poisons</span></div>
+      <div class="level-group-body">
+        <div class="check-item"><input type="checkbox" id="c20"><label for="c20"><span class="tag hc">HC</span> <strong>Vanish (lvl 22)</strong> — #1 panik butonu. Hep CD'de hazır tut.</label></div>
+        <div class="check-item"><input type="checkbox" id="c21"><label for="c21"><span class="tag hc">HC</span> <strong>Poison quest'i lvl 22'DE yap</strong> (Vanish'ten SONRA!). Yanında <strong>Anti-Venom</strong> bulundur (quest'te zehirleniyorsun).</label></div>
+        <div class="check-item"><input type="checkbox" id="c22"><label for="c22"><span class="tag spell">SPELL</span> Sadece <strong>Instant Poison</strong> (hasar) + <strong>Crippling Poison</strong> (kite) kullan.</label></div>
+        <div class="check-item"><input type="checkbox" id="c23"><label for="c23"><span class="tag skill">SKILL</span> <strong>Riposte</strong>'u en kısa sürede al — humanoid grind'de devasa.</label></div>
+        <div class="check-item"><input type="checkbox" id="c24"><label for="c24"><span class="tag spell">SPELL</span> <strong>Kidney Shot</strong> (finisher stun) + <strong>Evasion</strong> (defansif, +dodge).</label></div>
+        <div class="check-item"><input type="checkbox" id="c25"><label for="c25"><span class="tag gear">GEAR</span> Outlaw Sabre (BFD, Baron Aquanis quest) — kılıç upgrade.</label></div>
+        <div class="check-item"><input type="checkbox" id="c26"><label for="c26"><span class="tag hc">HC</span> ~lvl 29/30: temiz <strong>respec</strong> (Lethality/Malice → Combat Sword Spec yoluna dön).</label></div>
+      </div>
+    </div>
+
+    <!-- 30-40 -->
+    <div class="level-group">
+      <div class="level-group-head"><span class="lg-title lg-toggle">Lvl 30-40 — SM / Razorfen</span><span class="lg-meta">Mount + Sword Spec yolu</span></div>
+      <div class="level-group-body">
+        <div class="check-item"><input type="checkbox" id="c30"><label for="c30"><span class="tag hc">HC</span> <strong>Mount (lvl 40)</strong> — gold biriktir (Pick Pocket + profession yardımcı). Kaçış için de değerli.</label></div>
+        <div class="check-item"><input type="checkbox" id="c31"><label for="c31"><span class="tag skill">SKILL</span> Sword Specialization'a puan dökmeye başla (Sword/Sword'ün kalbi).</label></div>
+        <div class="check-item"><input type="checkbox" id="c32"><label for="c32"><span class="tag gear">GEAR</span> Scarlet Monastery: Sword of Serenity / Sword of Omen / Hand of Righteousness.</label></div>
+        <div class="check-item"><input type="checkbox" id="c33"><label for="c33"><span class="tag gear">GEAR</span> Vanquisher's Sword (Razorfen Downs, Bring the Light quest).</label></div>
+        <div class="check-item"><input type="checkbox" id="c34"><label for="c34"><span class="tag gear">GEAR</span> Triprunner Dungarees (Gnomeregan, Grand Betrayal) — 60'a kadar giyilir.</label></div>
+        <div class="check-item"><input type="checkbox" id="c35"><label for="c35"><span class="tag spell">SPELL</span> Distract'ı öğren ve kullan — patrol atla / mobu döndürüp arkadan aç.</label></div>
+      </div>
+    </div>
+
+    <!-- 40-50 -->
+    <div class="level-group">
+      <div class="level-group-head"><span class="lg-title lg-toggle">Lvl 40-50 — Maraudon / ZF / Tanaris</span><span class="lg-meta">Blade Flurry + Adrenaline Rush</span></div>
+      <div class="level-group-body">
+        <div class="check-item"><input type="checkbox" id="c40"><label for="c40"><span class="tag skill">SKILL</span> <strong>Blade Flurry (lvl 40)</strong> — tek AoE'in, 2+ mob CD'de pull.</label></div>
+        <div class="check-item"><input type="checkbox" id="c41"><label for="c41"><span class="tag skill">SKILL</span> <strong>Adrenaline Rush</strong> — enerji burst; Blade Flurry ile hizala.</label></div>
+        <div class="check-item"><input type="checkbox" id="c42"><label for="c42"><span class="tag gear">GEAR</span> Thrash Blade (Maraudon) — leveling'in en iyi 1H kılıçlarından.</label></div>
+        <div class="check-item"><input type="checkbox" id="c43"><label for="c43"><span class="tag gear">GEAR</span> Inventor's Focal Sword (Maraudon) / Joonho's Mercy (Azshara rare).</label></div>
+        <div class="check-item"><input type="checkbox" id="c44"><label for="c44"><span class="tag gear">GEAR</span> Failed Flying Experiment (Feralas, OOX-22/FE) — kalıcı shoulder.</label></div>
+        <div class="check-item"><input type="checkbox" id="c45"><label for="c45"><span class="tag hc">HC</span> Thistle Tea stok'u (Alchemy) — panik enerji dolumu.</label></div>
+      </div>
+    </div>
+
+    <!-- 50-60 -->
+    <div class="level-group">
+      <div class="level-group-head"><span class="lg-title lg-toggle">Lvl 50-60 — BRD / LBRS / Strat</span><span class="lg-meta">Pre-raid hazırlık</span></div>
+      <div class="level-group-body">
+        <div class="check-item"><input type="checkbox" id="c50"><label for="c50"><span class="tag spell">SPELL</span> <strong>Blind</strong> — acil CC (reagent: Blinding Powder, Herb+Alch'ten yapılır).</label></div>
+        <div class="check-item"><input type="checkbox" id="c51"><label for="c51"><span class="tag gear">GEAR</span> BRD: Hand of Justice trinket.</label></div>
+        <div class="check-item"><input type="checkbox" id="c52"><label for="c52"><span class="tag gear">GEAR</span> LBRS: Mark of the Chosen trinket.</label></div>
+        <div class="check-item"><input type="checkbox" id="c53"><label for="c53"><span class="tag skill">SKILL</span> Disarm Trap'i artık öğren (Stratholme için).</label></div>
+        <div class="check-item"><input type="checkbox" id="c54"><label for="c54"><span class="tag hc">HC</span> Dungeon'da Feint öğren (threat dump) — sadece grup içinde.</label></div>
+      </div>
+    </div>
+
+    <!-- 60 -->
+    <div class="level-group">
+      <div class="level-group-head"><span class="lg-title lg-toggle">Lvl 60 — Endgame</span><span class="lg-meta">Hayatta kaldın!</span></div>
+      <div class="level-group-body">
+        <div class="check-item"><input type="checkbox" id="c60"><label for="c60"><span class="tag gear">GEAR</span> Pre-raid BiS topla (kılıç odaklı).</label></div>
+        <div class="check-item"><input type="checkbox" id="c61"><label for="c61"><span class="tag gear">GEAR</span> Perdition's Blade (MC) → Maladath (BWL) hedefle.</label></div>
+        <div class="check-item"><input type="checkbox" id="c62"><label for="c62"><span class="tag hc">HC</span> Raid'de bile mantra geçerli: over-pull yok, Vanish/Feint hazır, bandaj dolu.</label></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================= -->
+<!-- ADDONLAR                                                       -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-addons" role="tabpanel">
+
+  <h2>Essential (Olmazsa Olmaz)</h2>
+  <table>
+    <tr><th>Addon</th><th>İşlev</th><th>Neden HC</th></tr>
+    <tr><td><strong>Hardcore</strong></td><td>Resmi community HC addon, level/death/realm tracker, verification</td><td>Karakter geçmişi proof, HC ruleset</td></tr>
+    <tr><td><strong>Hardcore Death Log</strong></td><td>Sunucu çapı ölüm broadcast (kim/nerede/nasıl)</td><td>Mob/zone tehlike farkındalığı</td></tr>
+    <tr><td><strong>Questie</strong></td><td>Quest tracker + harita objektifleri</td><td>Yanlış zone/quest = ölüm; Questie filtreler</td></tr>
+    <tr><td><strong>Threat Classic 2</strong></td><td>Threat meter</td><td>Dungeon aggro yönetimi (Rogue threat dump)</td></tr>
+    <tr><td><strong>WeakAuras 2</strong></td><td>Custom HP/CD/enerji/buff alert</td><td>"HP &lt;%30 alarm", Vanish/Sprint CD ready</td></tr>
+    <tr><td><strong>OmniCC</strong></td><td>Tüm cooldown'lara sayaç</td><td>Vanish/Sprint/Blind/Shadowmeld takibi</td></tr>
+    <tr><td><strong>Bagnon / Baganator</strong></td><td>Tüm bag tek pencere</td><td>Inventory + reagent yönetimi</td></tr>
+  </table>
+
+  <h2>Rogue'a Özel</h2>
+  <ul>
+    <li><strong>Energy Watch / EnergyTick</strong> — enerji regen tick'ini görselleştirir (rotasyon timing).</li>
+    <li><strong>Combo Points Redux</strong> — combo point UI (Eviscerate/Kidney/SnD kararı).</li>
+    <li><strong>Sap Helper</strong> — sap macro &amp; dungeon CC tracker (yanlışlıkla CC kırmamak için).</li>
+    <li><strong>ClassicCastbars / Plater</strong> — mob cast bar (kaçış/interrupt timing).</li>
+  </ul>
+
+  <h2>Good to Have</h2>
+  <ul>
+    <li><strong>Pawn</strong> — item upgrade scorer (Agility ağırlıklı ayarla).</li>
+    <li><strong>GatherMate2</strong> (+Data) — Herbalism node haritası (Herb+Alch alıyorsan).</li>
+    <li><strong>Leatrix Plus</strong> — auto-repair / auto-sell QoL.</li>
+    <li><strong>Atlas / AtlasLoot</strong> — dungeon map + loot planlama (kılıç drop'larını önceden gör).</li>
+  </ul>
+
+  <div class="callout hc">Minimum 5: <strong>Hardcore, Hardcore Death Log, Questie, WeakAuras, OmniCC.</strong> Rogue için ek olarak Energy Watch + Combo Points Redux şiddetle önerilir.</div>
+</section>
+
+<!-- ============================================================= -->
+<!-- PVP & TEHLİKE                                                  -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-pvp" role="tabpanel">
+
+  <h2>Night Elf Leveling Rotası — Tehlike Haritası</h2>
+  <table>
+    <tr><th>Zone</th><th>Lvl</th><th>Tehlike</th></tr>
+    <tr><td><strong>Teldrassil</strong></td><td>1-12</td><td>#1 güvenli start; neredeyse sıfır ölüm. Rahat ısın.</td></tr>
+    <tr><td><strong>Darkshore</strong></td><td>10-20</td><td>Furbolg mağarası (Bashal'Aran), Murloc mağarası (Cliffspring — multi-pull!), Tower of Althalaxx Twilight mob'ları.</td></tr>
+    <tr><td><strong>Stonetalon</strong></td><td>15-27</td><td>Charred Vale — Black Dragonkin (lvl 20-23) ölüm spotu; uzak dur.</td></tr>
+    <tr><td><strong>Ashenvale</strong></td><td>18-30</td><td>Felfire Hill (Burning Blade <em>silence</em> — Rogue için tehlikeli), Bathran's Hair (multi-pull yoğun).</td></tr>
+  </table>
+  <div class="callout danger">Rogue'un en büyük ölüm sebebi <strong>kapalı alana stealth'le dalmak</strong> ve ters gidince kaçış rotası bulamamak. Wowhead: "Kapalı alanlarda hedefe stealth'le gitme — herkes gibi dövüşerek ilerle, daha güvenli."</div>
+
+  <h2>Rogue Survival Önceliği (HC)</h2>
+  <ol>
+    <li><strong>Stealth out of combat</strong> — her zaman açık.</li>
+    <li><strong>Sap before patrol</strong> — yaklaşmadan CC.</li>
+    <li><strong>Vanish CD ready</strong> — her tehlikeli pull öncesi kontrol.</li>
+    <li><strong>Shadowmeld yedek</strong> — Vanish CD'deyse combat düşür → meld → de-aggro.</li>
+    <li><strong>Gouge + Bandage</strong> — combat sonrası HP doldur, bandaj hep dolu olsun.</li>
+    <li><strong>Healing Potion</strong> — HP &lt;%50 anında.</li>
+  </ol>
+
+  <div class="callout warn"><strong>Daze tuzağı:</strong> Sırtın dönükken vuruş yersen Daze (-%50 hız) olursun → kaçamazsın → ölürsün. Kaçarken/kite'larken bile <strong>mob'a bakarak strafe-jump</strong> yap. Backpedal (geri yürüme) HC'de yasak.</div>
+
+  <h2>/duel — Duel to the Death (Mak'gora)</h2>
+  <div class="callout danger">Soulseeker (Classic Fresh HC) ruleset'inde <strong>/duel = ölümüne düello.</strong> Kabul edersen kaybeden karakter ölür. PvE odaklı HC'de bu <strong>gereksiz risk</strong> — sebepsiz kabul etme.</div>
+
+  <h3>Yine de düello yaparsan — Rogue taktiği</h3>
+  <ul>
+    <li><strong>Açılış:</strong> Stealth → Cheap Shot → max CP → Kidney Shot → Eviscerate burst.</li>
+    <li><strong>Stunlock</strong> zincirini kullan (Cheap Shot → Kidney Shot) ama rakip <strong>fear/anti-stun</strong> (WotF, FAP) açabilir.</li>
+    <li><strong>Free Action Potion</strong> öncesi iç (root/stun bağışıklığı).</li>
+    <li>HP düşerse <strong>Vanish → re-stealth → re-engage</strong>; Vanish CD'deyse <strong>Blind + Bandage</strong>.</li>
+  </ul>
+
+  <h3>Rogue Zayıflıkları (PvP)</h3>
+  <ul>
+    <li><strong>Self-heal yok</strong> — uzun dövüş kötü.</li>
+    <li><strong>AoE detection</strong> (Mage, Hunter Flare) stealth'i açar.</li>
+    <li>Stunlock'lanan hedef PvP trinket / Will of the Forsaken ile uyanabilir.</li>
+  </ul>
+</section>
+
+<!-- ============================================================= -->
+<!-- CRAFTING                                                       -->
+<!-- ============================================================= -->
+<section class="panel" id="panel-crafting" role="tabpanel">
+
+  <h2>Önerilen Profession: Herbalism + Alchemy</h2>
+  <div class="callout source">Wowhead'in Rogue için <strong>#1 profession önerisi</strong>. Sebebi: Rogue, stat eliksirlerini herkesten iyi kullanır + Rogue'a özel craft'lar.</div>
+  <ul>
+    <li><strong>Thistle Tea</strong> — anında enerji dolumu (Rogue'a özel). Panik burst / kaçış öncesi enerji için altın. Crafting: Swiftthistle bazlı.</li>
+    <li><strong>Blinding Powder</strong> — Blind reagent'ı (Swiftthistle + Fadeleaf). Herb+Alch ile kendin üret, hep stokta tut.</li>
+    <li><strong>Stat eliksirleri</strong> — Agility (Elixir of the Mongoose vb.), defensive (armor/HP) eliksirleri. HC'de eliksir = ekstra güvenlik marjı.</li>
+    <li><strong>Healing / Mana yok ama:</strong> Healing Potion'ları kendin yap → HC sustain.</li>
+  </ul>
+
+  <h2>Alternatif: Mining + Engineering</h2>
+  <ul>
+    <li>Ekstra <strong>stun + burst</strong> (bombalar, dynamite) + Target Dummy.</li>
+    <li>Parachute Cloak (düşme ölümü önler), Goblin Sapper vb.</li>
+  </ul>
+  <div class="callout danger"><strong>Engineering tuzağı:</strong> Target Dummy koyup sonra Vanish'lersen, Dummy hâlâ aktifken combat'a geri sokulursun — stealth'te olsan bile! Dummy taunt bitince mob'lar sana koşar. Dummy + Vanish kombinasyonu seni öldürebilir.</div>
+
+  <h2>Zorunlu Yan Profession'lar</h2>
+  <ul>
+    <li><strong>First Aid — ZORUNLU.</strong> Wowhead: "bandages are your life". Gouge + Bandage temel Rogue mekaniği; bandajın bittiğini fark etmemek = ölüm.</li>
+    <li><strong>Cooking</strong> — en az 60'a kadar (bazı Rogue tüketilebilirleri ve sustain food için). Ötesi opsiyonel.</li>
+    <li><strong>Poisons</strong> (class skill, <strong>lvl 22 quest</strong>) — Instant + Crippling yeterli.</li>
+  </ul>
+
+  <h2>Erken Geçici: Blacksmithing (opsiyonel)</h2>
+  <p>Mining ile birlikte çok erken alıp <strong>Rough Sharpening Stone / Weightstone</strong> üretmek (silaha +2 hasar) erken seviyede kill time'ı belirgin kısaltır. ~lvl 22'de (poison gelince) bırakıp asıl profession'a geç. Hızlı leveling istersen değerli, şart değil.</p>
+
+  <div class="callout hc"><strong>Soulseeker self-found gerçeği:</strong> Trade/AH/mail kapalı olduğu için profession ekonomisi tamamen kendine. Herb+Alch ile kendi eliksir/Thistle Tea/Blinding Powder'ını üret; Pick Pocket gold'unu repair + reagent için sakla.</div>
+</section>
+
+</main>
+
+<footer>
+  Night Elf Rogue (Sword/Sword) — WoW Classic Hardcore • Server: Soulseeker EU • Classic Fresh HC (Cheat-Death devre dışı)<br>
+  Kaynak: Wowhead HC Rogue Leveling Guide (Lndegenerate, güncelleme 2024/11/20) + Wowhead spell verisi, VPN ile doğrulandı.<br>
+  İlerleme tarayıcında saklanır (localStorage: <code>hc_night-elf_rogue_v1</code>).
+</footer>
+
+<script>
+(function () {
+  var STORAGE_KEY = "hc_night-elf_rogue_v1";
+
+  // ---- Tabs ----
+  var tabs = document.querySelectorAll(".tab");
+  var panels = document.querySelectorAll(".panel");
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      var target = tab.getAttribute("data-tab");
+      tabs.forEach(function (t) { t.classList.remove("active"); });
+      panels.forEach(function (p) { p.classList.remove("active"); });
+      tab.classList.add("active");
+      var panel = document.getElementById("panel-" + target);
+      if (panel) panel.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+
+  // ---- Collapsible level groups ----
+  document.querySelectorAll(".level-group-head").forEach(function (head) {
+    head.addEventListener("click", function () {
+      head.parentElement.classList.toggle("open");
+    });
+  });
+
+  // ---- Checklist persistence ----
+  var boxes = document.querySelectorAll("#checklist input[type=checkbox]");
+  var pill = document.getElementById("progress-pill");
+
+  function loadState() {
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+    catch (e) { saved = {}; }
+    boxes.forEach(function (b) { if (saved[b.id]) b.checked = true; });
+  }
+
+  function saveState() {
+    var state = {};
+    boxes.forEach(function (b) { if (b.checked) state[b.id] = 1; });
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function updatePill() {
+    var total = boxes.length, done = 0;
+    boxes.forEach(function (b) { if (b.checked) done++; });
+    var pct = total ? Math.round((done / total) * 100) : 0;
+    pill.textContent = done + " / " + total + " (" + pct + "%)";
+  }
+
+  boxes.forEach(function (b) {
+    b.addEventListener("change", function () { saveState(); updatePill(); });
+  });
+
+  document.getElementById("reset-btn").addEventListener("click", function () {
+    if (!confirm("Tüm ilerleme sıfırlansın mı?")) return;
+    boxes.forEach(function (b) { b.checked = false; });
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    updatePill();
+  });
+
+  loadState();
+  updatePill();
+})();
+</script>
+
+</body>
+</html>

@@ -40,7 +40,7 @@ Night Elf = HC'nin **#1 survival race**'i. **Shadowmeld** = out-of-combat stealt
 |---|---|---|
 | **Warrior** | Shadowmeld emergency aggro dump | **A** |
 | **Hunter** | Shadowmeld + Quickness | **A** |
-| **Rogue** | Shadowmeld + Stealth combo (Wotlk stealth boost, vanilla'da overlap) | **B** |
+| **Rogue** | En y\u00fcksek base Agility (Wowhead) + Shadowmeld HC g\u00fcvenli\u011fi; Shadowmeld'in stealth bonusu Rogue'da etkisiz | **B** |
 | **Priest** | Starshards (NE Priest racial!) — Shadow DoT instant | **A** |
 | **Druid** | Shadowmeld + form versatility | **S** |
 

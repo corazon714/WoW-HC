@@ -12,28 +12,25 @@ Rogue HC'de stealth-based avoidance master'ı. **Stealth** ile patrol skip, **Sa
 
 ## 1. Spec Seçimi (HC)
 
-### 1.1 Combat Swords/Maces (Leveling) — **Önerilen 1-60**
-- Sword Spec / Mace Spec procs; sustained DPS.
-- Adrenaline Rush (lvl 40 Combat talent) — burst.
-- HC önerisi: **Combat Swords**.
+> **Kaynak doğrulama (Wowhead HC Rogue, güncelleme 2024/11/20):** Combat, HC leveling için en iyi spec. Wowhead'in **önerdiği final build 19/32/0** (Assassination 19 / Combat 32). Bu build **Sword Specialization'a puan KOYMAZ** — bunun yerine **Dual Wield Specialization** alır çünkü "daha tutarlı hasar verir ve seni iki kılıç tutmaya mecbur bırakmaz, silah tipi esnekliği sağlar."
 
-### 1.2 Assassination (Daggers) — **Backstab spec**
-- Backstab + Imp Eviscerate; positional but high crit.
-- Solo leveling iyi ama dagger weapons sınırlı.
+### 1.1 Combat (Leveling) — **Önerilen 1-60**
+- Sürdürülebilir DPS + Riposte + Imp Sprint + Blade Flurry + Adrenaline Rush.
+- Wowhead: lvl ~29/30'da respec. Önce 2/18/0 (Combat odak), 60'ta 19/32/0.
+- **Talent sırası (Wowhead):** Remorseless Attacks → Improved Sinister Strike → Improved Gouge → Riposte (mümkün olan en kısa sürede, "oyunun en güçlü yeteneklerinden biri") → Precision + Improved Sprint (29'a kadar).
 
-### 1.3 Subtlety (Stealth/Utility) — **PvP only**
-- Premeditation, Preparation (Vanish + Sprint reset).
-- Solo PvE zayıf; HC için gereksiz.
+### 1.2 Sword/Sword Variant (Kullanıcı tercihi) — **Sword Specialization 5/5**
+- **Sword Specialization (Combat):** 5/5 = kılıçla vuruşta **%5 ihtimalle aynı hedefe ekstra saldırı** (200ms internal CD). Doğrulandı: Wowhead spell=13964.
+- İki 1H kılıç (main + off) tutmayı gerektirir.
+- **Dürüst tradeoff:** Wowhead, Dual Wield Spec'i tutarlılık için tercih eder; Sword Spec "swingy" (değişken) ama proc'larda güçlü burst ve grind'de eğlenceli/popüler. Sword/Sword isteyen oyuncu DW Spec puanlarını Sword Spec'e kaydırır.
+- Silah esnekliği kaybı: her zaman iki kılıç bulundurman gerekir (drop kuyusu kılıçla sınırlanır).
 
-### 1.4 Önerilen HC Build (Combat Swords Leveling)
+### 1.3 Assassination (Daggers) — **Backstab variant (opsiyonel 20-40)**
+- Imp Ambush + yavaş/yüksek top-end dagger gerektirir.
+- Wowhead: 20-30 arasında iyi olabilir ama 30+ Blade Flurry'den yavaş/güvenilmez. Çoklu respec maliyeti nedeniyle çoğu oyuncuya değmez.
 
-- **Tier 1 Combat**: 5/5 Improved Sinister Strike, 5/5 Lightning Reflexes.
-- **Tier 2**: 5/5 Improved Backstab (Combat Daggers route), 5/5 Deflection.
-- **Tier 3**: 5/5 Precision (hit %), 1/1 Riposte.
-- **Tier 4**: 5/5 Dual Wield Specialization.
-- **Tier 5**: 5/5 Sword Specialization (1H sword bonus chance to attack again).
-- **Tier 6**: 1/1 Blade Flurry (AoE swing).
-- **Tier 7**: 1/1 Adrenaline Rush.
+### 1.4 Subtlety (Stealth/Utility) — **HC için gereksiz**
+- Preparation (Vanish + Sprint reset) tek cazibesi; Wowhead: dikkatli oyunla çift Vanish'e ihtiyaç olmadığından Combat/Assassination hasarı daha değerli.
 
 ---
 
@@ -46,9 +43,12 @@ Rogue HC'de stealth-based avoidance master'ı. **Stealth** ile patrol skip, **Sa
 - **Master of Deception** talent (Subtlety) — stealth detection radius bonus.
 
 ### 2.2 Sap → Stealth → Pick → Vanish chain
-- **Sap** (lvl 14) — 45 sec humanoid CC; out of combat only.
+- **Sap** — humanoid CC; out of combat only.
 - Sap patrol → walk past → re-Stealth → continue.
 - HC patrol skip = Rogue's killer feature.
+
+> **Poison quest = lvl 22'de yap (lvl 20'de DEĞİL)!** Wowhead net uyarı: poison quest'i Vanish'ten önce yapmak "başlangıç bölgesine geri dönüş reçetesi". Quest sırasında poison'lanırsın → yanında **Anti-Venom** veya temizleyecek bir arkadaş bulundur.
+- Kullanılan poison'lar SADECE: **Instant Poison** (ana hasar) + **Crippling Poison** (kaçış/kite). Diğer poison'lar leveling'de kullanılmaz (Wowhead).
 
 ### 2.3 Vanish — **HC #1 escape**
 - **Lvl 22**: 10 sec invisibility; combat exit + threat reset.
@@ -87,10 +87,18 @@ Rogue HC'de stealth-based avoidance master'ı. **Stealth** ile patrol skip, **Sa
 
 ## 4. Rotasyon
 
-### Solo Pull (Combat Swords)
+### Solo Pull (Combat — Wowhead verified rotation)
 ```
-Stealth → Cheap Shot (4 sec stun, opener) → Sinister Strike x3 (gain 3 CP) →
-Kidney Shot (5 sec stun) → Sinister Strike x2 (2 CP) → Eviscerate (finish)
+Erken (lvl <10): sadece Sinister Strike, Eviscerate mob'u öldürecekse bas (overkill yapma)
+lvl 10+: Garrote (opener, süre dolacaksa) → Slice and Dice (1-2 CP) →
+         Sinister Strike x3-5 → Eviscerate (finish)
+```
+- Wowhead: Garrote, Cheap Shot'tan çoğu zaman daha iyi opener (DoT + sessiz açılış).
+- Uzun dövüşlerde SnD'yi yenile. Mob ölmek üzereyken Eviscerate overkill olacaksa CP'leri SnD'ye harca (sonraki mob'a taşı).
+
+### Alternatif Opener (stun gerekirse)
+```
+Stealth → Cheap Shot (opener stun) → SS → ... → Kidney Shot (finisher stun) → Eviscerate
 ```
 
 ### Backstab (Daggers)
@@ -108,48 +116,50 @@ SS or Backstab spam → Eviscerate (finish)
 
 ---
 
-## 5. Gear Hedefleri (HC Pre-BiS)
+## 5. Gear Hedefleri (HC Leveling — Wowhead verified)
 
-### Lvl 10-20
-- **Cruel Barb** (Deadmines) — main hand dagger.
-- **Smite's Reaver** (Deadmines) — 1H mace.
-- **Assassin's Blade** (SFK) — main hand sword.
+**Prensip (Wowhead):** Main hand = en yüksek **top-end damage** (genelde yavaş silah, çünkü yetenekler weapon damage'a scale eder). Off hand hızlı olabilir (poison daha sık uygular) ama stat/damage feda etme. En iyi stat daima **Agility** — "of the Monkey" / "of the Tiger" affix'leri hedefle.
 
-### Lvl 20-30
-- **Stockade Pauldrons** (Stockade).
-- **Wing of the Whelpling** (RFK)? — no, that's a quest item.
+### Sword/Sword için dungeon/rare kılıçlar (verified tablo)
+| Level | Silah | Yer |
+|---|---|---|
+| 19+ | **Cruel Barb** | Edwin VanCleef drop (Deadmines) — teknik olarak dagger ama güçlü; sword isteyene aşağıdakiler |
+| 23+ | **Outlaw Sabre** | Baron Aquanis quest (Blackfathom Depths) |
+| 35+ | **Sword of Serenity** / **Black Menace** | In the Name of the Light quest (Scarlet Monastery) |
+| 35+ | **Sword of Omen** | Into The Scarlet Monastery quest (SM) |
+| 39+ | **Hand of Righteousness** | High Inquisitor Whitemane drop (SM) |
+| 39+ | **Vanquisher's Sword** | Bring the Light quest (Razorfen Downs) |
+| 46+ | **Thrash Blade** | Corruption of Earth and Seed quest (Maraudon) — leveling'in en iyi 1H'lerinden |
+| 48+ | **Inventor's Focal Sword** | Tinkerer Gizlock drop (Maraudon) |
+| 45+ | **Joonho's Mercy** | General Fangferror rare drop (Azshara) |
 
-### Lvl 30-40
-- **Headstriker Sword** (SM Armory, Herod drop) — BiS leveling.
-- **Mograine's Might** (SM Cathedral) — too slow for dagger main.
-- **Bonebreaker** (RFD) — not Rogue.
+### Vendor kılıçlar (drop şanssızsa)
+- **Longsword** (lvl 21 civarı en iyi vendor sword), **Broadsword** (lvl 31), **Falchion** (lvl 41).
+- Off-hand: **Kris** uygun. Erken: **Stiletto** mümkün olan en kısa sürede al.
 
-### Lvl 40-50
-- **Distracting Dagger** (DM East) — utility.
-- **Felstone Reaper** (Maraudon) — 1H.
-- **Sul'thraze the Lasher** (ZF) — 2H, Rogue can use 1H main+off.
+### Herbalist'e özel
+- **Phytoblade** — herbalist-only sword, iyi bir mainhand (Herb + Alch alırsan).
 
-### Lvl 50-60 (Pre-BiS)
-- **Coldrage Dagger** (LBRS Beast drop) — strong dagger.
-- **Cobalt Crusher** (BRD) — 1H mace.
-- **Mark of the Chosen** (LBRS) — trinket.
-- **Hand of Justice** (BRD).
-- **Empyrean Demolisher** (BRD).
-- **Bone Slicing Hatchet** (Strat).
+### Kalıcı zırh parçaları (Wowhead)
+- **Tunic of Westfall** (The Defias Brotherhood quest) — 20+ level dayanır (Alliance).
+- **Triprunner Dungarees** (Gnomeregan, The Grand Betrayal quest) — 60'a kadar giyilebilir.
+- **Failed Flying Experiment** (Rescue OOX-22/FE, Feralas) — stat dolu shoulder.
 
-### Endgame
-- Bonescythe Set (Tier 3).
-- **Perdition's Blade** (MC).
-- **Maladath, Runed Blade of the Black Flight** (BWL).
+### Endgame (Pre-raid → raid)
+- **Hand of Justice** (BRD), **Mark of the Chosen** (LBRS) trinketler.
+- **Perdition's Blade** (MC), **Maladath** (BWL).
 
 ---
 
-## 6. Profession Önerileri
+## 6. Profession Önerileri (Wowhead verified)
 
-- **Skinning + Leatherworking** — leather gear, Wolfshead Helm, Devilsaur Set (45-58).
-- **Engineering** (alternative) — Mithril Mechanical Dragonling, dynamite, parachute.
-- **First Aid + Cooking** zorunlu.
-- **Poisons** (class skill, lvl 20) — Instant + Deadly + Mind-numbing.
+- **Herbalism + Alchemy** — Wowhead'in **#1 önerisi**. Thistle Tea (energy refill) + Blinding Powder (Swiftthistle + Fadeleaf) + tüm stat eliksirleri. Rogue eliksirleri herkesten iyi kullanır.
+- **Mining + Engineering** — ekstra stun + burst + Target Dummy. **UYARI:** Dummy koyup Vanish'lersen combat'a geri girersin → ölüm tuzağı.
+- **Skinning + Leatherworking** — daha az stat/utility; sadece kendi challenge'ın için.
+- **Blacksmithing** (Mining ile) — erken Rough Sharpening Stone/Weightstone, lvl 22'ye kadar; sonra bırak.
+- **First Aid ZORUNLU** — "bandages are your life". Gouge + Bandage temel mekanik.
+- **Cooking** — en az 60'a (Thistle Tea için), ötesi opsiyonel.
+- **Poisons** (class skill, lvl 22 quest) — Instant + Crippling yeterli.
 
 ---
 
@@ -161,12 +171,12 @@ SS or Backstab spam → Eviscerate (finish)
 - [ ] Backstab (lvl 4) — positional damage.
 
 ### Lvl 10-20
-- [ ] **Sap** (lvl 14) — CC humanoid.
-- [ ] **Sprint** (lvl 8) — escape.
-- [ ] **Cheap Shot** (lvl 14) — opener stun.
-- [ ] **Pick Pocket** (lvl 4) — gold income.
-- [ ] **Poisons** (lvl 20 class quest!) — Stormwind/Undercity. **Mutlaka tamamla.**
-- [ ] Profession: Skinning + LW.
+- [ ] **Sap** — CC humanoid.
+- [ ] **Sprint** — escape.
+- [ ] **Cheap Shot** — opener stun.
+- [ ] **Pick Pocket** — gold income (tüm opener'lara macro'la).
+- [ ] **Poisons** (lvl **22** class quest — Vanish'ten SONRA!) — Stormwind/Undercity. Anti-Venom hazırla.
+- [ ] Profession: Herb + Alch (veya Eng + Mining).
 
 ### Lvl 20-30
 - [ ] **Vanish** (lvl 22) — emergency escape.
@@ -237,10 +247,28 @@ SS or Backstab spam → Eviscerate (finish)
 4. **Bandage post-combat** her zaman.
 5. **Healing potion** combat HP <50%.
 
+## 10. Wowhead Genel Leveling İpuçları (verified)
+- **Daima düşmana bak!** Kaçarken/kite'larken bile mob'a bakarak strafe-jump yap → Daze yeme, dodge'u koru (özellikle Evasion aktifken kritik).
+- **First Aid'i hep güncel tut**, bandaj bittiğini fark etmemek = ölüm.
+- **Vanish CD'deyken tehlikeli dövüşe girme.** Vanish resist etmez ama Vanish anında vuruş yersen stealth kırılır → önce mesafe aç veya düşman vurduktan hemen sonra Vanish'le.
+- **lvl 22 öncesi** (Vanish yokken) sayıca aşılırsan Gouge + Sprint ile kaçmaya hep hazır ol; şüpheliyse erken kaç.
+- **Pick Pocket'i tüm opener'lara macro'la** → ekstra gold, health pot, Blinding Powder, lockbox.
+- **Distract** — az bilinen ama güçlü: patrol'ü atlatmak veya mob'u döndürüp arkadan açılmak için.
+- **Kapalı alanlarda hedefe stealth'le gitme** — bir şey ters giderse kaçış rotası olmadan kapanırsın.
+- **Humanoid yoğun grind spotu seç** → Riposte disarm + Pick Pocket maksimum verim.
+
+## 11. Satın AlınMAYACAK Spell'ler (Wowhead)
+- **Feint** — solo'da işe yaramaz (ama dungeon'da çok faydalı, threat dump).
+- Crippling/Instant dışındaki poison'lar kullanılmaz.
+- **Gouge sadece rank 1** — üst rank'lar süre artırmaz.
+- Dagger kullanmıyorsan **Backstab/Ambush rank'lamayana** gerek yok.
+- **Expose Armor** gerekli değil. **Disarm Trap** Stratholme'a kadar bekleyebilir.
+
 ---
 
 ## Kaynaklar
-- Wowhead Classic rogue talent calculator
+- **Wowhead HC Rogue Leveling Guide (Lndegenerate, güncelleme 2024/11/20)** — birincil kaynak, VPN ile doğrulandı
+- Wowhead spell=13964 (Sword Specialization: %5 ekstra saldırı, doğrulandı)
 - Rogue Discord (Combat/Assassination/Sub)
 - r/classicwow rogue threads
 - Snutz Rogue HC guides (twitch streamer)
